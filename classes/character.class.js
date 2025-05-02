@@ -1,6 +1,6 @@
 class Character extends MoveableObject {
-    width = 100;
-    height = 100;
+    width = 205;
+    height = 245.5;
 
     constructor() {
         super().loadImage('../assets/content/1.Sharkie/1.IDLE/1.png');
@@ -8,10 +8,8 @@ class Character extends MoveableObject {
 
 
     moveRight() {
-
     }
 
     moveUp() {
-
     }
 }
