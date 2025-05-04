@@ -45,20 +45,22 @@ class Character extends MoveableObject {
 
     motion() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) {
                 this.x += this.speed;
                 this.otherWay = false;
             }
-            if (this.world.keyboard.LEFT) {
+            if (this.world.keyboard.LEFT && this.x > 0) {
                 this.x -= this.speed;
                 this.otherWay = true;
             }
-            if (this.world.keyboard.UP) {
+            if (this.world.keyboard.UP && this.y > -115) {
                 this.y -= this.speed;
             }
-            if (this.world.keyboard.DOWN) {
+            if (this.world.keyboard.DOWN && this.y < 285) {
                 this.y += this.speed;
             }
+
+            this.world.camera_x = -this.x + 50;
         }, 1000 / 60 )
 
         setInterval(() => {
@@ -77,13 +79,6 @@ class Character extends MoveableObject {
 
             this.animate(this.IMAGES_IDLE);
         }, 100)
-    }
-
-    animate(it) {
-        let i = this.currentImage % it.length;
-        let path = it[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
     }
 
     moveRight() {

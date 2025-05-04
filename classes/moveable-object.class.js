@@ -1,5 +1,5 @@
 class MoveableObject {
-    x = 90.5;
+    x = 50;
     y = 150;
     img;
     currentImage = 0;
@@ -23,6 +23,13 @@ class MoveableObject {
             img.src = path;
             this.imageCache[path] = img;
         })
+    }
+
+    animate(it) {
+        let i = this.currentImage % it.length;
+        let path = it[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 
     moveRight() {
