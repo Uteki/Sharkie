@@ -3,7 +3,12 @@ const level1 = new Level(
         new Foe(),
         new Foe(),
         new Foe(),
-        new Endboss()
+        new Endboss(),
+
+        new Bubble(),
+        new Bubble(),
+        new Bubble(),
+        new Bubble()
     ],
     [
         new BackgroundObject("../assets/content/3. Background/Layers/5. Water/D2.png", -720), new BackgroundObject("../assets/content/3. Background/Layers/4.Fondo 2/D2.png", -720),
