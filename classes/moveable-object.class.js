@@ -5,6 +5,8 @@ class MoveableObject {
     currentImage = 0;
     imageCache = {};
     speed = 0.15;
+    speedY = 1;
+    acceleration = 0;
     otherWay = false;
 
     loadImage(path) {
@@ -25,11 +27,24 @@ class MoveableObject {
         })
     }
 
-    animate(it) {
-        let i = this.currentImage % it.length;
-        let path = it[i];
+    animate(bundle) {
+        let i = this.currentImage % bundle.length;
+        let path = bundle[i];
         this.img = this.imageCache[path];
         this.currentImage++;
+    }
+
+    applyGravity() {
+        setInterval(() => {
+            if (this.floatsUp()) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }
+        }, 1000/ 25)
+    }
+
+    floatsUp() {
+        return this.y;
     }
 
     moveRight() {

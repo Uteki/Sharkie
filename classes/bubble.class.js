@@ -10,6 +10,8 @@ class Bubble extends MoveableObject {
         super().loadImage(`../assets/content/4. Marcadores/Posión/Dark - Right.png`);
         // this.loadImages(IMAGES_SWIM);
 
+        // this.acceleration = Math.floor(-Math.random()*0.05);
+        this.applyGravity();
         this.x = Math.floor(Math.random() * 2000);
         this.y = 350;
         this.speed += Math.random();
