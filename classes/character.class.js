@@ -44,46 +44,27 @@ class Character extends MoveableObject {
     }
 
     motion() {
-        setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) {
-                this.x += this.speed;
-                this.otherWay = false;
-            }
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.x -= this.speed;
-                this.otherWay = true;
-            }
-            if (this.world.keyboard.UP && this.y > -115) {
-                this.y -= this.speed;
-            }
-            if (this.world.keyboard.DOWN && this.y < 285) {
-                this.y += this.speed;
-            }
+        this.motionMovement()
+        this.motionAnimation()
+    }
 
+    motionMovement() {
+        setInterval(() => {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false }
+            if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true }
+            if (this.world.keyboard.UP && this.y > -115) this.moveUp();
+            if (this.world.keyboard.DOWN && this.y < 285) this.moveDown();
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60 )
+    }
 
+    motionAnimation() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT) {
-                return this.animate(this.IMAGES_SWIM);
-            }
-            if (this.world.keyboard.LEFT) {
-                return this.animate(this.IMAGES_SWIM);
-            }
-            if (this.world.keyboard.UP) {
-                return this.animate(this.IMAGES_SWIM);
-            }
-            if (this.world.keyboard.DOWN) {
-                return this.animate(this.IMAGES_SWIM);
-            }
-
+            if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
+            if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
+            if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
+            if (this.world.keyboard.DOWN) return this.animate(this.IMAGES_SWIM);
             this.animate(this.IMAGES_IDLE);
         }, 100)
-    }
-
-    moveRight() {
-    }
-
-    moveUp() {
     }
 }

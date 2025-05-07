@@ -3,26 +3,27 @@ class Bubble extends MoveableObject {
     height = 90;
 
     constructor() {
-        let rng = Math.floor(Math.random() * 3) + 1;
-        // let IMAGES_SWIM = [
-        // ];
-
         super().loadImage(`../assets/content/4. Marcadores/Posión/Dark - Right.png`);
-        // this.loadImages(IMAGES_SWIM);
 
-        // this.acceleration = Math.floor(-Math.random()*0.05);
         this.applyGravity();
-        this.x = Math.floor(Math.random() * 2000);
+        this.x = 200 + Math.floor(Math.random() * 2000);
         this.y = 350;
-        this.speed += Math.random();
-        // this.motion(IMAGES_SWIM);
     }
 
-    motion(images) {
+    applyGravity() {
         setInterval(() => {
-            this.animate(images);
-        }, 100);
+            if (typeof world !== 'undefined' && world.character) {
+                let incoming = this.x - world.character.x;
 
-        this.moveLeft();
+                if (this.floatsUp() && incoming <= 660) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                }
+            }
+        }, 1000/ 25)
+    }
+
+    floatsUp() {
+        return this.y;
     }
 }

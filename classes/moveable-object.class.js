@@ -5,8 +5,8 @@ class MoveableObject {
     currentImage = 0;
     imageCache = {};
     speed = 0.15;
-    speedY = 1;
-    acceleration = 0;
+    speedY = -1;
+    acceleration = -0.05;
     otherWay = false;
 
     loadImage(path) {
@@ -34,26 +34,19 @@ class MoveableObject {
         this.currentImage++;
     }
 
-    applyGravity() {
-        setInterval(() => {
-            if (this.floatsUp()) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            }
-        }, 1000/ 25)
+    moveUp() {
+        this.y -= this.speed;
     }
 
-    floatsUp() {
-        return this.y;
+    moveDown() {
+        this.y += this.speed;
     }
 
     moveRight() {
-        console.log("sad");
+        this.x += this.speed;
     }
 
     moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 60);
+        this.x -= this.speed;
     }
 }
