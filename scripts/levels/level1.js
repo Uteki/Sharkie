@@ -5,6 +5,7 @@ const level1 = new Level(
         new Foe(),
         new Endboss(),
 
+        //...
         new Bubble(),
         new Bubble(),
         new Bubble()

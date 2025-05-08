@@ -1,5 +1,7 @@
 class World {
     character = new Character();
+    sound = new Audio("../assets/global/audio/swim-307502.mp3");
+    worldSound = new Audio("../assets/global/audio/shark-is-near-65407.mp3");
     level = level1;
     keyboard;
     camera_x;
@@ -13,6 +15,21 @@ class World {
         this.grewLevel();
         this.draw();
         this.setWorld();
+        this.checkCollisions();
+    }
+
+    bgMus() {
+        this.worldSound.play();
+    }
+
+    checkCollisions() {
+        setInterval(() => {
+            this.level.foes.forEach((foe) => {
+                if (this.character.isColliding(foe)) {
+                    console.log("Colliding colliding", foe);
+                }
+            })
+        }, 200)
     }
 
     setWorld() {
@@ -56,17 +73,26 @@ class World {
 
     addToMap(mo) {
         if (mo.otherWay) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0)
-            this.ctx.scale(-1, 1);
-            mo.x = mo.x * -1;
+            this.switchDirection(mo)
         }
 
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
+        mo.draw(this.ctx);
+        mo.showCollision(this.ctx);
 
         if (mo.otherWay) {
-            mo.x = mo.x * -1;
-            this.ctx.restore();
+            this.restoreDirection(mo)
         }
+    }
+
+    switchDirection(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0)
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+
+    restoreDirection(mo) {
+        mo.x = mo.x * -1;
+        this.ctx.restore();
     }
 }

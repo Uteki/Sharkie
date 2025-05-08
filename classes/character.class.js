@@ -50,10 +50,10 @@ class Character extends MoveableObject {
 
     motionMovement() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false }
-            if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true }
-            if (this.world.keyboard.UP && this.y > -115) this.moveUp();
-            if (this.world.keyboard.DOWN && this.y < 285) this.moveDown();
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false; this.world.sound.play() }
+            if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true; this.world.sound.play() }
+            if (this.world.keyboard.UP && this.y > -115) { this.moveUp(); this.world.sound.play() }
+            if (this.world.keyboard.DOWN && this.y < 285) { this.moveDown(); this.world.sound.play() }
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60 )
     }
@@ -65,6 +65,7 @@ class Character extends MoveableObject {
             if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.DOWN) return this.animate(this.IMAGES_SWIM);
             this.animate(this.IMAGES_IDLE);
+            this.world.sound.pause();
         }, 100)
     }
 }

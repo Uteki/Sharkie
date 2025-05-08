@@ -1,6 +1,8 @@
 class MoveableObject {
     x = 50;
     y = 150;
+    width;
+    height;
     img;
     currentImage = 0;
     imageCache = {};
@@ -25,6 +27,25 @@ class MoveableObject {
             img.src = path;
             this.imageCache[path] = img;
         })
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    }
+
+    showCollision(ctx) {
+        if (this instanceof Character || this instanceof Foe || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.lineWidth = "5";
+            ctx.strokeStyle = "blue";
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    isColliding(mo) {
+        return this.x + this.width > mo.x && this.y + this.height
+        > mo.y && this.x < mo.x && this.y < mo.y + mo.height
     }
 
     animate(bundle) {
