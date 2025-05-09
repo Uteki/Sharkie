@@ -33,12 +33,38 @@ class Character extends MoveableObject {
         '../assets/content/1.Sharkie/3.Swim/6.png'
     ]
 
+    //poison
+    IMAGES_HURT = [
+        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/2.png',
+        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/3.png',
+        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/4.png',
+        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/5.png'
+    ]
+
+    IMAGES_DEAD = [
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/1.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/2.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/3.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/4.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/5.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/6.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/7.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/8.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/9.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/10.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/11.png',
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/12.png'
+    ]
+
     world;
 
     constructor() {
         super().loadImage('../assets/content/1.Sharkie/1.IDLE/1.png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SWIM);
+
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
 
         this.motion();
     }
@@ -60,6 +86,8 @@ class Character extends MoveableObject {
 
     motionAnimation() {
         setInterval(() => {
+            if (this.world.isDead()) return this.animate(this.IMAGES_DEAD);
+            if (this.world.isHurt()) return this.animate(this.IMAGES_HURT);
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);

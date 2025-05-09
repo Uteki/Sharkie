@@ -2,7 +2,11 @@ class World {
     character = new Character();
     sound = new Audio("../assets/global/audio/swim-307502.mp3");
     worldSound = new Audio("../assets/global/audio/shark-is-near-65407.mp3");
+    statusBar2 = new StatusBar(50, 55, "POISON");
+    statusBar = new StatusBar(50, 15, "HEALTH");
+    statusBar3 = new StatusBar(50, 95, "COIN");
     level = level1;
+    lastHit = 0;
     keyboard;
     camera_x;
     canvas;
@@ -26,10 +30,30 @@ class World {
         setInterval(() => {
             this.level.foes.forEach((foe) => {
                 if (this.character.isColliding(foe)) {
-                    console.log("Colliding colliding", foe);
+                    this.hit();
+                    // console.log(this.character.energy, foe);
+                    this.statusBar.setPercentage(this.character.energy, "HEALTH");
                 }
             })
         }, 200)
+    }
+
+    hit() {
+        this.character.energy -= 5;
+        if (this.character.energy <= 0) {
+            this.character.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isDead() {
+        return this.character.energy === 0;
+    }
+
+    isHurt() {
+        let timestamped = new Date().getTime() - this.lastHit;
+        return timestamped / 1000 < 1;
     }
 
     setWorld() {
@@ -38,17 +62,18 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
 
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.foes);
         this.addToMap(this.character);
-
         this.ctx.translate(-this.camera_x, 0);
+
+        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBar2);
+        this.addToMap(this.statusBar3);
         let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
+        requestAnimationFrame(() => { self.draw() });
     }
 
     grewLevel() {
