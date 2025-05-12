@@ -2,11 +2,19 @@ class World {
     character = new Character();
     sound = new Audio("../assets/global/audio/swim-307502.mp3");
     worldSound = new Audio("../assets/global/audio/shark-is-near-65407.mp3");
-    statusBar2 = new StatusBar(50, 55, "POISON");
-    statusBar = new StatusBar(50, 15, "HEALTH");
-    statusBar3 = new StatusBar(50, 95, "COIN");
+    poisonBar = new StatusBar(50, 55, "POISON", 0);
+    energyBar = new StatusBar(50, 15, "HEALTH", 100);
+    coinBar = new StatusBar(50, 95, "COIN", 0);
+    throwableObject = [];
     level = level1;
     lastHit = 0;
+
+    maxCoin = 0;
+    coin = 0;
+
+    maxPoison = 0;
+    poison = 0;
+
     keyboard;
     camera_x;
     canvas;
@@ -19,23 +27,57 @@ class World {
         this.grewLevel();
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.run();
+        this.max();
+    }
+
+    max() {
+        this.level.gatherObjects.forEach((g) => {
+            if (g instanceof Coin) {
+                this.maxCoin++;
+            } else if (g instanceof Bubble) {
+                this.maxPoison++;
+            }
+        })
     }
 
     bgMus() {
         this.worldSound.play();
     }
 
-    checkCollisions() {
+    run() {
         setInterval(() => {
-            this.level.foes.forEach((foe) => {
-                if (this.character.isColliding(foe)) {
-                    this.hit();
-                    // console.log(this.character.energy, foe);
-                    this.statusBar.setPercentage(this.character.energy, "HEALTH");
-                }
-            })
+            this.checkCollisions();
+            this.checkThrowObjects();
         }, 200)
+    }
+
+    checkThrowObjects() {
+        if(this.keyboard.SPACE) {
+            this.throwableObject.push(new ThrowableObject(this.character.x, this.character.y));
+        }
+    }
+
+    checkCollisions() {
+        this.level.foes.forEach((foe) => {
+            if (this.character.isColliding(foe)) {
+                this.hit();
+                this.energyBar.setPercentage(this.character.energy, "HEALTH");
+            }
+        });
+
+        this.level.gatherObjects.forEach((gather) => {
+            if (this.character.isColliding(gather)) {
+                if (gather instanceof Coin) {
+                    this.coin++;
+                    this.coinBar.setPercentage((this.coin/this.maxCoin) * 100, "COIN");
+                } else if (gather instanceof Bubble) {
+                    this.poison++;
+                    this.poisonBar.setPercentage((this.poison/this.maxPoison) * 100, "POISON");
+                }
+                this.level.gatherObjects = this.level.gatherObjects.filter(obj => obj !== gather);
+            }
+        })
     }
 
     hit() {
@@ -65,13 +107,15 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.gatherObjects)
         this.addObjectsToMap(this.level.foes);
+        this.addObjectsToMap(this.throwableObject);
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
 
-        this.addToMap(this.statusBar);
-        this.addToMap(this.statusBar2);
-        this.addToMap(this.statusBar3);
+        this.addToMap(this.energyBar);
+        this.addToMap(this.poisonBar);
+        this.addToMap(this.coinBar);
         let self = this;
         requestAnimationFrame(() => { self.draw() });
     }

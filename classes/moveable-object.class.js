@@ -32,4 +32,21 @@ class MoveableObject extends DrawableObject {
     moveLeft() {
         this.x -= this.speed;
     }
+
+    applyGravity() {
+        setInterval(() => {
+            if (typeof world !== 'undefined' && world.character) {
+                let incoming = this.x - world.character.x;
+
+                if (this.floatsUp() && incoming <= 660) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                }
+            }
+        }, 1000/ 25)
+    }
+
+    floatsUp() {
+        return this.y;
+    }
 }

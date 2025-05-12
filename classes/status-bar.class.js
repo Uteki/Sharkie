@@ -1,11 +1,11 @@
 class StatusBar extends DrawableObject {
     POISON = [
-        '../assets/content/4. Marcadores/Purple/100_.png',
-        '../assets/content/4. Marcadores/Purple/80_.png',
-        '../assets/content/4. Marcadores/Purple/60_.png',
-        '../assets/content/4. Marcadores/Purple/40_.png',
-        '../assets/content/4. Marcadores/Purple/20_.png',
         '../assets/content/4. Marcadores/Purple/0_.png',
+        '../assets/content/4. Marcadores/Purple/20_.png',
+        '../assets/content/4. Marcadores/Purple/40_.png',
+        '../assets/content/4. Marcadores/Purple/60_.png',
+        '../assets/content/4. Marcadores/Purple/80_.png',
+        '../assets/content/4. Marcadores/Purple/100_.png',
     ]
 
     HEALTH = [
@@ -28,10 +28,10 @@ class StatusBar extends DrawableObject {
 
     percentage = 100;
 
-    constructor(x, y, type) {
+    constructor(x, y, type, start) {
         super().loadImage(this[type][5]);
         this.loadImages(this[type]);
-        this.setPercentage(100, type);
+        this.setPercentage(start, type);
 
         this.width = 200;
         this.height = 55;

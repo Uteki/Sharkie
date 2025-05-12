@@ -1,6 +1,6 @@
 class Character extends MoveableObject {
-    width = 205;
-    height = 245.5;
+    width = 175;
+    height = 125;
     speed = 5;
 
     IMAGES_IDLE = [
@@ -33,6 +33,17 @@ class Character extends MoveableObject {
         '../assets/content/1.Sharkie/3.Swim/6.png'
     ]
 
+    IMAGES_ATTACK = [
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
+        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png',
+    ]
+
     //poison
     IMAGES_HURT = [
         '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/2.png',
@@ -60,11 +71,11 @@ class Character extends MoveableObject {
 
     constructor() {
         super().loadImage('../assets/content/1.Sharkie/1.IDLE/1.png');
-        this.loadImages(this.IMAGES_IDLE);
-        this.loadImages(this.IMAGES_SWIM);
+        this.y = 250;
 
-        this.loadImages(this.IMAGES_HURT);
-        this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_IDLE);this.loadImages(this.IMAGES_SWIM);
+        this.loadImages(this.IMAGES_IDLE);this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_HURT);this.loadImages(this.IMAGES_DEAD);
 
         this.motion();
     }
@@ -78,14 +89,15 @@ class Character extends MoveableObject {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false; this.world.sound.play() }
             if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true; this.world.sound.play() }
-            if (this.world.keyboard.UP && this.y > -115) { this.moveUp(); this.world.sound.play() }
-            if (this.world.keyboard.DOWN && this.y < 285) { this.moveDown(); this.world.sound.play() }
+            if (this.world.keyboard.UP && this.y > 5) { this.moveUp(); this.world.sound.play() }
+            if (this.world.keyboard.DOWN && this.y < 350) { this.moveDown(); this.world.sound.play() }
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60 )
     }
 
     motionAnimation() {
         setInterval(() => {
+            if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_ATTACK);
             if (this.world.isDead()) return this.animate(this.IMAGES_DEAD);
             if (this.world.isHurt()) return this.animate(this.IMAGES_HURT);
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);

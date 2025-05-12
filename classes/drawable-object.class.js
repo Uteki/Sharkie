@@ -36,6 +36,22 @@ class DrawableObject {
     }
 
     draw(ctx) {
+        if (this instanceof Character) {
+            return this.drawShark(ctx);
+        }
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    }
+
+    drawShark(ctx) {
+        const innerX = 110;
+        const innerY = 420;
+        const innerWidth = 590;
+        const innerHeight = 420;
+
+        ctx.drawImage(
+            this.img,
+            innerX, innerY, innerWidth, innerHeight,
+            this.x, this.y, this.width, this.height
+        );
     }
 }
