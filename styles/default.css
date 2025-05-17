@@ -1,9 +1,15 @@
+html {
+    height: 100%;
+}
+
 body {
+    margin: 0;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
-}
-
-canvas {
-    background-color: black;
+    justify-content: center;
+    background-size: cover;
+    background-position: right;
+    background-image: url("../assets/content/3. Background/Mesa de trabajo 1.png");
 }

@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Lucky';
+    src: url('../assets/content/5.Font/Luckiest_Guy/LuckiestGuy-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+}
+
+* {
+    font-family: 'Lucky', serif;
+}
