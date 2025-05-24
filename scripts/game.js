@@ -1,3 +1,10 @@
+const button = {
+    x: 440,
+    y: 370,
+    width: 130,
+    height: 40
+};
+
 let canvas;
 let world;
 
@@ -5,8 +12,55 @@ let keyboard = new Keyboard();
 
 function loadGame() {
     canvas = document.querySelector('canvas');
-    world = new World(canvas, keyboard);
+    showStartScreen(canvas.getContext("2d"), canvas);
 }
+
+function showStartScreen(ctx, canvas) {
+    const [img, btnImg] = [new Image(), new Image()];
+    img.src = "../assets/content/6.Botones/Instructions 2.png";
+    btnImg.src = "../assets/content/6.Botones/Start/2.png";
+
+    btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg);
+
+    canvas.addEventListener("click", handleClick);
+}
+
+function drawStartScreen(ctx, canvas, img, btnImg) {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, (canvas.width - 500) / 2, 40, 500, 300);
+    ctx.fillStyle = "#fff";
+    ctx.textAlign = "center";
+    ctx.font = "24px Lucky";
+    ctx.fillText("Press ENTER to Start OR", canvas.width / 2.5, canvas.height - 80);
+    ctx.drawImage(btnImg, button.x, button.y, button.width, button.height);
+}
+
+function handleClick(event) {
+    const { clientX, clientY } = event;
+    const { left, top } = canvas.getBoundingClientRect();
+    const [x, y] = [clientX - left, clientY - top];
+
+    if (x >= button.x && x <= button.x + button.width &&
+        y >= button.y && y <= button.y + button.height) {
+        canvas.removeEventListener("click", handleClick);
+        startGame();
+    }
+}
+
+function startGame() {
+    initLevel();
+    setTimeout(() => {
+        world = new World(canvas, keyboard);
+    }, 200);
+}
+
+document.addEventListener("keydown", function startEnter(e) {
+    if (e.key === "Enter") {
+        document.removeEventListener("keydown", startEnter);
+        startGame();
+    }
+});
 
 document.addEventListener('keydown', function(e) {
     switch (e.key) {
