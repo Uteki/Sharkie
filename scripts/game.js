@@ -1,4 +1,4 @@
-const button = {
+const startButton = {
     x: 440,
     y: 370,
     width: 130,
@@ -33,7 +33,7 @@ function drawStartScreen(ctx, canvas, img, btnImg) {
     ctx.textAlign = "center";
     ctx.font = "24px Lucky";
     ctx.fillText("Press ENTER to Start OR", canvas.width / 2.5, canvas.height - 80);
-    ctx.drawImage(btnImg, button.x, button.y, button.width, button.height);
+    ctx.drawImage(btnImg, startButton.x, startButton.y, startButton.width, startButton.height);
 }
 
 function handleClick(event) {
@@ -41,8 +41,8 @@ function handleClick(event) {
     const { left, top } = canvas.getBoundingClientRect();
     const [x, y] = [clientX - left, clientY - top];
 
-    if (x >= button.x && x <= button.x + button.width &&
-        y >= button.y && y <= button.y + button.height) {
+    if (x >= startButton.x && x <= startButton.x + startButton.width &&
+        y >= startButton.y && y <= startButton.y + startButton.height) {
         canvas.removeEventListener("click", handleClick);
         startGame();
     }
