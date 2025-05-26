@@ -1,8 +1,6 @@
 const startButton = {
-    x: 440,
-    y: 370,
-    width: 130,
-    height: 40
+    x: 440, y: 370,
+    width: 130, height: 40
 };
 
 let canvas;
@@ -16,11 +14,11 @@ function loadGame() {
 }
 
 function showStartScreen(ctx, canvas) {
-    const [img, btnImg] = [new Image(), new Image()];
-    img.src = "../assets/content/6.Botones/Instructions 2.png";
-    btnImg.src = "../assets/content/6.Botones/Start/2.png";
+    const img = new Image(), btnImg = new Image();
 
     btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg);
+    img.onload = () => btnImg.src = "../assets/content/6.Botones/Start/2.png";
+    img.src = "../assets/content/6.Botones/Instructions 2.png";
 
     canvas.addEventListener("click", handleClick);
 }
@@ -52,7 +50,7 @@ function startGame() {
     initLevel();
     setTimeout(() => {
         world = new World(canvas, keyboard);
-    }, 200);
+    }, 230);
 }
 
 document.addEventListener("keydown", function startEnter(e) {
