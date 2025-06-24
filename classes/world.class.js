@@ -47,10 +47,11 @@ class World {
 
     soundVolume() {
         this.worldSound.volume = 0.25;
-        this.sound.volume = 0.15;
+        this.sound.volume = 0.10;
     }
 
     bgMus() {
+        this.worldSound.loop = true;
         this.worldSound.play().then();
     }
 
