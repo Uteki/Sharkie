@@ -1,7 +1,7 @@
 class World {
     character = new Character();
-    sound = new Audio("../assets/global/audio/swim-307502.mp3");
-    worldSound = new Audio("../assets/global/audio/shark-is-near-65407.mp3");
+    sound = new Audio("../assets/global/audio/sharkie-ost.mp3");
+    worldSound = new Audio("../assets/global/audio/background-ost.mp3");
     poisonBar = new StatusBar(50, 55, "POISON", 0);
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
     coinBar = new StatusBar(50, 95, "COIN", 0);
@@ -30,6 +30,9 @@ class World {
         this.setWorld();
         this.run();
         this.max();
+
+        this.soundVolume();
+        this.bgMus();
     }
 
     max() {
@@ -42,8 +45,13 @@ class World {
         })
     }
 
+    soundVolume() {
+        this.worldSound.volume = 0.25;
+        this.sound.volume = 0.15;
+    }
+
     bgMus() {
-        this.worldSound.play();
+        this.worldSound.play().then();
     }
 
     run() {
