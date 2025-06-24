@@ -29,8 +29,8 @@ function showStartScreen(ctx, canvas) {
 }
 
 function handleStart(event) {
-   let test = handleClick(event, startButton);
-    if (test) {
+   let handler = handleClick(event, startButton);
+    if (handler) {
         canvas.removeEventListener("click", handleStart);
         startGame();
     }

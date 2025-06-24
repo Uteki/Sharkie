@@ -74,27 +74,29 @@ class World {
 
     //TODO
     checkCollisions() {
+        this.collisionFoes();
+        this.collisionGatherObjects();
+
+    }
+
+    collisionFoes() {
         this.level.foes.forEach((foe) => {
             if (this.character.isColliding(foe)) {
                 this.hit();
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
             }
-
             this.throwableObject.forEach(x => {
                 if (x.isColliding(foe)) {
-                    console.log(foe)
                     foe.energy -= 60
-
-                    if (foe instanceof Endboss) {
-                        foe.animateHurt();
-                    }
-
+                    if (foe instanceof Endboss) foe.animateHurt();
                     this.throwableObject = this.throwableObject.filter(obj => obj !== x);
                     // this.level.foes = this.level.foes.filter(x => x !== foe);
                 }
             })
         });
+    }
 
+    collisionGatherObjects() {
         this.level.gatherObjects.forEach((gather) => {
             if (this.character.isColliding(gather)) {
                 if (gather instanceof Coin) {
