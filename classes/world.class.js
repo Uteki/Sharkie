@@ -5,6 +5,7 @@ class World {
     poisonBar = new StatusBar(50, 55, "POISON", 0);
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
     coinBar = new StatusBar(50, 95, "COIN", 0);
+    fullscreen = new Fullscreen();
     throwableObject = [];
     level = level1;
     lastHit = 0;
@@ -48,22 +49,42 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+            this.fullscreen.btnVisibility();
             this.checkThrowObjects();
         }, 200)
     }
 
+    //TODO
     checkThrowObjects() {
-        if(this.keyboard.SPACE) {
+        if(this.keyboard.SPACE && this.poison !== 0) {
             this.throwableObject.push(new ThrowableObject(this.character.x, this.character.y));
+            this.poison--;
+            this.poisonBar.setPercentage((this.poison/this.maxPoison) * 100, "POISON");
+        } else if(this.keyboard.SPACE) {
         }
     }
 
+    //TODO
     checkCollisions() {
         this.level.foes.forEach((foe) => {
             if (this.character.isColliding(foe)) {
                 this.hit();
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
             }
+
+            this.throwableObject.forEach(x => {
+                if (x.isColliding(foe)) {
+                    console.log(foe)
+                    foe.energy -= 60
+
+                    if (foe instanceof Endboss) {
+                        foe.animateHurt();
+                    }
+
+                    this.throwableObject = this.throwableObject.filter(obj => obj !== x);
+                    // this.level.foes = this.level.foes.filter(x => x !== foe);
+                }
+            })
         });
 
         this.level.gatherObjects.forEach((gather) => {
@@ -78,6 +99,16 @@ class World {
                 this.level.gatherObjects = this.level.gatherObjects.filter(obj => obj !== gather);
             }
         })
+    }
+
+    //TODO
+    attackEnd() {
+        this.level.foes.energy -= 50;
+        if (this.level.foes-energy  <= 0) {
+            this.level.foes.energy  = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
     }
 
     hit() {
@@ -113,11 +144,16 @@ class World {
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
 
+        this.drawUi();
+        let self = this;
+        requestAnimationFrame(() => { self.draw() });
+    }
+
+    drawUi() {
         this.addToMap(this.energyBar);
         this.addToMap(this.poisonBar);
         this.addToMap(this.coinBar);
-        let self = this;
-        requestAnimationFrame(() => { self.draw() });
+        this.addToMap(this.fullscreen);
     }
 
     grewLevel() {

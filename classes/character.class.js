@@ -33,7 +33,7 @@ class Character extends MoveableObject {
         '../assets/content/1.Sharkie/3.Swim/6.png'
     ]
 
-    IMAGES_ATTACK = [
+    IMAGES_RANGE = [
         '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
         '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
         '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
@@ -42,6 +42,17 @@ class Character extends MoveableObject {
         '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
         '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
         '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png',
+    ]
+
+    IMAGES_MELEE = [
+        'assets/content/1.Sharkie/4.Attack/Fin slap/1.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/2.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/3.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/4.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/5.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/6.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/7.png',
+        'assets/content/1.Sharkie/4.Attack/Fin slap/8.png',
     ]
 
     //poison
@@ -74,7 +85,7 @@ class Character extends MoveableObject {
         this.y = 250;
 
         this.loadImages(this.IMAGES_IDLE);this.loadImages(this.IMAGES_SWIM);
-        this.loadImages(this.IMAGES_IDLE);this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_MELEE);this.loadImages(this.IMAGES_RANGE);
         this.loadImages(this.IMAGES_HURT);this.loadImages(this.IMAGES_DEAD);
 
         this.motion();
@@ -97,15 +108,15 @@ class Character extends MoveableObject {
 
     motionAnimation() {
         setInterval(() => {
-            if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_ATTACK);
+            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animate(this.IMAGES_RANGE);
+            if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_MELEE);
             if (this.world.isDead()) return this.animate(this.IMAGES_DEAD);
             if (this.world.isHurt()) return this.animate(this.IMAGES_HURT);
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.DOWN) return this.animate(this.IMAGES_SWIM);
-            this.animate(this.IMAGES_IDLE);
-            this.world.sound.pause();
+            this.animate(this.IMAGES_IDLE); this.world.sound.pause();
         }, 100)
     }
 }

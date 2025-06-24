@@ -1,6 +1,7 @@
 class Endboss extends MoveableObject {
     width = 505;
     height = 500;
+    energy = 100;
 
     IMAGES_FLOATING = [
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/1.png",
@@ -18,9 +19,27 @@ class Endboss extends MoveableObject {
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/13.png",
     ]
 
+    IMAGES_HURT = [
+        "../assets/content/2.Enemy/3 Final Enemy/Hurt/1.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Hurt/2.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Hurt/3.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Hurt/4.png",
+    ]
+
+    IMAGES_DEAD = [
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 6.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 7.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 8.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 9.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png",
+    ]
+
     constructor() {
         super().loadImage(this.IMAGES_FLOATING[0]);
         this.loadImages(this.IMAGES_FLOATING);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
         this.x = 1200;
         this.y = -75;
         this.speed = 0.5;
@@ -29,12 +48,31 @@ class Endboss extends MoveableObject {
     }
 
     motion(images) {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             this.animate(images);
         }, 100);
 
-        setInterval(() => {
-            this.moveLeft()
-        },1000 / 60)
+        this.movementInterval = setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+    }
+
+    animateHurt() {
+        this.animate(this.IMAGES_HURT);
+
+        setTimeout(() => {
+            if (this.energy > 0) {
+                this.loadImages(this.IMAGES_FLOATING);
+                this.animate(this.IMAGES_FLOATING);
+            } else {
+                this.animateDeath();
+            }
+        }, 500);
+    }
+
+    animateDeath() {
+        clearInterval(this.animationInterval);
+        clearInterval(this.movementInterval);
+        this.animate(this.IMAGES_DEAD);
     }
 }

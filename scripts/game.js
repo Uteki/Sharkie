@@ -3,6 +3,11 @@ const startButton = {
     width: 130, height: 40
 };
 
+const screenButton = {
+    x: 480, y: 400,
+    width: 180, height: 40
+}
+
 let canvas;
 let world;
 
@@ -20,7 +25,26 @@ function showStartScreen(ctx, canvas) {
     img.onload = () => btnImg.src = "../assets/content/6.Botones/Start/2.png";
     img.src = "../assets/content/6.Botones/Instructions 2.png";
 
-    canvas.addEventListener("click", handleClick);
+    canvas.addEventListener("click", handleStart);
+}
+
+function handleStart(event) {
+   let test = handleClick(event, startButton);
+    if (test) {
+        canvas.removeEventListener("click", handleStart);
+        startGame();
+    }
+}
+
+function handleClick(event, button) {
+    const { clientX, clientY } = event;
+    const { left, top } = canvas.getBoundingClientRect();
+    const [x, y] = [clientX - left, clientY - top];
+
+    if (x >= button.x && x <= button.x + button.width &&
+        y >= button.y && y <= button.y + button.height) {
+        return true;
+    }
 }
 
 function drawStartScreen(ctx, canvas, img, btnImg) {
@@ -34,23 +58,21 @@ function drawStartScreen(ctx, canvas, img, btnImg) {
     ctx.drawImage(btnImg, startButton.x, startButton.y, startButton.width, startButton.height);
 }
 
-function handleClick(event) {
-    const { clientX, clientY } = event;
-    const { left, top } = canvas.getBoundingClientRect();
-    const [x, y] = [clientX - left, clientY - top];
-
-    if (x >= startButton.x && x <= startButton.x + startButton.width &&
-        y >= startButton.y && y <= startButton.y + startButton.height) {
-        canvas.removeEventListener("click", handleClick);
-        startGame();
-    }
-}
-
 function startGame() {
     initLevel();
     setTimeout(() => {
         world = new World(canvas, keyboard);
     }, 230);
+
+    canvas.addEventListener("click", startScreenBtn);
+}
+
+function startScreenBtn(event) {
+    let test = handleClick(event, screenButton);
+    if (test) {
+        canvas.requestFullscreen().then();
+        world.fullscreen.btnVisibility();
+    }
 }
 
 document.addEventListener("keydown", function startEnter(e) {

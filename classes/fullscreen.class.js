@@ -8,13 +8,17 @@ class Fullscreen extends DrawableObject {
         this.y = 400;
     }
 
-    setFullscreen(canvas) {
-        if (canvas.requestFullscreen) {
-            canvas.requestFullscreen();
-        } else if (canvas.webkitRequestFullscreen) {
-            canvas.webkitRequestFullscreen();
-        } else if (canvas.msRequestFullscreen) {
-            canvas.msRequestFullscreen();
+    btnVisibility() {
+        if (document.fullscreen === true) {
+            this.width = 0;
+            this.height = 0;
+            this.x = 0;
+            this.y = 0;
+        } else if (document.fullscreen === false) {
+            this.width = 180;
+            this.height = 40;
+            this.x = 480;
+            this.y = 400;
         }
     }
 }
