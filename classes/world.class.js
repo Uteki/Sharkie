@@ -46,8 +46,8 @@ class World {
     }
 
     soundVolume() {
-        this.worldSound.volume = 0.25;
-        this.sound.volume = 0.10;
+        this.worldSound.volume = 0.225;
+        this.sound.volume = 0.15;
     }
 
     bgMus() {
@@ -60,7 +60,22 @@ class World {
             this.checkCollisions();
             this.fullscreen.btnVisibility();
             this.checkThrowObjects();
+            this.end();
         }, 200)
+    }
+
+    end() {
+        if (this.character.energy === 0) {
+            this.worldSound.pause();
+            this.character.gameOver();
+            this.level.foes.forEach((foe) => {
+                foe.gameOver();
+            })
+            this.level.gatherObjects.forEach((go) => {
+                go.gameOver();
+            })
+            // document.location.reload();
+        }
     }
 
     //TODO

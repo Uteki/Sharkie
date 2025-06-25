@@ -20,11 +20,11 @@ class Foe extends MoveableObject {
     }
 
     motion(images) {
-        setInterval(() => {
+        this.animation = setInterval(() => {
             this.animate(images);
         }, 100);
 
-        setInterval(() => {
+        this.movement = setInterval(() => {
             this.moveLeft()
         },1000 / 60);
     }

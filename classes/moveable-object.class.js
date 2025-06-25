@@ -34,7 +34,7 @@ class MoveableObject extends DrawableObject {
     }
 
     applyGravity() {
-        setInterval(() => {
+        this.movement = setInterval(() => {
             if (typeof world !== 'undefined' && world.character) {
                 let incoming = this.x - world.character.x;
 
@@ -48,5 +48,10 @@ class MoveableObject extends DrawableObject {
 
     floatsUp() {
         return this.y;
+    }
+
+    gameOver() {
+        clearInterval(this.movement);
+        setTimeout(() => clearInterval(this.animation), 500)
     }
 }

@@ -97,7 +97,7 @@ class Character extends MoveableObject {
     }
 
     motionMovement() {
-        setInterval(() => {
+        this.movement = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false; this.world.sound.play() }
             if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true; this.world.sound.play() }
             if (this.world.keyboard.UP && this.y > 5) { this.moveUp(); this.world.sound.play() }
@@ -107,7 +107,7 @@ class Character extends MoveableObject {
     }
 
     motionAnimation() {
-        setInterval(() => {
+        this.animation = setInterval(() => {
             if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animate(this.IMAGES_RANGE);
             if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_MELEE);
             if (this.world.isDead()) return this.animate(this.IMAGES_DEAD);

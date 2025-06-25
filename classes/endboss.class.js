@@ -48,11 +48,11 @@ class Endboss extends MoveableObject {
     }
 
     motion(images) {
-        this.animationInterval = setInterval(() => {
+        this.animation = setInterval(() => {
             this.animate(images);
         }, 100);
 
-        this.movementInterval = setInterval(() => {
+        this.movement = setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
     }
@@ -71,8 +71,6 @@ class Endboss extends MoveableObject {
     }
 
     animateDeath() {
-        clearInterval(this.animationInterval);
-        clearInterval(this.movementInterval);
         this.animate(this.IMAGES_DEAD);
     }
 }
