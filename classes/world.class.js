@@ -6,6 +6,7 @@ class World {
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
     coinBar = new StatusBar(50, 95, "COIN", 0);
     fullscreen = new Fullscreen();
+    youLose = new GameOver();
     throwableObject = [];
     level = level1;
     lastHit = 0;
@@ -74,6 +75,7 @@ class World {
             this.level.gatherObjects.forEach((go) => {
                 go.gameOver();
             })
+            this.isGameOver = true;
             // document.location.reload();
         }
     }
@@ -180,6 +182,12 @@ class World {
         this.addToMap(this.poisonBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.fullscreen);
+
+        if (this.isGameOver) {
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+            this.addToMap(this.youLose);
+        }
     }
 
     grewLevel() {
