@@ -32,6 +32,7 @@ function handleStart(event) {
    let handler = handleClick(event, startButton);
     if (handler) {
         canvas.removeEventListener("click", handleStart);
+        document.removeEventListener("keydown", startEnter);
         startGame();
     }
 }
@@ -75,12 +76,15 @@ function startScreenBtn(event) {
     }
 }
 
-document.addEventListener("keydown", function startEnter(e) {
+function startEnter(e) {
     if (e.key === "Enter") {
+        canvas.removeEventListener("click", handleStart);
         document.removeEventListener("keydown", startEnter);
         startGame();
     }
-});
+}
+
+document.addEventListener("keydown", startEnter);
 
 document.addEventListener('keydown', function(e) {
     switch (e.key) {
