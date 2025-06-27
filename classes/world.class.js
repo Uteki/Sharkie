@@ -1,7 +1,5 @@
 class World {
     character = new Character();
-    sound = new Audio("../assets/global/audio/sharkie-ost.mp3");
-    worldSound = new Audio("../assets/global/audio/background-ost.mp3");
     poisonBar = new StatusBar(50, 55, "POISON", 0);
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
     coinBar = new StatusBar(50, 95, "COIN", 0);
@@ -32,8 +30,8 @@ class World {
         this.run();
         this.max();
 
-        this.soundVolume();
-        this.bgMus();
+        this.restart = this.restart.bind(this);
+        this.ost();
     }
 
     max() {
@@ -46,14 +44,8 @@ class World {
         })
     }
 
-    soundVolume() {
-        this.worldSound.volume = 0.225;
-        this.sound.volume = 0.15;
-    }
-
-    bgMus() {
-        this.worldSound.loop = true;
-        this.worldSound.play().then();
+    ost() {
+        backgroundMusic.play()
     }
 
     run() {
@@ -66,23 +58,24 @@ class World {
     }
 
     end() {
-        if (this.character.energy === 0) {
-            this.worldSound.pause();
+        if (this.character.energy === 0 && !this.isGameOver) {
+            backgroundMusic.pause();
+            gameoverMusic.play();
+            sharkieMusic.stop();
+
             this.character.gameOver();
-            this.level.foes.forEach((foe) => {
-                foe.gameOver();
-            })
-            this.level.gatherObjects.forEach((go) => {
-                go.gameOver();
-            })
+            this.level.foes.forEach((foe) => { foe.gameOver() })
+            this.level.gatherObjects.forEach((go) => { go.gameOver() })
             this.isGameOver = true;
+
+            document.addEventListener("keydown", this.restart);
             // document.location.reload();
         }
     }
 
     //TODO
     checkThrowObjects() {
-        if(this.keyboard.SPACE && this.poison !== 0) {
+        if(this.keyboard.SPACE && this.poison !== 0 && this.character.energy !== 0) {
             this.throwableObject.push(new ThrowableObject(this.character.x, this.character.y));
             this.poison--;
             this.poisonBar.setPercentage((this.poison/this.maxPoison) * 100, "POISON");
@@ -184,10 +177,35 @@ class World {
         this.addToMap(this.fullscreen);
 
         if (this.isGameOver) {
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
-            this.addToMap(this.youLose);
+            this.gameOverScreen();
         }
+    }
+
+    restart(event) {
+        if (event.key === "Enter") {
+            gameoverMusic.stop();
+            document.removeEventListener("keydown", this.restart);
+            startGame();
+        }
+    }
+
+    gameOverScreen() {
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+        this.addToMap(this.youLose);
+
+        this.gameOverText();
+    }
+
+    gameOverText() {
+        this.ctx.fillStyle = "#fff";
+        this.ctx.font = "24px Lucky";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText(
+            "Press ENTER to try again",
+            this.canvas.width / 2,
+            this.canvas.height / 2 + 200
+        );
     }
 
     grewLevel() {

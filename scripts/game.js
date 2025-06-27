@@ -1,11 +1,8 @@
 const startButton = {
-    x: 440, y: 370,
-    width: 130, height: 40
+    x: 440, y: 370, width: 130, height: 40
 };
-
 const screenButton = {
-    x: 480, y: 400,
-    width: 180, height: 40
+    x: 480, y: 400, width: 180, height: 40
 }
 
 let canvas;

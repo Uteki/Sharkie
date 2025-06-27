@@ -98,10 +98,10 @@ class Character extends MoveableObject {
 
     motionMovement() {
         this.movement = setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false; this.world.sound.play() }
-            if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true; this.world.sound.play() }
-            if (this.world.keyboard.UP && this.y > 5) { this.moveUp(); this.world.sound.play() }
-            if (this.world.keyboard.DOWN && this.y < 350) { this.moveDown(); this.world.sound.play() }
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false; sharkieMusic.play() }
+            if (this.world.keyboard.LEFT && this.x > 0) { this.moveLeft(); this.otherWay = true; sharkieMusic.play() }
+            if (this.world.keyboard.DOWN && this.y < 350) { this.moveDown(); sharkieMusic.play() }
+            if (this.world.keyboard.UP && this.y > 5) { this.moveUp(); sharkieMusic.play() }
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60 )
     }
@@ -111,12 +111,12 @@ class Character extends MoveableObject {
             if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animate(this.IMAGES_RANGE);
             if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_MELEE);
             if (this.world.isDead()) return this.animate(this.IMAGES_DEAD);
-            if (this.world.isHurt()) return this.animate(this.IMAGES_HURT);
+            if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT)}
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
-            if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.DOWN) return this.animate(this.IMAGES_SWIM);
-            this.animate(this.IMAGES_IDLE); this.world.sound.pause();
+            if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
+            this.animate(this.IMAGES_IDLE); sharkieMusic.pause();
         }, 100)
     }
 }

@@ -7,13 +7,17 @@ class GameOver extends DrawableObject {
         '../assets/content/6.Botones/Tittles/Game Over/Recurso 13.png'
     ]
 
+    TRY_AGAIN = "../assets/content/6.Botones/Try again/Recurso 17.png";
+
     constructor() {
         super().loadImage(this.GAME_OVER[0]);
         this.loadImages(this.GAME_OVER);
 
+        this.loadImage(this.TRY_AGAIN);
+
         this.width = 180;
         this.height = 40;
-        this.x = 480;
+        this.x = 250;
         this.y = 400;
 
         this.motion(this.GAME_OVER);
