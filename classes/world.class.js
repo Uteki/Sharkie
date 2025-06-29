@@ -4,6 +4,7 @@ class World {
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
     coinBar = new StatusBar(50, 95, "COIN", 0);
     fullscreen = new Fullscreen();
+    tryAgain = new TryAgain();
     youLose = new GameOver();
     throwableObject = [];
     level = level1;
@@ -59,9 +60,7 @@ class World {
 
     end() {
         if (this.character.energy === 0 && !this.isGameOver) {
-            backgroundMusic.pause();
-            gameoverMusic.play();
-            sharkieMusic.stop();
+            backgroundMusic.pause(); gameoverMusic.play(); sharkieMusic.stop()
 
             this.character.gameOver();
             this.level.foes.forEach((foe) => { foe.gameOver() })
@@ -69,7 +68,7 @@ class World {
             this.isGameOver = true;
 
             document.addEventListener("keydown", this.restart);
-            // document.location.reload();
+            document.addEventListener("click", this.tryAgain.tryAgain);
         }
     }
 
@@ -152,6 +151,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.tryAgain.world = this;
     }
 
     draw() {
@@ -185,6 +185,7 @@ class World {
         if (event.key === "Enter") {
             gameoverMusic.stop();
             document.removeEventListener("keydown", this.restart);
+            document.removeEventListener("click", this.tryAgain.tryAgain);
             startGame();
         }
     }
@@ -193,6 +194,7 @@ class World {
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
         this.addToMap(this.youLose);
+        this.addToMap(this.tryAgain);
 
         this.gameOverText();
     }
@@ -203,8 +205,8 @@ class World {
         this.ctx.textAlign = "center";
         this.ctx.fillText(
             "Press ENTER to try again",
-            this.canvas.width / 2,
-            this.canvas.height / 2 + 200
+            this.canvas.width / 2 - 4,
+            this.canvas.height / 2 + 100
         );
     }
 
