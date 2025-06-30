@@ -50,7 +50,7 @@ class MoveableObject extends DrawableObject {
         return this.y;
     }
 
-    gameOver() {
+    pauseMove() {
         clearInterval(this.movement);
         setTimeout(() => clearInterval(this.animation), 500)
     }

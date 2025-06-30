@@ -61,10 +61,9 @@ class Endboss extends MoveableObject {
         this.animate(this.IMAGES_HURT);
 
         setTimeout(() => {
-            if (this.energy > 0) {
-                this.loadImages(this.IMAGES_FLOATING);
-                this.animate(this.IMAGES_FLOATING);
-            } else {
+            if (this.energy <= 0) {
+                clearInterval(this.animation);
+                clearInterval(this.movement);
                 this.animateDeath();
             }
         }, 500);

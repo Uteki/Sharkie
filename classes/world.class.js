@@ -60,16 +60,27 @@ class World {
 
     end() {
         if (this.character.energy === 0 && !this.isGameOver) {
-            backgroundMusic.pause(); gameoverMusic.play(); sharkieMusic.stop()
-
-            this.character.gameOver();
-            this.level.foes.forEach((foe) => { foe.gameOver() })
-            this.level.gatherObjects.forEach((go) => { go.gameOver() })
+            this.stopMoment();
+            gameoverMusic.play();
             this.isGameOver = true;
 
-            document.addEventListener("keydown", this.restart);
-            document.addEventListener("click", this.tryAgain.tryAgain);
+
+        } else if (world.level.foes[world.level.foes.length-1].energy === 0 && !this.isGameWon) {
+            this.stopMoment();
+            gameonMusic.play();
+            this.isGameWon = true;
         }
+    }
+
+    stopMoment() {
+        backgroundMusic.pause(); sharkieMusic.stop()
+
+        this.character.pauseMove();
+        this.level.foes.forEach((foe) => { foe.pauseMove() })
+        this.level.gatherObjects.forEach((go) => { go.pauseMove() })
+
+        document.addEventListener("keydown", this.restart);
+        document.addEventListener("click", this.tryAgain.tryAgain);
     }
 
     //TODO
@@ -97,7 +108,7 @@ class World {
             }
             this.throwableObject.forEach(x => {
                 if (x.isColliding(foe)) {
-                    foe.energy -= 60
+                    foe.energy -= 50
                     if (foe instanceof Endboss) foe.animateHurt();
                     this.throwableObject = this.throwableObject.filter(obj => obj !== x);
                     // this.level.foes = this.level.foes.filter(x => x !== foe);
@@ -158,10 +169,8 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.gatherObjects)
-        this.addObjectsToMap(this.level.foes);
-        this.addObjectsToMap(this.throwableObject);
+        this.addObjectsToMap(this.level.backgroundObjects); this.addObjectsToMap(this.level.gatherObjects);
+        this.addObjectsToMap(this.level.foes); this.addObjectsToMap(this.throwableObject);
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
 
