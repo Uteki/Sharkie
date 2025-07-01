@@ -21,9 +21,10 @@ class TryAgain extends DrawableObject {
     tryAgain(event) {
         let handler = handleClick(event, this.screenButton);
         if (handler) {
+            gameonMusic.stop();
             gameoverMusic.stop();
-            document.removeEventListener("keydown", this.world.restart);
             document.removeEventListener("click", this.tryAgain);
+            document.removeEventListener("keydown", this.world.restart);
             startGame();
         }
     }

@@ -6,6 +6,7 @@ class World {
     fullscreen = new Fullscreen();
     tryAgain = new TryAgain();
     youLose = new GameOver();
+    youWin = new YouWin();
     throwableObject = [];
     level = level1;
     lastHit = 0;
@@ -64,11 +65,10 @@ class World {
             gameoverMusic.play();
             this.isGameOver = true;
 
-
-        } else if (world.level.foes[world.level.foes.length-1].energy === 0 && !this.isGameWon) {
+        } else if (world.level.foes[world.level.foes.length-1].energy === 0 && !this.isGameOn) {
             this.stopMoment();
             gameonMusic.play();
-            this.isGameWon = true;
+            this.isGameOn = true;
         }
     }
 
@@ -187,11 +187,14 @@ class World {
 
         if (this.isGameOver) {
             this.gameOverScreen();
+        } else if (this.isGameOn) {
+            this.gameOnScreen();
         }
     }
 
     restart(event) {
         if (event.key === "Enter") {
+            gameonMusic.stop();
             gameoverMusic.stop();
             document.removeEventListener("keydown", this.restart);
             document.removeEventListener("click", this.tryAgain.tryAgain);
@@ -199,16 +202,25 @@ class World {
         }
     }
 
-    gameOverScreen() {
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
-        this.addToMap(this.youLose);
-        this.addToMap(this.tryAgain);
-
-        this.gameOverText();
+    gameOnScreen() {
+        this.screenFill();
+        this.addToMap(this.youWin);
+        this.tryMore();
     }
 
-    gameOverText() {
+    gameOverScreen() {
+        this.screenFill();
+        this.addToMap(this.youLose);
+        this.tryMore();
+    }
+
+    screenFill() {
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    tryMore() {
+        this.addToMap(this.tryAgain);
         this.ctx.fillStyle = "#fff";
         this.ctx.font = "24px Lucky";
         this.ctx.textAlign = "center";
