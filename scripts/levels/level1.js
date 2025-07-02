@@ -6,6 +6,14 @@ function initLevel() {
             new Foe(),
             new Foe(),
             new Foe(),
+
+            new Foe2("lila"),
+            new Foe2("yellow"),
+
+            new Foe(),
+            new Foe(),
+            new Foe(),
+
             new Endboss(),
 
             //...
