@@ -3,16 +3,16 @@ let level1;
 function initLevel() {
     level1 = new Level(
         [
-            new Foe(),
-            new Foe(),
-            new Foe(),
+            new Foe(250),
+            new Foe(250),
+            new Foe(250),
 
             new Foe2("lila"),
             new Foe2("yellow"),
 
-            new Foe(),
-            new Foe(),
-            new Foe(),
+            new Foe(1450),
+            new Foe(1450),
+            new Foe(1450),
 
             new Endboss(),
 

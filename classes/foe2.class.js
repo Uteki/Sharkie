@@ -16,17 +16,16 @@ class Foe2 extends MoveableObject {
         `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Yellow 4.png`
     ];
 
-    constructor(color) {
+    constructor(version) {
         super();
-        const cap = color.charAt(0).toUpperCase() + color.slice(1).toLowerCase();
+        const cap = version.charAt(0).toUpperCase() + version.slice(1).toLowerCase();
         const imagePath = `../assets/content/2.Enemy/2 Jelly fish/Regular damage/${cap} 1.png`;
-        const imageSet = color.toLowerCase() === 'lila' ? this.IMAGES_SWIM_LILA : this.IMAGES_SWIM_YELLOW;
+        const imageSet = version.toLowerCase() === 'lila' ? this.IMAGES_SWIM_LILA : this.IMAGES_SWIM_YELLOW;
 
-        this.loadImage(imagePath);
-        this.loadImages(imageSet);
+        this.loadImage(imagePath); this.loadImages(imageSet)
 
-        this.x = 250 + Math.floor(Math.random() * 1000);
-        this.y = Math.floor(Math.random() * (0 - 400 + 1)) + 400;
+        this.x = 850 + Math.floor(Math.random() * 500);
+        this.y = - 75 + Math.floor(Math.random() * (0 - 400 + 1)) + 400;
         this.speed += Math.random();
         this.motion(imageSet);
     }
