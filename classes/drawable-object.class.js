@@ -1,8 +1,14 @@
 class DrawableObject {
     x = 50;
     y = 150;
-    width;
-    height;
+    width; // 125
+    height; // 175
+
+    innerX = 110;
+    innerY = 420;
+    innerWidth = 590;
+    innerHeight = 420;
+
     img;
     currentImage = 0;
     imageCache = {};
@@ -43,14 +49,9 @@ class DrawableObject {
     }
 
     drawShark(ctx) {
-        const innerX = 110;
-        const innerY = 420;
-        const innerWidth = 590;
-        const innerHeight = 420;
-
         ctx.drawImage(
             this.img,
-            innerX, innerY, innerWidth, innerHeight,
+            this.innerX, this.innerY, this.innerWidth, this.innerHeight,
             this.x, this.y, this.width, this.height
         );
     }

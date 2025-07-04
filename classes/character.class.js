@@ -3,6 +3,8 @@ class Character extends MoveableObject {
     height = 125;
     speed = 5;
 
+    currentImgEnd = 0;
+
     IMAGES_IDLE = [
         '../assets/content/1.Sharkie/1.IDLE/1.png',
         '../assets/content/1.Sharkie/1.IDLE/2.png',
@@ -71,11 +73,7 @@ class Character extends MoveableObject {
         '../assets/content/1.Sharkie/6.dead/1.Poisoned/5.png',
         '../assets/content/1.Sharkie/6.dead/1.Poisoned/6.png',
         '../assets/content/1.Sharkie/6.dead/1.Poisoned/7.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/8.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/9.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/10.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/11.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/12.png'
+        '../assets/content/1.Sharkie/6.dead/1.Poisoned/8.png'
     ]
 
     world;
@@ -110,7 +108,7 @@ class Character extends MoveableObject {
         this.animation = setInterval(() => {
             if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animate(this.IMAGES_RANGE);
             if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_MELEE);
-            if (this.world.isDead()) return this.animate(this.IMAGES_DEAD);
+            if (this.world.isDead())  { this.cool(); return this.animateEnd(this.IMAGES_DEAD)}
             if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT)}
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
@@ -118,5 +116,12 @@ class Character extends MoveableObject {
             if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
             this.animate(this.IMAGES_IDLE); sharkieMusic.pause();
         }, 100)
+    }
+
+    animateEnd(bundle) {
+        let i = this.currentImgEnd % bundle.length;
+        let path = bundle[i];
+        this.img = this.imageCache[path];
+        this.currentImgEnd++;
     }
 }

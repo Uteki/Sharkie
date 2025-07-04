@@ -52,6 +52,6 @@ class MoveableObject extends DrawableObject {
 
     pauseMove() {
         clearInterval(this.movement);
-        setTimeout(() => clearInterval(this.animation), 500)
+        setTimeout(() => clearInterval(this.animation), 700)
     }
 }
