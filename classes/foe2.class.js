@@ -25,7 +25,7 @@ class Foe2 extends MoveableObject {
         this.loadImage(imagePath); this.loadImages(imageSet)
 
         this.x = 850 + Math.floor(Math.random() * 500);
-        this.y = - 75 + Math.floor(Math.random() * (0 - 400 + 1)) + 400;
+        this.y = Math.floor(Math.random() * (0 - 300 + 1)) + 300;
         this.speed += Math.random();
         this.motion(imageSet);
     }
