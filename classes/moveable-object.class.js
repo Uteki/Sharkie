@@ -6,6 +6,7 @@ class MoveableObject extends DrawableObject {
     energy = 100;
 
     lastAttack = 0;
+    testos = false;
 
     isColliding(mo) {
         return this.x + this.width > mo.x && this.y + this.height
@@ -21,10 +22,24 @@ class MoveableObject extends DrawableObject {
 
     //TODO
     aniwate(bundle) {
-        let i = this.currentImage % bundle.length;
-        let path = bundle[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        if (this.testos && this.lastAttacked()) return;
+
+        this.world.keyboard.SPACE = false;
+        this.currentImage = 0;
+        this.lastAttack = new Date().getTime();
+
+        setInterval(() => {
+            let i = this.currentImage % bundle.length;
+            let path = bundle[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+
+        },100)
+        setTimeout(() => {
+
+        clearInterval(this.aniwate);
+        }, 2000)
+
     }
 
     lastAttacked() {
