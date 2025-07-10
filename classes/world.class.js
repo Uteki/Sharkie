@@ -54,7 +54,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.fullscreen.btnVisibility();
-            this.checkThrowObjects();
+            // this.checkThrowObjects();
             this.end();
         }, 200)
     }
@@ -83,7 +83,7 @@ class World {
         document.addEventListener("click", this.tryAgain.tryAgain);
     }
 
-    //TODO
+    //TODO remove it cus of char animation attack
     checkThrowObjects() {
         if(this.keyboard.SPACE && this.poison !== 0 && this.character.energy !== 0) {
             this.throwableObject.push(new ThrowableObject(this.character.x, this.character.y));
