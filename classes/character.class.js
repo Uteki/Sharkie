@@ -1,8 +1,9 @@
 class Character extends MoveableObject {
-    width = 175;
     height = 125;
+    width = 175;
     speed = 5;
 
+    lastAttack = 0;
     currentImgEnd = 0;
 
     IMAGES_IDLE = [
@@ -106,16 +107,43 @@ class Character extends MoveableObject {
 
     motionAnimation() {
         this.animation = setInterval(() => {
-            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animate(this.IMAGES_RANGE);
-            if (this.world.keyboard.SPACE) return this.animate(this.IMAGES_MELEE);
-            if (this.world.isDead())  { this.cool(); return this.animateEnd(this.IMAGES_DEAD)}
-            if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT)}
+            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animateAtk(this.IMAGES_RANGE);
+            // if (this.world.keyboard.SPACE) { this.cool(); return this.animate(this.IMAGES_MELEE) }
+            if (this.world.isDead()) return this.animateEnd(this.IMAGES_DEAD);
+            if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT) }
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.DOWN) return this.animate(this.IMAGES_SWIM);
             if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
             this.animate(this.IMAGES_IDLE); sharkieMusic.pause();
         }, 100)
+    }
+
+    animateAtk(bundle) {
+        if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
+
+        this.currentImage = 0;
+        this.world.keyboard.SPACE = false;
+        this.lastAttack = new Date().getTime();
+
+        this.throwBubble();
+
+        this.teste = setInterval(() => { this.animate(bundle) },100)
+        setTimeout(() => { clearInterval(this.teste) }, 450)
+    }
+
+    lastAttacked() {
+        return (new Date().getTime() - this.lastAttack) / 1000 < 0.85;
+    }
+
+    throwBubble() {
+        this.world.throwableObject.push(new ThrowableObject(this.world.character.x, this.world.character.y));
+        this.world.poison--;
+        this.world.poisonBar.setPercentage((this.world.poison/this.world.maxPoison) * 100, "POISON");
+    }
+
+    cool() {
+        this.innerWidth = 660;
     }
 
     animateEnd(bundle) {
