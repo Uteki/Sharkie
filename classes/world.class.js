@@ -22,6 +22,8 @@ class World {
     canvas;
     ctx;
 
+    melee = false;
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -89,7 +91,6 @@ class World {
             this.throwableObject.push(new ThrowableObject(this.character.x, this.character.y));
             this.poison--;
             this.poisonBar.setPercentage((this.poison/this.maxPoison) * 100, "POISON");
-        } else if(this.keyboard.SPACE) {
         }
     }
 
@@ -100,11 +101,19 @@ class World {
 
     }
 
+
+    //TODO
     collisionFoes() {
         this.level.foes.forEach((foe) => {
-            if (this.character.isColliding(foe)) {
+            if (this.character.isColliding(foe) && this.melee !== true) {
                 this.hit();
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
+            } else if (this.melee !== false) {
+                if (x.isColliding(foe)) {
+
+                console.log(foe)
+                foe.energy -= 10;
+                }
             }
             this.throwableObject.forEach(x => {
                 if (x.isColliding(foe)) {
