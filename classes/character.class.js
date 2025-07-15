@@ -107,8 +107,8 @@ class Character extends MoveableObject {
 
     motionAnimation() {
         this.animation = setInterval(() => {
-            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animateAtk(this.IMAGES_RANGE);
-            // if (this.world.keyboard.SPACE) { this.cool(); return this.animate(this.IMAGES_MELEE) }
+            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animateRange(this.IMAGES_RANGE);
+            if (this.world.keyboard.SPACE) return this.animateMelee(this.IMAGES_MELEE);
             if (this.world.isDead()) return this.animateEnd(this.IMAGES_DEAD);
             if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT) }
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
@@ -119,7 +119,7 @@ class Character extends MoveableObject {
         }, 100)
     }
 
-    animateAtk(bundle) {
+    animateRange(bundle) {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
         this.currentImage = 0;
@@ -144,6 +144,19 @@ class Character extends MoveableObject {
 
     cool() {
         this.innerWidth = 660;
+        this.world.melee = true;
+    }
+
+    animateMelee(bundle) {
+        if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
+
+        this.currentImage = 0;
+        this.world.keyboard.SPACE = false;
+        this.lastAttack = new Date().getTime();
+
+
+        this.teste = setInterval(() => { this.animate(bundle) },100)
+        setTimeout(() => { clearInterval(this.teste) }, 450)
     }
 
     animateEnd(bundle) {
