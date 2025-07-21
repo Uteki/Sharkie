@@ -22,8 +22,6 @@ class World {
     canvas;
     ctx;
 
-    melee = false;
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -108,23 +106,22 @@ class World {
             if (this.character.isColliding(foe) && this.melee !== true) {
                 this.hit();
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
-            } else if (this.melee !== false) {
-                if (x.isColliding(foe)) {
-
-                console.log(foe)
-                foe.energy -= 10;
-                }
             }
+
             this.throwableObject.forEach(x => {
-                if (x.isColliding(foe)) {
-                    foe.energy -= 50
+                if (x.isColliding(foe) && x instanceof ThrowableObject) {
+                    foe.energy -= 25;
                     if (foe instanceof Endboss) foe.animateHurt();
                     this.throwableObject = this.throwableObject.filter(obj => obj !== x);
-                    // this.level.foes = this.level.foes.filter(x => x !== foe);
+                } else if (x.isColliding(foe) && x instanceof MeleeZone) {
+                    foe.energy -= 50;
+                    if (foe instanceof Endboss) foe.animateHurt();
+                    this.throwableObject = this.throwableObject.filter(obj => obj !== x);
                 }
             })
         });
     }
+                    // this.level.foes = this.level.foes.filter(x => x !== foe);
 
     collisionGatherObjects() {
         this.level.gatherObjects.forEach((gather) => {
@@ -257,7 +254,9 @@ class World {
     }
 
     addObjectsToMap(objects) {
-        objects.forEach((o) => {this.addToMap(o)})
+        objects.forEach((o) => {
+            this.addToMap(o)
+        })
     }
 
     addToMap(mo) {

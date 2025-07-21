@@ -13,6 +13,9 @@ class DrawableObject {
     currentImage = 0;
     imageCache = {};
 
+    opacity = 1;
+
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -44,6 +47,10 @@ class DrawableObject {
     draw(ctx) {
         if (this instanceof Character) {
             return this.drawShark(ctx);
+        } else if (this instanceof MeleeZone) {
+            if (this.opacity <= 0) return;
+            this.drawZone(ctx);
+            return;
         }
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
@@ -54,5 +61,12 @@ class DrawableObject {
             this.innerX, this.innerY, this.innerWidth, this.innerHeight,
             this.x, this.y, this.width, this.height
         );
+    }
+
+    drawZone(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        ctx.restore();
     }
 }

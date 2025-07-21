@@ -107,8 +107,8 @@ class Character extends MoveableObject {
 
     motionAnimation() {
         this.animation = setInterval(() => {
-            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animateRange(this.IMAGES_RANGE);
-            if (this.world.keyboard.SPACE) return this.animateMelee(this.IMAGES_MELEE);
+            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animateMelee(this.IMAGES_MELEE);
+            if (this.world.keyboard.SPACE) return this.animateRange(this.IMAGES_RANGE);
             if (this.world.isDead()) return this.animateEnd(this.IMAGES_DEAD);
             if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT) }
             if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
@@ -122,10 +122,7 @@ class Character extends MoveableObject {
     animateRange(bundle) {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
-        this.currentImage = 0;
-        this.world.keyboard.SPACE = false;
-        this.lastAttack = new Date().getTime();
-
+        this.resetAttack();
         this.throwBubble();
 
         this.teste = setInterval(() => { this.animate(bundle) },100)
@@ -138,8 +135,16 @@ class Character extends MoveableObject {
 
     throwBubble() {
         this.world.throwableObject.push(new ThrowableObject(this.world.character.x, this.world.character.y));
+    }
+
+    cool2() {
         this.world.poison--;
         this.world.poisonBar.setPercentage((this.world.poison/this.world.maxPoison) * 100, "POISON");
+
+        setTimeout(() => {
+        this.world.throwableObject.push(new MeleeZone(this.world.character.x, this.world.character.y));
+
+        }, 150)
     }
 
     cool() {
@@ -147,15 +152,19 @@ class Character extends MoveableObject {
         this.world.melee = true;
     }
 
-    animateMelee(bundle) {
-        if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
-
+    resetAttack() {
         this.currentImage = 0;
         this.world.keyboard.SPACE = false;
         this.lastAttack = new Date().getTime();
+    }
 
+    animateMelee(bundle) {
+        if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
-        this.teste = setInterval(() => { this.animate(bundle) },100)
+        this.resetAttack();
+        this.cool2();
+
+        this.teste = setInterval(() => { this.animate(bundle) },75)
         setTimeout(() => { clearInterval(this.teste) }, 450)
     }
 
