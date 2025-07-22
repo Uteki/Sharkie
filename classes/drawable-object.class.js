@@ -4,7 +4,7 @@ class DrawableObject {
     width; // 125
     height; // 175
 
-    innerX = 110;
+    innerX = 90;
     innerY = 420;
     innerWidth = 590;
     innerHeight = 420;
