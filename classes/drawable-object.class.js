@@ -4,6 +4,8 @@ class DrawableObject {
     width; // 125
     height; // 175
 
+    sharkSt = {};
+
     innerX = 90;
     innerY = 420;
     innerWidth = 590;
