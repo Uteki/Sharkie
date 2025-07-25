@@ -4,8 +4,6 @@ class DrawableObject {
     width; // 125
     height; // 175
 
-    sharkSt = {};
-
     innerX = 90;
     innerY = 420;
     innerWidth = 590;
@@ -58,10 +56,13 @@ class DrawableObject {
     }
 
     drawShark(ctx) {
+        const frame = this.frameData?.[this.currentFrame];
+        if (!frame) return;
+
         ctx.drawImage(
             this.img,
-            this.innerX, this.innerY, this.innerWidth, this.innerHeight,
-            this.x, this.y, this.width, this.height
+            frame.sx, frame.sy, frame.sw, frame.sh, // sprite cut
+            this.x, this.y, this.width, this.height // canvas position
         );
     }
 

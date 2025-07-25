@@ -81,13 +81,23 @@ class Character extends MoveableObject {
 
     constructor() {
         super().loadImage('../assets/content/1.Sharkie/1.IDLE/1.png');
+        this.currentFrame = "idle";
         this.y = 250;
 
         this.loadImages(this.IMAGES_IDLE);this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_MELEE);this.loadImages(this.IMAGES_RANGE);
         this.loadImages(this.IMAGES_HURT);this.loadImages(this.IMAGES_DEAD);
 
+        this.frameLoader();
         this.motion();
+    }
+
+    frameLoader() {
+        this.frameData = {
+            'melee': { sx: 90, sy: 420, sw: 590, sh: 420 },
+            'range': { sx: 600, sy: 0, sw: 640, sh: 420 },
+            'idle': { sx: 90, sy: 420, sw: 590, sh: 420 },
+        };
     }
 
     motion() {
@@ -164,8 +174,9 @@ class Character extends MoveableObject {
         this.resetAttack();
         this.cool2();
 
+        this.currentFrame = "melee"
         this.teste = setInterval(() => { this.animate(bundle) },75)
-        setTimeout(() => { clearInterval(this.teste) }, 450)
+        setTimeout(() => { clearInterval(this.teste); this.currentFrame = "idle" }, 450)
     }
 
     animateEnd(bundle) {
