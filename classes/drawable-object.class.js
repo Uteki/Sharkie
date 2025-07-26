@@ -61,8 +61,8 @@ class DrawableObject {
 
         ctx.drawImage(
             this.img,
-            frame.sx, frame.sy, frame.sw, frame.sh, // sprite cut
-            this.x, this.y, this.width, this.height // canvas position
+            frame.sx, frame.sy, frame.sw, frame.sh,
+            this.x, this.y, this.width, this.height
         );
     }
 

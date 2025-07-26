@@ -95,7 +95,7 @@ class Character extends MoveableObject {
     frameLoader() {
         this.frameData = {
             'melee': { sx: 90, sy: 420, sw: 590, sh: 420 },
-            'range': { sx: 600, sy: 0, sw: 640, sh: 420 },
+            'range': { sx: 90, sy: 420, sw: 590, sh: 420 },
             'idle': { sx: 90, sy: 420, sw: 590, sh: 420 },
         };
     }
@@ -135,8 +135,9 @@ class Character extends MoveableObject {
         this.resetAttack();
         this.throwBubble();
 
+        this.currentFrame = "range"
         this.teste = setInterval(() => { this.animate(bundle) },100)
-        setTimeout(() => { clearInterval(this.teste) }, 450)
+        setTimeout(() => { clearInterval(this.teste); this.currentFrame = "idle" }, 450)
     }
 
     lastAttacked() {
