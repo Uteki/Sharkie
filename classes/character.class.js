@@ -95,7 +95,7 @@ class Character extends MoveableObject {
     frameLoader() {
         this.frameData = {
             'melee': { sx: 90, sy: 420, sw: 590, sh: 420 },
-            'range': { sx: 90, sy: 420, sw: 590, sh: 420 },
+            'range': { sx: 90, sy: 420, sw: 655, sh: 420 },
             'idle': { sx: 90, sy: 420, sw: 590, sh: 420 },
         };
     }
@@ -133,11 +133,12 @@ class Character extends MoveableObject {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
         this.resetAttack();
+        this.change();
         this.throwBubble();
 
         this.currentFrame = "range"
         this.teste = setInterval(() => { this.animate(bundle) },100)
-        setTimeout(() => { clearInterval(this.teste); this.currentFrame = "idle" }, 450)
+        setTimeout(() => { clearInterval(this.teste); this.change2(); this.currentFrame = "idle" }, 450)
     }
 
     lastAttacked() {
@@ -178,6 +179,17 @@ class Character extends MoveableObject {
         this.currentFrame = "melee"
         this.teste = setInterval(() => { this.animate(bundle) },75)
         setTimeout(() => { clearInterval(this.teste); this.currentFrame = "idle" }, 450)
+    }
+
+    change() {
+        // this.height = this.height + 20;
+        this.width = this.width + 20;
+
+    }
+
+    change2() {
+        // this.height = this.height - 20;
+        this.width = this.width - 20;
     }
 
     animateEnd(bundle) {

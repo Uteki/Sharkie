@@ -47,6 +47,7 @@ function initLevel() {
 
             new Bubble(),
             new Bubble(),
+            new Bubble(),
             new Bubble()
         ]
     );
