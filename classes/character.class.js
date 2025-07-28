@@ -94,8 +94,8 @@ class Character extends MoveableObject {
 
     frameLoader() {
         this.frameData = {
-            'melee': { sx: 90, sy: 420, sw: 590, sh: 420 },
-            'range': { sx: 90, sy: 420, sw: 655, sh: 420 },
+            'melee': { sx: 90, sy: 420, sw: 655, sh: 420 },
+            'range': { sx: 90, sy: 355, sw: 655, sh: 500 },
             'idle': { sx: 90, sy: 420, sw: 590, sh: 420 },
         };
     }
@@ -133,12 +133,12 @@ class Character extends MoveableObject {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
         this.resetAttack();
-        this.change();
+        this.adjustFrame("range",true);
         this.throwBubble();
 
         this.currentFrame = "range"
         this.teste = setInterval(() => { this.animate(bundle) },100)
-        setTimeout(() => { clearInterval(this.teste); this.change2(); this.currentFrame = "idle" }, 450)
+        setTimeout(() => { clearInterval(this.teste); this.adjustFrame("range", false); this.currentFrame = "idle" }, 450)
     }
 
     lastAttacked() {
@@ -149,7 +149,7 @@ class Character extends MoveableObject {
         this.world.throwableObject.push(new ThrowableObject(this.world.character.x, this.world.character.y));
     }
 
-    cool2() {
+    poisonBuff() {
         this.world.poison--;
         this.world.poisonBar.setPercentage((this.world.poison/this.world.maxPoison) * 100, "POISON");
 
@@ -157,11 +157,6 @@ class Character extends MoveableObject {
         this.world.throwableObject.push(new MeleeZone(this.world.character.x, this.world.character.y));
 
         }, 150)
-    }
-
-    cool() {
-        this.innerWidth = 660;
-        this.world.melee = true;
     }
 
     resetAttack() {
@@ -174,22 +169,24 @@ class Character extends MoveableObject {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
         this.resetAttack();
-        this.cool2();
+        this.adjustFrame("melee",true);
+        this.poisonBuff();
 
         this.currentFrame = "melee"
         this.teste = setInterval(() => { this.animate(bundle) },75)
-        setTimeout(() => { clearInterval(this.teste); this.currentFrame = "idle" }, 450)
+        setTimeout(() => { clearInterval(this.teste); this.adjustFrame("melee",false); this.currentFrame = "idle" }, 450)
     }
 
-    change() {
-        // this.height = this.height + 20;
-        this.width = this.width + 20;
+    adjustFrame(type = 'range', enlarge = true) {
+        const amount = 20;
 
-    }
-
-    change2() {
-        // this.height = this.height - 20;
-        this.width = this.width - 20;
+        if (type === 'range') {
+            this.height += enlarge ? amount : -amount;
+            this.width  += enlarge ? amount : -amount;
+            this.y      += enlarge ? -amount : amount;
+        } else if (type === 'melee') {
+            this.width += enlarge ? amount : -amount;
+        }
     }
 
     animateEnd(bundle) {
