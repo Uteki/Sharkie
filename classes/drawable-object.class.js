@@ -30,7 +30,7 @@ class DrawableObject {
     }
 
     showCollision(ctx) {
-        if (this instanceof Character || this instanceof Foe || this instanceof Endboss) {
+        if (this instanceof Foe2 || this instanceof Foe || this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = "5";
             ctx.strokeStyle = "blue";

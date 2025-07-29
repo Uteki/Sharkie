@@ -6,6 +6,8 @@ class Character extends MoveableObject {
     lastAttack = 0;
     currentImgEnd = 0;
 
+    spacePressed = false;
+
     IMAGES_IDLE = [
         '../assets/content/1.Sharkie/1.IDLE/1.png',
         '../assets/content/1.Sharkie/1.IDLE/2.png',
@@ -48,17 +50,16 @@ class Character extends MoveableObject {
     ]
 
     IMAGES_MELEE = [
-        'assets/content/1.Sharkie/4.Attack/Fin slap/1.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/2.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/3.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/4.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/5.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/6.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/7.png',
-        'assets/content/1.Sharkie/4.Attack/Fin slap/8.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/1.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/2.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/3.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/4.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/5.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/6.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/7.png',
+        '../assets/content/1.Sharkie/4.Attack/Fin slap/8.png',
     ]
 
-    //poison
     IMAGES_HURT = [
         '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/2.png',
         '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/3.png',
@@ -117,28 +118,18 @@ class Character extends MoveableObject {
 
     motionAnimation() {
         this.animation = setInterval(() => {
-            if (this.world.keyboard.SPACE && this.world.poison !== 0) return this.animateMelee(this.IMAGES_MELEE);
-            if (this.world.keyboard.SPACE) return this.animateRange(this.IMAGES_RANGE);
+            const key = this.world.keyboard;
+            if (key.SPACE && !this.spacePressed && !this.lastAttacked()) {
+                this.spacePressed = true;
+                this.world.poison !== 0 ? this.animateMelee(this.IMAGES_MELEE) : this.animateRange(this.IMAGES_RANGE);
+                return;
+            }
+            if (!key.SPACE) this.spacePressed = false;
             if (this.world.isDead()) return this.animateEnd(this.IMAGES_DEAD);
             if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT) }
-            if (this.world.keyboard.RIGHT) return this.animate(this.IMAGES_SWIM);
-            if (this.world.keyboard.LEFT) return this.animate(this.IMAGES_SWIM);
-            if (this.world.keyboard.DOWN) return this.animate(this.IMAGES_SWIM);
-            if (this.world.keyboard.UP) return this.animate(this.IMAGES_SWIM);
+            if (key.RIGHT || key.LEFT || key.DOWN || key.UP) return this.animate(this.IMAGES_SWIM);
             this.animate(this.IMAGES_IDLE); sharkieMusic.pause();
-        }, 100)
-    }
-
-    animateRange(bundle) {
-        if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
-
-        this.resetAttack();
-        this.adjustFrame("range",true);
-        this.throwBubble();
-
-        this.currentFrame = "range"
-        this.teste = setInterval(() => { this.animate(bundle) },100)
-        setTimeout(() => { clearInterval(this.teste); this.adjustFrame("range", false); this.currentFrame = "idle" }, 450)
+        }, 100);
     }
 
     lastAttacked() {
@@ -165,6 +156,18 @@ class Character extends MoveableObject {
         this.lastAttack = new Date().getTime();
     }
 
+    animateRange(bundle) {
+        if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
+
+        this.resetAttack();
+        this.adjustFrame("range",true);
+        this.throwBubble();
+
+        this.currentFrame = "range"
+        this.frameInt = setInterval(() => { this.animate(bundle) },100)
+        setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("range", false); this.currentFrame = "idle" }, 450)
+    }
+
     animateMelee(bundle) {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
@@ -173,8 +176,8 @@ class Character extends MoveableObject {
         this.poisonBuff();
 
         this.currentFrame = "melee"
-        this.teste = setInterval(() => { this.animate(bundle) },75)
-        setTimeout(() => { clearInterval(this.teste); this.adjustFrame("melee",false); this.currentFrame = "idle" }, 450)
+        this.frameInt = setInterval(() => { this.animate(bundle) },100)
+        setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("melee",false); this.currentFrame = "idle" }, 450)
     }
 
     adjustFrame(type = 'range', enlarge = true) {
