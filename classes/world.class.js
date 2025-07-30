@@ -54,7 +54,6 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.fullscreen.btnVisibility();
-            // this.checkThrowObjects();
             this.end();
         }, 200)
     }
@@ -83,27 +82,17 @@ class World {
         document.addEventListener("click", this.tryAgain.tryAgain);
     }
 
-    //TODO remove it cus of char animation attack
-    checkThrowObjects() {
-        if(this.keyboard.SPACE && this.poison !== 0 && this.character.energy !== 0) {
-            this.throwableObject.push(new ThrowableObject(this.character.x, this.character.y));
-            this.poison--;
-            this.poisonBar.setPercentage((this.poison/this.maxPoison) * 100, "POISON");
-        }
-    }
-
     //TODO
     checkCollisions() {
         this.collisionFoes();
         this.collisionGatherObjects();
-
     }
 
 
     //TODO
     collisionFoes() {
         this.level.foes.forEach((foe) => {
-            if (this.character.isColliding(foe) && this.melee !== true) {
+            if (this.character.isColliding(foe)) {
                 this.hit();
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
             }
@@ -111,17 +100,16 @@ class World {
             this.throwableObject.forEach(x => {
                 if (x.isColliding(foe) && x instanceof ThrowableObject) {
                     foe.energy -= 25;
-                    if (foe instanceof Endboss) foe.animateHurt();
+                    if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
                     this.throwableObject = this.throwableObject.filter(obj => obj !== x);
                 } else if (x.isColliding(foe) && x instanceof MeleeZone) {
                     foe.energy -= 50;
-                    if (foe instanceof Endboss) foe.animateHurt();
+                    if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
                     this.throwableObject = this.throwableObject.filter(obj => obj !== x);
                 }
             })
         });
     }
-                    // this.level.foes = this.level.foes.filter(x => x !== foe);
 
     collisionGatherObjects() {
         this.level.gatherObjects.forEach((gather) => {
@@ -169,6 +157,8 @@ class World {
     setWorld() {
         this.character.world = this;
         this.tryAgain.world = this;
+
+        this.level.foes.forEach(foe => foe.setWorld(this))
     }
 
     draw() {

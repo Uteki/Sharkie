@@ -33,6 +33,17 @@ class MoveableObject extends DrawableObject {
         this.x -= this.speed;
     }
 
+    startFading() {
+        this.fadeInterval = setInterval(() => {
+            if (this.opacity > 0) {
+                this.opacity -= 0.05;
+            } else {
+                this.opacity = 0;
+                clearInterval(this.fadeInterval);
+            }
+        }, 50);
+    }
+
     applyGravity() {
         this.movement = setInterval(() => {
             if (typeof world !== 'undefined' && world.character) {

@@ -30,6 +30,9 @@ class Foe2 extends MoveableObject {
         this.motion(imageSet);
     }
 
+    setWorld(world) {
+        this.world = world;
+    }
 
     motion(images) {
         this.animation = setInterval(() => {

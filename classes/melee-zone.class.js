@@ -11,20 +11,10 @@ class MeleeZone extends MoveableObject {
         this.y = y + 15;
 
         this.startFading();
+
         setInterval(() => {
             this.x = -200;
             this.y = 200;
         }, 1000)
-    }
-
-    startFading() {
-        this.fadeInterval = setInterval(() => {
-            if (this.opacity > 0) {
-                this.opacity -= 0.05;
-            } else {
-                this.opacity = 0;
-                clearInterval(this.fadeInterval);
-            }
-        }, 50);
     }
 }

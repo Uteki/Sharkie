@@ -42,12 +42,10 @@ class DrawableObject {
     draw(ctx) {
         if (this instanceof Character) {
             return this.drawShark(ctx);
-        } else if (this instanceof MeleeZone) {
+        } else {
             if (this.opacity <= 0) return;
             this.drawZone(ctx);
-            return;
         }
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
 
     drawShark(ctx) {

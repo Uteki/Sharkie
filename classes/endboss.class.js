@@ -47,6 +47,10 @@ class Endboss extends MoveableObject {
         this.motion(this.IMAGES_FLOATING);
     }
 
+    setWorld(world) {
+        this.world = world;
+    }
+
     motion(images) {
         this.animation = setInterval(() => {
             this.animate(images);
