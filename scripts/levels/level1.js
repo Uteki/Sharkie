@@ -7,17 +7,17 @@ function initLevel() {
             new Foe(250),
             new Foe(250),
 
-            new Foe2("lila"),
-            new Foe2("yellow"),
+            new Foe2("lila", 850),
+            new Foe2("green", 850),
 
             new Foe(1450),
             new Foe(1450),
             new Foe(1450),
 
-            new Endboss(),
+            new Foe2("pink", 2050),
+            new Foe2("yellow", 2050),
 
-            //...
-
+            new Endboss()
         ],
 
         [
@@ -35,15 +35,20 @@ function initLevel() {
         ],
 
         [
-            new Coin(500, 200),
-            new Coin(570, 200),
-            new Coin(640, 200),
-            new Coin(710, 200),
+            new Coin(500, 220),
+            new Coin(570, 220),
+            new Coin(640, 220),
+            new Coin(710, 220),
 
-            new Coin(1400, 400),
-            new Coin(1470, 400),
-            new Coin(1540, 400),
-            new Coin(1610, 400),
+            new Coin(1400, 40),
+            new Coin(1470, 40),
+            new Coin(1540, 40),
+            new Coin(1610, 40),
+
+            new Coin(2000, 400),
+            new Coin(2070, 400),
+            new Coin(2140, 400),
+            new Coin(2210, 400),
 
             new Bubble(),
             new Bubble(),
