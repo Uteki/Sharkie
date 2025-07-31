@@ -82,14 +82,11 @@ class World {
         document.addEventListener("click", this.tryAgain.tryAgain);
     }
 
-    //TODO
     checkCollisions() {
         this.collisionFoes();
         this.collisionGatherObjects();
     }
 
-
-    //TODO
     collisionFoes() {
         this.level.foes.forEach((foe) => {
             if (this.character.isColliding(foe)) {
@@ -98,6 +95,8 @@ class World {
             }
 
             this.throwableObject.forEach(x => {
+                if (foe.energy <= 0) return;
+
                 if (x.isColliding(foe) && x instanceof ThrowableObject) {
                     foe.energy -= 25;
                     if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
@@ -124,16 +123,6 @@ class World {
                 this.level.gatherObjects = this.level.gatherObjects.filter(obj => obj !== gather);
             }
         })
-    }
-
-    //TODO
-    attackEnd() {
-        this.level.foes.energy -= 50;
-        if (this.level.foes-energy  <= 0) {
-            this.level.foes.energy  = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
     }
 
     hit() {

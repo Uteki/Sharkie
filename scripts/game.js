@@ -60,6 +60,7 @@ function startGame() {
     initLevel();
     setTimeout(() => {
         world = new World(canvas, keyboard);
+        world.character.x += 0.1;
     }, 230);
 
     canvas.addEventListener("click", startScreenBtn);
