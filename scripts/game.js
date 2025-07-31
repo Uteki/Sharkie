@@ -73,7 +73,7 @@ function startGame() {
 
     setTimeout(() => {
         world = new World(canvas, keyboard);
-        world.character.x += 0.1;
+        world.character.x += 0.01;
     }, 600);
     canvas.addEventListener("click", startScreenBtn);
 }
