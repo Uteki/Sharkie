@@ -78,11 +78,6 @@ class Foe2 extends MoveableObject {
         this.world = world;
     }
 
-    clearInters() {
-        clearInterval(this.animation);
-        clearInterval(this.movement);
-    }
-
     getVersionImages(v) {
         return {
             lila: { swim: this.IMAGES_SWIM_LILA, dead: this.IMAGES_DEAD_LILA },

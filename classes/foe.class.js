@@ -28,11 +28,6 @@ class Foe extends MoveableObject {
         this.world = world;
     }
 
-    clearInters() {
-        clearInterval(this.animation);
-        clearInterval(this.movement);
-    }
-
     loadCombination() {
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_DEAD);
