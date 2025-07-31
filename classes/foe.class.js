@@ -125,16 +125,4 @@ class Foe extends MoveableObject {
             }
         }, 75);
     }
-
-    startFading() {
-        this.fadeInterval = setInterval(() => {
-            if (this.opacity > 0) {
-                this.opacity -= 0.05;
-            } else {
-                this.opacity = 0;
-                clearInterval(this.fadeInterval);
-                this.world.level.foes = this.world.level.foes.filter(f => f !== this);
-            }
-        }, 50);
-    }
 }

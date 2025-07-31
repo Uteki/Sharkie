@@ -40,6 +40,7 @@ class MoveableObject extends DrawableObject {
             } else {
                 this.opacity = 0;
                 clearInterval(this.fadeInterval);
+                if (this instanceof Foe || this instanceof Foe2 ) this.world.level.foes = this.world.level.foes.filter(f => f !== this);
             }
         }, 50);
     }

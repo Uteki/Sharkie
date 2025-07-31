@@ -1,6 +1,7 @@
 class Foe2 extends MoveableObject {
     width = 125;
     height = 220;
+    chosen;
     energy;
 
     IMAGES_SWIM_LILA = [
@@ -62,16 +63,24 @@ class Foe2 extends MoveableObject {
     constructor(version, spawn) {
         super();
         const v = version.toLowerCase();
-        const chosen = this.getVersionImages(v);
 
-        this.loadImage(chosen.swim[0]); this.loadImages(chosen.swim); this.loadImages(chosen.dead)
+        this.chosen = this.getVersionImages(v);
+        this.loadImage(this.chosen.swim[0]); this.loadImages(this.chosen.swim); this.loadImages(this.chosen.dead)
         this.energy = (v === 'green' || v === 'pink') ? 75 : 50;
-
         this.x = spawn + Math.floor(Math.random() * 500);
         this.y = Math.floor(Math.random() * (0 - 300 + 1)) + 300;
         this.speed += Math.random();
 
-        this.motion(chosen.swim);
+        this.motion(this.chosen.swim);
+    }
+
+    setWorld(world) {
+        this.world = world;
+    }
+
+    clearInters() {
+        clearInterval(this.animation);
+        clearInterval(this.movement);
     }
 
     getVersionImages(v) {
@@ -83,11 +92,6 @@ class Foe2 extends MoveableObject {
         }[v] || { swim: this.IMAGES_SWIM_LILA, dead: this.IMAGES_DEAD_LILA };
     }
 
-
-    setWorld(world) {
-        this.world = world;
-    }
-
     motion(images) {
         this.animation = setInterval(() => {
             this.animate(images);
@@ -96,5 +100,44 @@ class Foe2 extends MoveableObject {
         this.movement = setInterval(() => {
             this.moveLeft()
         },1000 / 60);
+    }
+
+    animateHurt() {
+        if (this.energy <= 0) {
+            this.clearInters();
+            this.animateDeath();
+            return;
+        }
+
+        this.animateBlinking()
+    }
+
+    animateBlinking() {
+        let blinkCount = 0;
+        const maxBlinks = 6;
+
+        this.blink = setInterval(() => {
+            this.opacity = this.opacity === 1 ? 0.3 : 1;
+            blinkCount++;
+            if (blinkCount >= maxBlinks) {
+                clearInterval(this.blink);
+                this.opacity = 1;
+            }
+        }, 100);
+    }
+
+    animateDeath() {
+        this.currentImage = 0;
+        this.deathAnimation = setInterval(() => {
+            if (this.currentImage <= this.chosen.dead.length - 1) {
+                this.img = this.imageCache[this.chosen.dead[this.currentImage]];
+                this.currentImage++;
+            } else {
+                clearInterval(this.deathAnimation);
+                if (this.world) {
+                    this.startFading();
+                }
+            }
+        }, 100);
     }
 }
