@@ -56,13 +56,25 @@ function drawStartScreen(ctx, canvas, img, btnImg) {
     ctx.drawImage(btnImg, startButton.x, startButton.y, startButton.width, startButton.height);
 }
 
+function showLoader(ctx) {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "28px Lucky";
+    ctx.textAlign = "center";
+    ctx.fillText("Loading world...", canvas.width / 2, canvas.height / 2);
+}
+
 function startGame() {
+    const ctx = canvas.getContext("2d");
+    showLoader(ctx);
     initLevel();
+
     setTimeout(() => {
         world = new World(canvas, keyboard);
         world.character.x += 0.1;
-    }, 230);
-
+    }, 600);
     canvas.addEventListener("click", startScreenBtn);
 }
 

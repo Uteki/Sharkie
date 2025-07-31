@@ -80,11 +80,11 @@ class Foe2 extends MoveableObject {
 
     getVersionImages(v) {
         return {
-            lila: { swim: this.IMAGES_SWIM_LILA, dead: this.IMAGES_DEAD_LILA },
-            yellow: { swim: this.IMAGES_SWIM_YELLOW, dead: this.IMAGES_DEAD_YELLOW },
-            green: { swim: this.IMAGES_SWIM_GREEN, dead: this.IMAGES_DEAD_GREEN },
-            pink: { swim: this.IMAGES_SWIM_PINK, dead: this.IMAGES_DEAD_PINK }
-        }[v] || { swim: this.IMAGES_SWIM_LILA, dead: this.IMAGES_DEAD_LILA };
+            lila: { swim: this.IMAGES_SWIM_LILA, dead: this.IMAGES_DEAD_LILA, type: "weak" },
+            yellow: { swim: this.IMAGES_SWIM_YELLOW, dead: this.IMAGES_DEAD_YELLOW, type: "weak" },
+            green: { swim: this.IMAGES_SWIM_GREEN, dead: this.IMAGES_DEAD_GREEN, type: "strong" },
+            pink: { swim: this.IMAGES_SWIM_PINK, dead: this.IMAGES_DEAD_PINK, type: "strong" },
+        }[v] || { swim: this.IMAGES_SWIM_LILA, dead: this.IMAGES_DEAD_LILA, type: "weak" };
     }
 
     motion(images) {

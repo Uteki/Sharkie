@@ -90,7 +90,7 @@ class World {
     collisionFoes() {
         this.level.foes.forEach((foe) => {
             if (this.character.isColliding(foe)) {
-                this.hit();
+                this.hit(foe);
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
             }
 
@@ -125,8 +125,12 @@ class World {
         })
     }
 
-    hit() {
-        this.character.energy -= 5;
+    hit(foe) {
+        this.character.energy -=
+            foe instanceof Foe2 ? (foe.chosen.type === "strong" ? 40 : 20) :
+                foe instanceof Endboss ? 80 :
+                    foe instanceof Foe ? 10 : 0;
+
         if (this.character.energy <= 0) {
             this.character.energy = 0;
         } else {
