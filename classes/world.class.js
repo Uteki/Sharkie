@@ -89,7 +89,7 @@ class World {
 
     collisionFoes() {
         this.level.foes.forEach((foe) => {
-            if (this.character.isColliding(foe)) {
+            if (this.character.isColliding(foe) && foe.foeDead !== true) {
                 this.hit(foe);
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
             }

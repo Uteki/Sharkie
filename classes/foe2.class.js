@@ -99,6 +99,7 @@ class Foe2 extends MoveableObject {
 
     animateHurt() {
         if (this.energy <= 0) {
+            this.foeDead = true;
             this.clearInters();
             this.animateDeath();
             return;

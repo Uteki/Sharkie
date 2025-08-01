@@ -119,8 +119,8 @@ class Character extends MoveableObject {
     motionAnimation() {
         this.animation = setInterval(() => {
             const key = this.world.keyboard;
-            if (key.SPACE && !this.spacePressed && !this.lastAttacked() && this.otherWay === false) {
-                this.spacePressed = true;
+            if (key.SPACE && !this.spacePressed && !this.lastAttacked()) {
+                this.otherWay = false; this.spacePressed = true
                 this.world.poison !== 0 ? this.animateMelee(this.IMAGES_MELEE) : this.animateRange(this.IMAGES_RANGE);
                 return;
             }

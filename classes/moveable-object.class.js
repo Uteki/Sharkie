@@ -3,6 +3,7 @@ class MoveableObject extends DrawableObject {
     speedY = -1;
     acceleration = -0.05;
     otherWay = false;
+    foeDead = false;
     energy = 100;
 
     isColliding(mo) {
