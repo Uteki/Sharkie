@@ -77,6 +77,7 @@ class World {
         this.character.pauseMove();
         this.level.foes.forEach((foe) => { foe.pauseMove() })
         this.level.gatherObjects.forEach((go) => { go.pauseMove() })
+        this.throwableObject.forEach((blow) => { blow.pauseMove() })
 
         document.addEventListener("keydown", this.restart);
         document.addEventListener("click", this.tryAgain.tryAgain);

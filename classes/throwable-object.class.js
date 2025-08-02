@@ -1,4 +1,6 @@
 class ThrowableObject extends MoveableObject {
+    world;
+
     constructor(x, y) {
         super().loadImage("../assets/content/1.Sharkie/4.Attack/Bubble trap/Bubble.png");
         this.width = 50;
@@ -8,9 +10,9 @@ class ThrowableObject extends MoveableObject {
 
         this.speedX = 5;
         this.floatSpeed = 2.4;
-        this.floatDecay = 0.012;
-        this.wobbleAngle = 0;
-        this.startFloating();
+        this.floatCompo = 0.012;
+        this.angle = 0;
+        this.startFloating(); this.disappear();
     }
 
     startFloating() {
@@ -19,12 +21,35 @@ class ThrowableObject extends MoveableObject {
                 let incoming = this.x - world.character.x;
 
                 if (this.floatsUp() && incoming <= 660) {
-                    this.x += this.speedX + Math.sin(this.wobbleAngle) * 0.8;
+                    this.x += this.speedX + Math.sin(this.angle) * 0.8;
                     this.y -= this.floatSpeed;
-                    this.floatSpeed = Math.max(this.floatSpeed - this.floatDecay, 0.2);
-                    this.wobbleAngle += 0.1;
+                    this.floatSpeed = Math.max(this.floatSpeed - this.floatCompo, 0.2);
+                    this.angle += 0.1;
                 }
             }
         }, 1000 / 30);
+    }
+
+    disappear() {
+        this.elapsed = 0;
+
+        this.fadeBall = setInterval(() => {
+            this.elapsed += 100;
+
+            if (this.elapsed >= 2000 && !this.fadingStarted) {
+                this.startFading(); this.fadingStarted = true
+            }
+            if (this.elapsed >= 3000) {
+                clearInterval(this.fadeBall); this.cancel()
+            }
+        }, 100);
+    }
+
+    cancel() {
+        clearInterval(this.movement);
+
+        if (this.world) {
+            this.world.throwableObject = this.world.throwableObject.filter(obj => obj !== this);
+        }
     }
 }

@@ -137,7 +137,9 @@ class Character extends MoveableObject {
     }
 
     throwBubble() {
-        this.world.throwableObject.push(new ThrowableObject(this.world.character.x, this.world.character.y));
+        let bubble = new ThrowableObject(this.world.character.x, this.world.character.y);
+        bubble.world = this.world;
+        this.world.throwableObject.push(bubble);
     }
 
     poisonBuff() {

@@ -69,6 +69,10 @@ class MoveableObject extends DrawableObject {
     }
 
     pauseMove() {
+        if (this.fadeBall) {
+            clearInterval(this.fadeBall);
+        }
+
         clearInterval(this.movement);
         setTimeout(() => clearInterval(this.animation), 700)
     }

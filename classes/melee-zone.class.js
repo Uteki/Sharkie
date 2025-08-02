@@ -12,7 +12,7 @@ class MeleeZone extends MoveableObject {
 
         this.startFading();
 
-        setInterval(() => {
+        this.fadeBall = setInterval(() => {
             this.x = -200;
             this.y = 200;
         }, 1000)
