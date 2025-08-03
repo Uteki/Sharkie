@@ -11,4 +11,5 @@ h1 {
 canvas {
     margin-bottom: 89px;
     background-color: black;
+    display: block;
 }
