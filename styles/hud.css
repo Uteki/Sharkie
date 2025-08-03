@@ -1,0 +1,62 @@
+.overlay {
+    bottom: 10%;
+    position: absolute;
+    width: 100%;
+}
+
+.panel {
+    display: flex;
+    padding: 0 30px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 6px 0;
+}
+
+.dpad {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.dpad-middle-row {
+    display: flex;
+    gap: 4px;
+}
+
+.control-btn,
+.attack-btn {
+    background-color: rgba(158, 255, 251, 0.6);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+    color: #000;
+    cursor: pointer;
+    font-family: 'Lucky', sans-serif;
+    font-size: 16px;
+    height: 40px;
+    transition: transform 0.1s ease, box-shadow 0.2s, background-color 0.2s;
+    width: 40px;
+}
+
+.attack-btn {
+    background-color: rgba(202, 255, 158, 0.6);
+}
+
+.control-btn:active,
+.attack-btn:active {
+    background-color: rgba(158, 255, 251, 0.75);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    transform: translateY(2px);
+}
+
+.attack-btn:active {
+    background-color: rgba(202, 255, 158, 0.75);
+}

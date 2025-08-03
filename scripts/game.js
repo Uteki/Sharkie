@@ -133,13 +133,10 @@ function bindControls() {
         btnUp: 'UP', btnDown: 'DOWN',
         btnAtk: 'SPACE',
     };
-
     Object.keys(btnMap).forEach(id => {
         const key = btnMap[id];
         const btn = document.getElementById(id);
-
-        onTouch(btn, key);
-        onMouse(btn, key);
+        onTouch(btn, key); onMouse(btn, key)
     });
 }
 
