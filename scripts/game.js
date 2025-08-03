@@ -22,7 +22,7 @@ function showStartScreen(ctx, canvas) {
     img.onload = () => btnImg.src = "../assets/content/6.Botones/Start/2.png";
     img.src = "../assets/content/6.Botones/Instructions 2.png";
 
-    canvas.addEventListener("click", handleStart);
+    canvas.addEventListener("click", handleStart); canvas.addEventListener("touchstart", handleStart)
 }
 
 function handleStart(event) {
@@ -74,6 +74,7 @@ function startGame() {
     setTimeout(() => {
         world = new World(canvas, keyboard);
         world.character.x += 0.01;
+        bindControls();
     }, 600);
     canvas.addEventListener("click", startScreenBtn);
 }
@@ -125,3 +126,40 @@ document.addEventListener('keyup', function(e) {
             return keyboard.SPACE = false;
     }
 })
+
+function bindControls() {
+    const btnMap = {
+        btnLeft: 'LEFT', btnRight: 'RIGHT',
+        btnUp: 'UP', btnDown: 'DOWN',
+        btnAtk: 'SPACE',
+    };
+
+    Object.keys(btnMap).forEach(id => {
+        const key = btnMap[id];
+        const btn = document.getElementById(id);
+
+        onTouch(btn, key);
+        onMouse(btn, key);
+    });
+}
+
+function onTouch(btn, key) {
+    btn.addEventListener('touchstart', e => {
+        e.preventDefault(); keyboard[key] = true
+    });
+    btn.addEventListener('touchend', e => {
+        e.preventDefault(); keyboard[key] = false
+    });
+}
+
+function onMouse(btn, key) {
+    btn.addEventListener('mousedown', e => {
+        e.preventDefault(); keyboard[key] = true
+    });
+    btn.addEventListener('mouseup', e => {
+        e.preventDefault(); keyboard[key] = false
+    });
+    btn.addEventListener('mouseleave', e => {
+        e.preventDefault(); keyboard[key] = false
+    });
+}
