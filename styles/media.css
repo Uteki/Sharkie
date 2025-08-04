@@ -1,34 +1,12 @@
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-    }
-}
-
-@media only screen and (max-width: 480px) {
+@media (max-height: 650px) {
     h1 {
-        display: none;
-    }
-
-    canvas {
-        height: 100dvh !important;
-        margin: 0;
-    }
-}
-
-@media (hover: hover) {
-    .control-btn:hover,
-    .attack-btn:hover {
-        background-color: rgba(158, 255, 251, 0.75);
-    }
-
-    .attack-btn:hover {
-        background-color: rgba(202, 255, 158, 0.75);
+        text-shadow: none;
+        background: none;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .control-btn,
-    .attack-btn {
+    .control-btn, .attack-btn {
         font-size: 14px;
         height: 34px;
         width: 34px;
@@ -47,39 +25,29 @@
     }
 }
 
-#rotate-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background-color: rgba(0, 0, 0, 1);
-    color: white;
-    font-family: 'Arial Black', sans-serif;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 40px 20px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-}
-
-#rotate-overlay img {
-    width:180px;
-    height: 180px;
-    opacity: 0.9;
-}
-
-@media (orientation: portrait) and (max-width: 480px) {
-    #rotate-overlay {
-        display: flex;
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
     }
 }
 
-/*test*/
-@media (max-height: 584px) {
+@media only screen and (max-width: 480px) {
     h1 {
-        text-shadow: none;
-        background: none;
+        display: none;
+    }
+
+    canvas {
+        height: 100dvh !important;
+        margin: 0;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 1024px) {
+    canvas {
+        width: 100%;
+    }
+
+    #rotate-overlay {
+        display: flex;
     }
 }

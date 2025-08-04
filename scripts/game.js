@@ -103,7 +103,10 @@ function startGame() {
 }
 
 function isMobileDevice() {
-    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const ua = navigator.userAgent;
+    const isTouchMac = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    return isMobile || isTouchMac;
 }
 
 function checkDevice() {

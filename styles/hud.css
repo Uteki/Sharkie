@@ -1,3 +1,25 @@
+#rotate-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 40px 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#rotate-overlay img {
+    width:180px;
+    height: 180px;
+    opacity: 0.9;
+}
+
 .overlay {
     bottom: 10%;
     position: absolute;
@@ -31,8 +53,7 @@
     gap: 4px;
 }
 
-.control-btn,
-.attack-btn {
+.control-btn, .attack-btn {
     background-color: rgba(158, 255, 251, 0.6);
     border: none;
     border-radius: 10px;
@@ -54,8 +75,7 @@
     background-color: rgba(202, 255, 158, 0.6);
 }
 
-.control-btn:active,
-.attack-btn:active {
+.control-btn:active, .attack-btn:active {
     background-color: rgba(158, 255, 251, 0.75);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     transform: translateY(2px);
