@@ -46,3 +46,40 @@
         gap: 3px;
     }
 }
+
+#rotate-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 40px 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#rotate-overlay img {
+    width:180px;
+    height: 180px;
+    opacity: 0.9;
+}
+
+@media (orientation: portrait) and (max-width: 480px) {
+    #rotate-overlay {
+        display: flex;
+    }
+}
+
+/*test*/
+@media (max-height: 584px) {
+    h1 {
+        text-shadow: none;
+        background: none;
+    }
+}

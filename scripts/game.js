@@ -20,29 +20,53 @@ function showStartScreen(ctx, canvas) {
 
     btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg);
     img.onload = () => btnImg.src = "../assets/content/6.Botones/Start/2.png";
-    img.src = "../assets/content/6.Botones/Instructions 2.png";
+    img.src = isMobileDevice() ? "../assets/content/6.Botones/Instructions 1.png" : "../assets/content/6.Botones/Instructions 2.png";
+    canvas.addEventListener("click", handleStart);
+    canvas.addEventListener("mousemove", (e) => handleHover(e, startButton));
+    canvas.addEventListener("touchstart", handleStart);
+}
 
-    canvas.addEventListener("click", handleStart); canvas.addEventListener("touchstart", handleStart)
+function getScaledPos(event) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    return {
+        x: (event.clientX - rect.left) * scaleX,
+        y: (event.clientY - rect.top) * scaleY
+    };
 }
 
 function handleStart(event) {
    let handler = handleClick(event, startButton);
     if (handler) {
         canvas.removeEventListener("click", handleStart);
+        canvas.removeEventListener("mousemove", (e) => handleHover(e, startButton));
+        if (!isMobileDevice()) canvas.addEventListener("mousemove", (e) => handleHover(e, screenButton));
+        canvas.removeEventListener("touchstart", handleStart);
         document.removeEventListener("keydown", startEnter);
         startGame();
     }
 }
 
 function handleClick(event, button) {
-    const { clientX, clientY } = event;
-    const { left, top } = canvas.getBoundingClientRect();
-    const [x, y] = [clientX - left, clientY - top];
+    const { x, y } = getScaledPos(event);
+    return (
+        x >= button.x && x <= button.x + button.width &&
+        y >= button.y && y <= button.y + button.height
+    );
+}
 
-    if (x >= button.x && x <= button.x + button.width &&
-        y >= button.y && y <= button.y + button.height) {
-        return true;
-    }
+function handleHover(event, button) {
+    const { x, y } = getScaledPos(event);
+    canvas.style.cursor = onTop({ x, y }, button) ? 'pointer' : 'default';
+}
+
+function onTop({ x, y }, button) {
+    return (
+        x >= button.x && x <= button.x + button.width &&
+        y >= button.y && y <= button.y + button.height
+    );
 }
 
 function drawStartScreen(ctx, canvas, img, btnImg) {
@@ -52,7 +76,7 @@ function drawStartScreen(ctx, canvas, img, btnImg) {
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
     ctx.font = "24px Lucky";
-    ctx.fillText("Press ENTER to Start OR", canvas.width / 2.5, canvas.height - 80);
+    ctx.fillText(isMobileDevice() ? "Touch to start game" : "Press ENTER to Start OR", canvas.width / 2.5, canvas.height - 80);
     ctx.drawImage(btnImg, startButton.x, startButton.y, startButton.width, startButton.height);
 }
 
@@ -68,8 +92,7 @@ function showLoader(ctx) {
 
 function startGame() {
     const ctx = canvas.getContext("2d");
-    showLoader(ctx);
-    initLevel();
+    showLoader(ctx); initLevel()
 
     setTimeout(() => {
         world = new World(canvas, keyboard);
@@ -79,11 +102,20 @@ function startGame() {
     canvas.addEventListener("click", startScreenBtn);
 }
 
+function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function checkDevice() {
+    if (isMobileDevice()) {
+        document.querySelector('#controls').classList.remove('d-none');
+    }
+}
+
 function startScreenBtn(event) {
-    let test = handleClick(event, screenButton);
-    if (test) {
+    let btn = handleClick(event, screenButton);
+    if (btn) {
         canvas.requestFullscreen().then();
-        world.fullscreen.btnVisibility();
     }
 }
 
@@ -93,6 +125,43 @@ function startEnter(e) {
         document.removeEventListener("keydown", startEnter);
         startGame();
     }
+}
+
+function bindControls() {
+    const btnMap = {
+        btnLeft: 'LEFT', btnRight: 'RIGHT',
+        btnUp: 'UP', btnDown: 'DOWN',
+        btnAtk: 'SPACE',
+    };
+    Object.keys(btnMap).forEach(id => {
+        const key = btnMap[id];
+        const btn = document.getElementById(id);
+        onTouch(btn, key); onMouse(btn, key)
+    });
+}
+
+function onTouch(btn, key) {
+    btn.addEventListener('touchstart', e => {
+        if (e.cancelable) e.preventDefault();
+        keyboard[key] = true;
+    });
+
+    btn.addEventListener('touchend', e => {
+        if (e.cancelable) e.preventDefault();
+        keyboard[key] = false;
+    });
+}
+
+function onMouse(btn, key) {
+    btn.addEventListener('mousedown', e => {
+        e.preventDefault(); keyboard[key] = true
+    });
+    btn.addEventListener('mouseup', e => {
+        e.preventDefault(); keyboard[key] = false
+    });
+    btn.addEventListener('mouseleave', e => {
+        e.preventDefault(); keyboard[key] = false
+    });
 }
 
 document.addEventListener("keydown", startEnter);
@@ -126,37 +195,3 @@ document.addEventListener('keyup', function(e) {
             return keyboard.SPACE = false;
     }
 })
-
-function bindControls() {
-    const btnMap = {
-        btnLeft: 'LEFT', btnRight: 'RIGHT',
-        btnUp: 'UP', btnDown: 'DOWN',
-        btnAtk: 'SPACE',
-    };
-    Object.keys(btnMap).forEach(id => {
-        const key = btnMap[id];
-        const btn = document.getElementById(id);
-        onTouch(btn, key); onMouse(btn, key)
-    });
-}
-
-function onTouch(btn, key) {
-    btn.addEventListener('touchstart', e => {
-        e.preventDefault(); keyboard[key] = true
-    });
-    btn.addEventListener('touchend', e => {
-        e.preventDefault(); keyboard[key] = false
-    });
-}
-
-function onMouse(btn, key) {
-    btn.addEventListener('mousedown', e => {
-        e.preventDefault(); keyboard[key] = true
-    });
-    btn.addEventListener('mouseup', e => {
-        e.preventDefault(); keyboard[key] = false
-    });
-    btn.addEventListener('mouseleave', e => {
-        e.preventDefault(); keyboard[key] = false
-    });
-}

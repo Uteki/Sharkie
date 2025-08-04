@@ -16,6 +16,11 @@ class TryAgain extends DrawableObject {
         this.y = this.screenButton.y;
 
         this.tryAgain = this.tryAgain.bind(this);
+        this.hoverHandler = this.handleHover.bind(this);
+    }
+
+    handleHover(event) {
+        handleHover(event, this.screenButton);
     }
 
     tryAgain(event) {
@@ -25,6 +30,8 @@ class TryAgain extends DrawableObject {
             gameoverMusic.stop();
             document.removeEventListener("click", this.tryAgain);
             document.removeEventListener("keydown", this.world.restart);
+            canvas.removeEventListener("mousemove", this.hoverHandler);
+            canvas.style.cursor = 'default';
             startGame();
         }
     }

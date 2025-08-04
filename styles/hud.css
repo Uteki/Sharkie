@@ -46,6 +46,10 @@
     width: 40px;
 }
 
+.attack-pad {
+    align-self: flex-end;
+}
+
 .attack-btn {
     background-color: rgba(202, 255, 158, 0.6);
 }

@@ -29,11 +29,19 @@ class World {
         this.grewLevel();
         this.draw();
         this.setWorld();
-        this.run();
-        this.max();
+        this.run(); this.max()
+        this.fullscreen.btnVisibility();
 
         this.restart = this.restart.bind(this);
-        this.ost();
+        this.ost(); checkDevice(); this.teste();
+    }
+
+    teste() {
+        if (isMobileDevice()) {
+            document.querySelector("body").style.backgroundImage = "url('')";
+            document.querySelector("body").style.backgroundColor = "#121212";
+            document.querySelector("h1").style.textShadow = "none";
+        }
     }
 
     max() {
@@ -52,23 +60,40 @@ class World {
 
     run() {
         setInterval(() => {
+            // this.test(); //TODO
             this.checkCollisions();
             this.fullscreen.btnVisibility();
             this.end();
         }, 200)
     }
 
+    //TODO
+    test() {
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            console.log("Landscape mode");
+        } else {
+            console.log("Portrait mode");
+            if (isMobileDevice()) {console.log("test")}
+        }
+    }
+
     end() {
         if (this.character.energy === 0 && !this.isGameOver) {
-            this.stopMoment();
+            this.endOptions();
             gameoverMusic.play();
             this.isGameOver = true;
 
         } else if (world.level.foes[world.level.foes.length-1].energy === 0 && !this.isGameOn) {
-            this.stopMoment();
+            this.endOptions();
             gameonMusic.play();
             this.isGameOn = true;
         }
+    }
+
+    endOptions() {
+        this.stopMoment();
+        document.querySelector('#controls').classList.add('d-none')
+        canvas.addEventListener("mousemove", this.tryAgain.hoverHandler);
     }
 
     stopMoment() {
@@ -96,20 +121,23 @@ class World {
                 this.energyBar.setPercentage(this.character.energy, "HEALTH");
             }
 
-            this.throwableObject.forEach(x => {
-                if (foe.energy <= 0) return;
-
-                if (x.isColliding(foe) && x instanceof ThrowableObject) {
-                    foe.energy -= 25;
-                    if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
-                    this.throwableObject = this.throwableObject.filter(obj => obj !== x);
-                } else if (x.isColliding(foe) && x instanceof MeleeZone) {
-                    foe.energy -= 50;
-                    if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
-                    this.throwableObject = this.throwableObject.filter(obj => obj !== x);
-                }
-            })
+            this.collisionObject(foe);
         });
+    }
+
+    collisionObject(foe) {
+        this.throwableObject.forEach(x => {
+            if (foe.energy <= 0) return;
+            if (x.isColliding(foe) && x instanceof ThrowableObject) {
+                foe.energy -= 25;
+                if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
+                this.throwableObject = this.throwableObject.filter(obj => obj !== x);
+            } else if (x.isColliding(foe) && x instanceof MeleeZone) {
+                foe.energy -= 50;
+                if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
+                this.throwableObject = this.throwableObject.filter(obj => obj !== x);
+            }
+        })
     }
 
     collisionGatherObjects() {
@@ -174,7 +202,7 @@ class World {
         this.addToMap(this.energyBar);
         this.addToMap(this.poisonBar);
         this.addToMap(this.coinBar);
-        this.addToMap(this.fullscreen);
+        if (!isMobileDevice()) this.addToMap(this.fullscreen);
 
         if (this.isGameOver) {
             this.gameOverScreen();
@@ -215,8 +243,7 @@ class World {
         this.ctx.fillStyle = "#fff";
         this.ctx.font = "24px Lucky";
         this.ctx.textAlign = "center";
-        this.ctx.fillText(
-            "Press ENTER to try again",
+        this.ctx.fillText(isMobileDevice() ? "TOUCH to try again" : "Press ENTER to try again",
             this.canvas.width / 2 - 4,
             this.canvas.height / 2 + 100
         );
