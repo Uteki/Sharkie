@@ -67,7 +67,7 @@ class World {
         }, 200)
     }
 
-    //TODO
+    //TODO - make pause if change direction of switch device
     test() {
         if (window.matchMedia("(orientation: landscape)").matches) {
             console.log("Landscape mode");
