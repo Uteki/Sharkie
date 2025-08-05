@@ -116,8 +116,8 @@ class Foe extends MoveableObject {
                 this.img = this.imageCache[this.IMAGES_FORM[this.currentImage]];
                 this.currentImage++;
             } else {
-                clearInterval(this.formAnimation);
                 this.motion(this.IMAGES_ANGY);
+                clearInterval(this.formAnimation);
             }
         }, 75);
     }

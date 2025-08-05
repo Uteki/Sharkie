@@ -13,7 +13,7 @@ class Endboss extends MoveableObject {
         "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/7.png",
         "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/8.png",
         "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/9.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/10.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/10.png"
     ]
 
     IMAGES_FLOATING = [
@@ -29,14 +29,23 @@ class Endboss extends MoveableObject {
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/10.png",
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/11.png",
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/12.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/13.png",
+        "../assets/content/2.Enemy/3 Final Enemy/2.floating/13.png"
+    ]
+
+    IMAGES_ATTACK = [
+        "../assets/content/2.Enemy/3 Final Enemy/Attack/1.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Attack/2.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Attack/3.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Attack/4.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Attack/5.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Attack/6.png"
     ]
 
     IMAGES_HURT = [
         "../assets/content/2.Enemy/3 Final Enemy/Hurt/1.png",
         "../assets/content/2.Enemy/3 Final Enemy/Hurt/2.png",
         "../assets/content/2.Enemy/3 Final Enemy/Hurt/3.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Hurt/4.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Hurt/4.png"
     ]
 
     IMAGES_DEAD = [
@@ -45,7 +54,7 @@ class Endboss extends MoveableObject {
         "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 7.png",
         "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 8.png",
         "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 9.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png",
+        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png"
     ]
 
     constructor() {
