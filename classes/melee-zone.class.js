@@ -7,7 +7,7 @@ class MeleeZone extends MoveableObject {
     }
 
     slap(x, y) {
-        this.x = x + 215;
+        this.x = x + 175;
         this.y = y + 15;
 
         this.startFading();

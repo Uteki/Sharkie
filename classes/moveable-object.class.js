@@ -66,6 +66,8 @@ class MoveableObject extends DrawableObject {
     clearInters() {
         clearInterval(this.animation);
         clearInterval(this.movement);
+        this.animation = null;
+        this.movement = null;
     }
 
     pauseMove() {

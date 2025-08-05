@@ -3,6 +3,19 @@ class Endboss extends MoveableObject {
     height = 500;
     energy = 150;
 
+    IMAGES_INTRO = [
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/1.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/2.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/3.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/4.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/5.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/6.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/7.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/8.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/9.png",
+        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/10.png",
+    ]
+
     IMAGES_FLOATING = [
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/1.png",
         "../assets/content/2.Enemy/3 Final Enemy/2.floating/2.png",
@@ -36,8 +49,9 @@ class Endboss extends MoveableObject {
     ]
 
     constructor() {
-        super().loadImage(this.IMAGES_FLOATING[0]);
+        super().loadImage(this.IMAGES_INTRO[0]);
         this.loadImages(this.IMAGES_FLOATING);
+        this.loadImages(this.IMAGES_INTRO);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.x = 3050;
@@ -53,7 +67,8 @@ class Endboss extends MoveableObject {
 
     motion(images) {
         this.animation = setInterval(() => {
-            this.animate(images);
+            if (this.inZone) this.animate(images);
+            this.checkPhase(images);
         }, 100);
 
         this.movement = setInterval(() => {
@@ -61,19 +76,29 @@ class Endboss extends MoveableObject {
         }, 1000 / 60);
     }
 
-    animateHurt() {
-        this.animate(this.IMAGES_HURT);
-
-        setTimeout(() => {
-            if (this.energy <= 0) {
-                clearInterval(this.animation);
-                clearInterval(this.movement);
-                this.animateDeath();
+    checkPhase() {
+        if (this.world && this.world.character && !this.introduced) {
+            let incoming = this.x - this.world.character.x;
+            if (incoming <= this.width) {
+                backgroundMusic.pause(); whaleMusic.play()
+                this.introduced = true;
+                this.clearInters();
+                this.animateIntro();
             }
-        }, 500);
+        }
     }
 
-    animateDeath() {
-        this.animate(this.IMAGES_DEAD);
+    animateIntro() {
+        this.currentImage = 0;
+        this.introAnimation = setInterval(() => {
+            if (this.currentImage <= this.IMAGES_INTRO.length - 1) {
+                this.img = this.imageCache[this.IMAGES_INTRO[this.currentImage]];
+                this.currentImage++;
+            } else {
+                this.inZone = true;
+                this.motion(this.IMAGES_FLOATING);
+                clearInterval(this.introAnimation);
+            }
+        }, 75);
     }
 }

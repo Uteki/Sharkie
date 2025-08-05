@@ -97,7 +97,7 @@ class World {
     }
 
     stopMoment() {
-        backgroundMusic.pause(); sharkieMusic.stop()
+        backgroundMusic.pause(); whaleMusic.pause(); sharkieMusic.stop()
 
         this.character.pauseMove();
         this.level.foes.forEach((foe) => { foe.pauseMove() })
