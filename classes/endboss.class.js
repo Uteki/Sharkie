@@ -60,6 +60,7 @@ class Endboss extends MoveableObject {
     constructor() {
         super().loadImage(this.IMAGES_INTRO[0]);
         this.loadImages(this.IMAGES_FLOATING);
+        this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_INTRO);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
@@ -77,12 +78,43 @@ class Endboss extends MoveableObject {
     motion(images) {
         this.animation = setInterval(() => {
             if (this.inZone) this.animate(images);
-            this.checkPhase(images);
+            this.checkPhase();
         }, 100);
 
         this.movement = setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
+    }
+
+    animateHurt() {
+        if (this.energy <= 0) {
+            this.foeDead = true;
+            this.clearInters();
+            this.animateDeath();
+        }
+
+        this.animatePain();
+    }
+
+    animateDeath() {
+        this.currentImage = 0;
+        this.deathAnimation = setInterval(() => {
+            if (this.currentImage <= this.IMAGES_DEAD.length - 1) {
+                this.img = this.imageCache[this.IMAGES_DEAD[this.currentImage]];
+                this.currentImage++;
+            } else { clearInterval(this.deathAnimation) }
+        }, 100);
+    }
+
+    animatePain() {
+        this.currentImage = 0;
+        const maxPain = 6; let painCount = 0
+
+        this.pain = setInterval(() => {
+            painCount++;
+            this.animate(this.IMAGES_HURT)
+            if (painCount <= maxPain) { clearInterval(this.pain) }
+        }, 100);
     }
 
     checkPhase() {
