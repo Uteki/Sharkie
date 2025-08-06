@@ -1,10 +1,10 @@
 class GameOver extends DrawableObject {
     GAME_OVER = [
-        '../assets/content/6.Botones/Tittles/Game Over/Recurso 9.png',
-        '../assets/content/6.Botones/Tittles/Game Over/Recurso 10.png',
-        '../assets/content/6.Botones/Tittles/Game Over/Recurso 11.png',
-        '../assets/content/6.Botones/Tittles/Game Over/Recurso 12.png',
-        '../assets/content/6.Botones/Tittles/Game Over/Recurso 13.png'
+        getAssetPath('content/6.Botones/Tittles/Game Over/Recurso 9.png'),
+        getAssetPath('content/6.Botones/Tittles/Game Over/Recurso 10.png'),
+        getAssetPath('content/6.Botones/Tittles/Game Over/Recurso 11.png'),
+        getAssetPath('content/6.Botones/Tittles/Game Over/Recurso 12.png'),
+        getAssetPath('content/6.Botones/Tittles/Game Over/Recurso 13.png')
     ]
 
     constructor() {

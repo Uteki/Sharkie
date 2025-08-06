@@ -5,59 +5,59 @@ class Foe2 extends MoveableObject {
     energy;
 
     IMAGES_SWIM_LILA = [
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png`
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png')
     ];
 
     IMAGES_DEAD_LILA = [
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Lila/L1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Lila/L2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Lila/L3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Lila/L4.png`
-    ]
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Lila/L1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Lila/L2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Lila/L3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Lila/L4.png')
+    ];
 
     IMAGES_SWIM_YELLOW = [
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Yellow 2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Yellow 3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Regular damage/Yellow 4.png`
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Yellow 2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Yellow 3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Regular damage/Yellow 4.png')
     ];
 
     IMAGES_DEAD_YELLOW = [
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Yellow/y1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Yellow/y2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Yellow/y3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Yellow/y4.png`
-    ]
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Yellow/y1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Yellow/y2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Yellow/y3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Yellow/y4.png')
+    ];
 
     IMAGES_SWIM_GREEN = [
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Green 2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Green 3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Green 4.png`,
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Green 2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Green 3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Green 4.png')
     ];
 
     IMAGES_DEAD_GREEN = [
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/green/g1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/green/g2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/green/g3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/green/g4.png`
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/green/g1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/green/g2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/green/g3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/green/g4.png')
     ];
 
     IMAGES_SWIM_PINK = [
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 4.png`,
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Súper dangerous/Pink 4.png')
     ];
 
     IMAGES_DEAD_PINK = [
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Pink/P1.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Pink/P2.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Pink/P3.png`,
-        `../assets/content/2.Enemy/2 Jelly fish/Dead/Pink/P4.png`
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Pink/P1.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Pink/P2.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Pink/P3.png'),
+        getAssetPath('content/2.Enemy/2 Jelly fish/Dead/Pink/P4.png')
     ];
 
     constructor(version, spawn) {

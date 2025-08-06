@@ -9,79 +9,79 @@ class Character extends MoveableObject {
     spacePressed = false;
 
     IMAGES_IDLE = [
-        '../assets/content/1.Sharkie/1.IDLE/1.png',
-        '../assets/content/1.Sharkie/1.IDLE/2.png',
-        '../assets/content/1.Sharkie/1.IDLE/3.png',
-        '../assets/content/1.Sharkie/1.IDLE/4.png',
-        '../assets/content/1.Sharkie/1.IDLE/5.png',
-        '../assets/content/1.Sharkie/1.IDLE/6.png',
-        '../assets/content/1.Sharkie/1.IDLE/7.png',
-        '../assets/content/1.Sharkie/1.IDLE/8.png',
-        '../assets/content/1.Sharkie/1.IDLE/9.png',
-        '../assets/content/1.Sharkie/1.IDLE/10.png',
-        '../assets/content/1.Sharkie/1.IDLE/11.png',
-        '../assets/content/1.Sharkie/1.IDLE/12.png',
-        '../assets/content/1.Sharkie/1.IDLE/13.png',
-        '../assets/content/1.Sharkie/1.IDLE/14.png',
-        '../assets/content/1.Sharkie/1.IDLE/15.png',
-        '../assets/content/1.Sharkie/1.IDLE/16.png',
-        '../assets/content/1.Sharkie/1.IDLE/17.png',
-        '../assets/content/1.Sharkie/1.IDLE/18.png'
+        getAssetPath('content/1.Sharkie/1.IDLE/1.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/2.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/3.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/4.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/5.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/6.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/7.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/8.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/9.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/10.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/11.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/12.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/13.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/14.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/15.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/16.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/17.png'),
+        getAssetPath('content/1.Sharkie/1.IDLE/18.png')
     ];
 
     IMAGES_SWIM = [
-        '../assets/content/1.Sharkie/3.Swim/1.png',
-        '../assets/content/1.Sharkie/3.Swim/2.png',
-        '../assets/content/1.Sharkie/3.Swim/3.png',
-        '../assets/content/1.Sharkie/3.Swim/4.png',
-        '../assets/content/1.Sharkie/3.Swim/5.png',
-        '../assets/content/1.Sharkie/3.Swim/6.png'
-    ]
+        getAssetPath('content/1.Sharkie/3.Swim/1.png'),
+        getAssetPath('content/1.Sharkie/3.Swim/2.png'),
+        getAssetPath('content/1.Sharkie/3.Swim/3.png'),
+        getAssetPath('content/1.Sharkie/3.Swim/4.png'),
+        getAssetPath('content/1.Sharkie/3.Swim/5.png'),
+        getAssetPath('content/1.Sharkie/3.Swim/6.png')
+    ];
 
     IMAGES_RANGE = [
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
-        '../assets/content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png',
-    ]
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png')
+    ];
 
     IMAGES_MELEE = [
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/1.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/2.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/3.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/4.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/5.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/6.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/7.png',
-        '../assets/content/1.Sharkie/4.Attack/Fin slap/8.png',
-    ]
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/1.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/2.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/3.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/4.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/5.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/6.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/7.png'),
+        getAssetPath('content/1.Sharkie/4.Attack/Fin slap/8.png')
+    ];
 
     IMAGES_HURT = [
-        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/2.png',
-        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/3.png',
-        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/4.png',
-        '../assets/content/1.Sharkie/5.Hurt/1.Poisoned/5.png'
-    ]
+        getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/2.png'),
+        getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/3.png'),
+        getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/4.png'),
+        getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/5.png')
+    ];
 
     IMAGES_DEAD = [
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/1.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/2.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/3.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/4.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/5.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/6.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/7.png',
-        '../assets/content/1.Sharkie/6.dead/1.Poisoned/8.png'
-    ]
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/1.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/2.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/3.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/4.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/5.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/6.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/7.png'),
+        getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/8.png')
+    ];
 
     world;
 
     constructor() {
-        super().loadImage('../assets/content/1.Sharkie/1.IDLE/1.png');
+        super().loadImage('./assets/content/1.Sharkie/1.IDLE/1.png');
         this.currentFrame = "idle";
         this.y = 250;
 

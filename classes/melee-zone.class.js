@@ -1,6 +1,6 @@
 class MeleeZone extends MoveableObject {
     constructor(x, y) {
-        super().loadImage("../assets/content/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png");
+        super().loadImage(getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png'));
         this.width = 100;
         this.height = 100;
         this.slap(x, y);

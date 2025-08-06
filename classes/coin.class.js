@@ -3,10 +3,10 @@ class Coin extends MoveableObject {
     height = 50;
 
     COINING = [
-        '../assets/content/4. Marcadores/1. Coins/1.png',
-        '../assets/content/4. Marcadores/1. Coins/2.png',
-        '../assets/content/4. Marcadores/1. Coins/3.png',
-        '../assets/content/4. Marcadores/1. Coins/4.png',
+        getAssetPath('content/4. Marcadores/1. Coins/1.png'),
+        getAssetPath('content/4. Marcadores/1. Coins/2.png'),
+        getAssetPath('content/4. Marcadores/1. Coins/3.png'),
+        getAssetPath('content/4. Marcadores/1. Coins/4.png'),
     ]
 
     constructor(x, y) {

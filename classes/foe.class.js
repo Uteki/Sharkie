@@ -13,7 +13,7 @@ class Foe extends MoveableObject {
         let rng = Math.floor(Math.random() * 3) + 1;
         super().randomFish(rng);
 
-        this.loadImage(`../assets/content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png`);
+        this.loadImage(getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim1.png`));
         this.loadCombination();
 
         this.x = spawn + Math.floor(Math.random() * 500);
@@ -37,14 +37,14 @@ class Foe extends MoveableObject {
 
     randomFish(rng) {
         this.IMAGES_SWIM = [
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim1.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim2.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim3.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim4.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim5.png`
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim1.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim2.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim3.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim4.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/1.Swim/${rng}.swim5.png`)
         ];
 
         this.IMAGES_DEAD = [
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/4.DIE/${rng}.dead1.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/4.DIE/${rng}.dead2.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/4.DIE/${rng}.dead3.png`
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/4.DIE/${rng}.dead1.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/4.DIE/${rng}.dead2.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/4.DIE/${rng}.dead3.png`)
         ];
 
         this.contImages(rng);
@@ -52,15 +52,15 @@ class Foe extends MoveableObject {
 
     contImages(rng) {
         this.IMAGES_FORM = [
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition1.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition2.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition3.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition4.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition5.png`
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition1.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition2.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition3.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition4.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/2.transition/${rng}.transition5.png`)
         ];
 
         this.IMAGES_ANGY = [
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim1.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim2.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim3.png`, `../assets/content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim4.png`,
-            `../assets/content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim5.png`
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim1.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim2.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim3.png`), getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim4.png`),
+            getAssetPath(`content/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/${rng}.bubbleswim5.png`)
         ];
     }
 

@@ -1,5 +1,5 @@
 class TryAgain extends DrawableObject {
-    TRY_AGAIN = "../assets/content/6.Botones/Try again/Recurso 17.png";
+    TRY_AGAIN = getAssetPath('content/6.Botones/Try again/Recurso 17.png');
 
     screenButton = {
         x: 260, y: 240, width: 180, height: 40

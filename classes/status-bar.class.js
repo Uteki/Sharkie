@@ -1,29 +1,29 @@
 class StatusBar extends DrawableObject {
     POISON = [
-        '../assets/content/4. Marcadores/Purple/0_.png',
-        '../assets/content/4. Marcadores/Purple/20_.png',
-        '../assets/content/4. Marcadores/Purple/40_.png',
-        '../assets/content/4. Marcadores/Purple/60_.png',
-        '../assets/content/4. Marcadores/Purple/80_.png',
-        '../assets/content/4. Marcadores/Purple/100_.png',
+        './assets/content/4. Marcadores/Purple/0_.png',
+        './assets/content/4. Marcadores/Purple/20_.png',
+        './assets/content/4. Marcadores/Purple/40_.png',
+        './assets/content/4. Marcadores/Purple/60_.png',
+        './assets/content/4. Marcadores/Purple/80_.png',
+        './assets/content/4. Marcadores/Purple/100_.png',
     ]
 
     HEALTH = [
-        '../assets/content/4. Marcadores/green/Life/0.png',
-        '../assets/content/4. Marcadores/green/Life/20.png',
-        '../assets/content/4. Marcadores/green/Life/40.png',
-        '../assets/content/4. Marcadores/green/Life/60.png',
-        '../assets/content/4. Marcadores/green/Life/80.png',
-        '../assets/content/4. Marcadores/green/Life/100.png'
+        './assets/content/4. Marcadores/green/Life/0.png',
+        './assets/content/4. Marcadores/green/Life/20.png',
+        './assets/content/4. Marcadores/green/Life/40.png',
+        './assets/content/4. Marcadores/green/Life/60.png',
+        './assets/content/4. Marcadores/green/Life/80.png',
+        './assets/content/4. Marcadores/green/Life/100.png'
     ]
 
     COIN = [
-        '../assets/content/4. Marcadores/orange/0.png',
-        '../assets/content/4. Marcadores/orange/20.png',
-        '../assets/content/4. Marcadores/orange/40.png',
-        '../assets/content/4. Marcadores/orange/60.png',
-        '../assets/content/4. Marcadores/orange/80.png',
-        '../assets/content/4. Marcadores/orange/100.png',
+        './assets/content/4. Marcadores/orange/0.png',
+        './assets/content/4. Marcadores/orange/20.png',
+        './assets/content/4. Marcadores/orange/40.png',
+        './assets/content/4. Marcadores/orange/60.png',
+        './assets/content/4. Marcadores/orange/80.png',
+        './assets/content/4. Marcadores/orange/100.png',
     ]
 
     percentage = 100;

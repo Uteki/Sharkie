@@ -8,58 +8,58 @@ class Endboss extends MoveableObject {
     retreatingStep = true;
 
     IMAGES_INTRO = [
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/1.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/2.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/3.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/4.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/5.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/6.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/7.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/8.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/9.png",
-        "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/10.png"
-    ]
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/1.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/2.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/3.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/4.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/5.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/6.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/7.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/8.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/9.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/10.png')
+    ];
 
     IMAGES_FLOATING = [
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/1.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/2.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/3.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/4.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/5.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/6.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/7.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/8.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/9.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/10.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/11.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/12.png",
-        "../assets/content/2.Enemy/3 Final Enemy/2.floating/13.png"
-    ]
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/1.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/2.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/3.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/4.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/5.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/6.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/7.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/8.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/9.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/10.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/11.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/12.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/13.png')
+    ];
 
     IMAGES_ATTACK = [
-        "../assets/content/2.Enemy/3 Final Enemy/Attack/1.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Attack/2.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Attack/3.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Attack/4.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Attack/5.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Attack/6.png"
-    ]
+        getAssetPath('content/2.Enemy/3 Final Enemy/Attack/1.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Attack/2.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Attack/3.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Attack/4.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Attack/5.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Attack/6.png')
+    ];
 
     IMAGES_HURT = [
-        "../assets/content/2.Enemy/3 Final Enemy/Hurt/1.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Hurt/2.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Hurt/3.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Hurt/4.png"
-    ]
+        getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/1.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/2.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/3.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/4.png')
+    ];
 
     IMAGES_DEAD = [
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 6.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 7.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 8.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 9.png",
-        "../assets/content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png"
-    ]
+        getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 6.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 7.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 8.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 9.png'),
+        getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png')
+    ];
 
     constructor() {
         super().loadImage(this.IMAGES_INTRO[0]);

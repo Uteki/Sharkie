@@ -19,8 +19,8 @@ function showStartScreen(ctx, canvas) {
     const img = new Image(), btnImg = new Image();
 
     btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg);
-    img.onload = () => btnImg.src = "../assets/content/6.Botones/Start/2.png";
-    img.src = isMobileDevice() ? "../assets/content/6.Botones/Instructions 1.png" : "../assets/content/6.Botones/Instructions 2.png";
+    img.onload = () => btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
+    img.src = isMobileDevice() ? getAssetPath('content/6.Botones/Instructions 1.png') : getAssetPath('content/6.Botones/Instructions 2.png');
     canvas.addEventListener("click", handleStart);
     canvas.addEventListener("mousemove", (e) => handleHover(e, startButton));
     canvas.addEventListener("touchstart", handleStart);
@@ -98,8 +98,9 @@ function startGame() {
         world = new World(canvas, keyboard);
         world.character.x += 0.01;
         bindControls();
-    }, 600);
-    canvas.addEventListener("click", startScreenBtn);
+    }, IS_SERVER ? 900 : 600);
+
+    if (!isMobileDevice()) canvas.addEventListener("click", startScreenBtn);
 }
 
 function isMobileDevice() {

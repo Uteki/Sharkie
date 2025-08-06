@@ -2,7 +2,7 @@ class ThrowableObject extends MoveableObject {
     world;
 
     constructor(x, y) {
-        super().loadImage("../assets/content/1.Sharkie/4.Attack/Bubble trap/Bubble.png");
+        super().loadImage(getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/Bubble.png'));
         this.width = 50;
         this.height = 50;
         this.x = x + 125;

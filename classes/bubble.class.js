@@ -3,7 +3,7 @@ class Bubble extends MoveableObject {
     height = 90;
 
     constructor() {
-        super().loadImage(`../assets/content/4. Marcadores/Posión/Dark - Right.png`);
+        super().loadImage(getAssetPath(`content/4. Marcadores/Posión/Dark - Right.png`));
 
         this.applyGravity();
         this.x = 200 + Math.floor(Math.random() * 2000);
