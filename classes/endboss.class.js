@@ -3,6 +3,10 @@ class Endboss extends MoveableObject {
     height = 500;
     energy = 150;
 
+    lastAttack;
+    speedIncrease = 0;
+    retreatingStep = true;
+
     IMAGES_INTRO = [
         "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/1.png",
         "../assets/content/2.Enemy/3 Final Enemy/1.Introduce/2.png",
@@ -67,7 +71,6 @@ class Endboss extends MoveableObject {
         this.x = 3050;
         this.y = -75;
         this.speed = 0.5;
-
         this.motion(this.IMAGES_FLOATING);
     }
 
@@ -75,46 +78,20 @@ class Endboss extends MoveableObject {
         this.world = world;
     }
 
+    lastAttacked() {
+        return (new Date().getTime() - this.lastAttack) / 1000 < 1.7;
+    }
+
     motion(images) {
         this.animation = setInterval(() => {
             if (this.inZone) this.animate(images);
             this.checkPhase();
+            this.animateAttack();
         }, 100);
 
         this.movement = setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
-    }
-
-    animateHurt() {
-        if (this.energy <= 0) {
-            this.foeDead = true;
-            this.clearInters();
-            this.animateDeath();
-        }
-
-        this.animatePain();
-    }
-
-    animateDeath() {
-        this.currentImage = 0;
-        this.deathAnimation = setInterval(() => {
-            if (this.currentImage <= this.IMAGES_DEAD.length - 1) {
-                this.img = this.imageCache[this.IMAGES_DEAD[this.currentImage]];
-                this.currentImage++;
-            } else { clearInterval(this.deathAnimation) }
-        }, 100);
-    }
-
-    animatePain() {
-        this.currentImage = 0;
-        const maxPain = 6; let painCount = 0
-
-        this.pain = setInterval(() => {
-            painCount++;
-            this.animate(this.IMAGES_HURT)
-            if (painCount <= maxPain) { clearInterval(this.pain) }
-        }, 100);
     }
 
     checkPhase() {
@@ -129,6 +106,37 @@ class Endboss extends MoveableObject {
         }
     }
 
+    animateHurt() {
+        if (this.energy <= 0) {
+            this.foeDead = true;
+            this.clearInters();
+            this.animateDeath();
+        }
+
+        this.animatePain();
+    }
+
+    animatePain() {
+        this.currentImage = 0;
+        const maxPain = 6; let painCount = 0
+
+        this.pain = setInterval(() => {
+            painCount++;
+            this.animate(this.IMAGES_HURT)
+            if (painCount <= maxPain) { clearInterval(this.pain) }
+        }, 100);
+    }
+
+    animateDeath() {
+        this.currentImage = 0;
+        this.deathAnimation = setInterval(() => {
+            if (this.currentImage <= this.IMAGES_DEAD.length - 1) {
+                this.img = this.imageCache[this.IMAGES_DEAD[this.currentImage]];
+                this.currentImage++;
+            } else { clearInterval(this.deathAnimation) }
+        }, 100);
+    }
+
     animateIntro() {
         this.currentImage = 0;
         this.introAnimation = setInterval(() => {
@@ -141,5 +149,42 @@ class Endboss extends MoveableObject {
                 clearInterval(this.introAnimation);
             }
         }, 75);
+    }
+
+    animateAttack() {
+        if (!this.world || !this.world.character) return;
+        let distance = this.x - this.world.character.x;
+
+        this.farFromShark(distance);
+        this.nearShark(distance);
+    }
+
+    farFromShark(distance) {
+        if (distance > 300) {
+            if (!this.retreatingStep) {
+                this.speedIncrease += 0.5;
+                this.retreatingStep = true;
+            }
+            this.speed = 0.5 + this.speedIncrease;
+        } else {
+            this.speed = 1.5 + this.speedIncrease;
+            this.retreatingStep = false;
+        }
+    }
+
+    nearShark(distance) {
+        if (distance <= 200  && !this.lastAttacked()) {
+            this.currentImage = 0;
+            this.speed = 2.5 + this.speedIncrease;
+            this.lastAttack = new Date().getTime();
+            if (this.attackAnimation) { clearInterval(this.attackAnimation) }
+
+            this.attackAnimation = setInterval(() => {
+                if (this.currentImage <= this.IMAGES_ATTACK.length - 1) {
+                    this.img = this.imageCache[this.IMAGES_ATTACK[this.currentImage]];
+                    this.currentImage++;
+                } else { clearInterval(this.attackAnimation) }
+            }, 100);
+        }
     }
 }

@@ -277,7 +277,6 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.showCollision(this.ctx);
 
         if (mo.otherWay) {
             this.restoreDirection(mo)
