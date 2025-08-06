@@ -38,7 +38,7 @@ function getScaledPos(event) {
 }
 
 function handleStart(event) {
-   let handler = handleClick(event, startButton);
+    let handler = handleClick(event, startButton);
     if (handler) {
         canvas.removeEventListener("click", handleStart);
         canvas.removeEventListener("mousemove", (e) => handleHover(e, startButton));
@@ -98,7 +98,7 @@ function startGame() {
         world = new World(canvas, keyboard);
         world.character.x += 0.01;
         bindControls();
-    }, IS_SERVER ? 900 : 600);
+    }, IS_SERVER ? 1200 : 600);
 
     if (!isMobileDevice()) canvas.addEventListener("click", startScreenBtn);
 }

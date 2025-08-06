@@ -1,0 +1,42 @@
+#impressum {
+    display: block;
+}
+
+.impressum-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f8fb;
+    color: #333;
+    padding: 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.impressum-title {
+    background-color: #0077b6;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.impressum-section {
+    background: white;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.impressum-heading {
+    color: #0077b6;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.3rem;
+}
+
+.impressum-text {
+    font-size: 1rem;
+    line-height: 1.6;
+}

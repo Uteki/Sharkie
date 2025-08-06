@@ -3,6 +3,10 @@
         text-shadow: none;
         background: none;
     }
+
+    h3 {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -45,6 +49,10 @@
 @media (orientation: portrait) and (max-width: 1024px) {
     canvas {
         width: 100%;
+    }
+
+    h3 {
+        display: none;
     }
 
     #rotate-overlay {

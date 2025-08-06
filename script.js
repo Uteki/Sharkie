@@ -4,6 +4,21 @@ function init() {
     loadGame();
 }
 
+function onDom() {
+    contextButtons();
+    checkOrientation();
+}
+
+function contextButtons() {
+    ['btnUp', 'btnLeft', 'btnDown', 'btnRight', 'btnAtk'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('contextmenu', e => e.preventDefault());
+            btn.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+        }
+    });
+}
+
 function checkOrientation() {
     if (window.matchMedia('(orientation: landscape)').matches) {
         if (window.innerHeight < 480) {
@@ -14,8 +29,8 @@ function checkOrientation() {
 }
 
 function getAssetPath(relativePath) {
-    const basePath = IS_SERVER ? 'https://daniel-tran.developerakademie.net/assets/' : './assets/';
+    const basePath = IS_SERVER ? 'https://daniel-tran.developerakademie.net/Sharkie/assets/' : './assets/';
     return basePath + relativePath;
 }
 
-document.addEventListener('DOMContentLoaded', checkOrientation);
+document.addEventListener('DOMContentLoaded', onDom);

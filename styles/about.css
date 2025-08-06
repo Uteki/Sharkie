@@ -8,6 +8,23 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
+h3 {
+    text-shadow: 1px 1px 0  #531a82;
+    position: absolute;
+    cursor: pointer;
+    color: #7fffe0;
+    bottom: 30px;
+}
+
+h3 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a {
+    cursor: pointer;
+}
+
 canvas {
     margin-bottom: 89px;
     background-color: black;
