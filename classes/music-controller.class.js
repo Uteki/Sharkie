@@ -1,7 +1,7 @@
 class MusicController {
-    constructor(src, volume = 0.25) {
+    constructor(src, loop, volume = 0.25) {
         this.audio = new Audio(src);
-        this.audio.loop = true;
+        this.audio.loop = loop;
         this.audio.volume = volume;
     }
 

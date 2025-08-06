@@ -178,7 +178,7 @@ class Endboss extends MoveableObject {
             this.speed = 2.5 + this.speedIncrease;
             this.lastAttack = new Date().getTime();
             if (this.attackAnimation) { clearInterval(this.attackAnimation) }
-
+            biteAtkMusic.play();
             this.attackAnimation = setInterval(() => {
                 if (this.currentImage <= this.IMAGES_ATTACK.length - 1) {
                     this.img = this.imageCache[this.IMAGES_ATTACK[this.currentImage]];

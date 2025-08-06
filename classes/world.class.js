@@ -101,7 +101,7 @@ class World {
 
         this.character.pauseMove();
         this.level.foes.forEach((foe) => { foe.pauseMove() })
-        setTimeout(() => this.level.foes.forEach((foe) => { foe.pauseMove() }), 900)
+        setTimeout(() => this.level.foes.forEach((foe) => { foe.pauseMove() }), 700)
         this.level.gatherObjects.forEach((go) => { go.pauseMove() })
         this.throwableObject.forEach((blow) => { blow.pauseMove() })
 
