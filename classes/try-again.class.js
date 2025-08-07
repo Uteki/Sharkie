@@ -16,11 +16,6 @@ class TryAgain extends DrawableObject {
         this.y = this.screenButton.y;
 
         this.tryAgain = this.tryAgain.bind(this);
-        this.hoverHandlerAgain = this.handleHoverAgain.bind(this);
-    }
-
-    handleHoverAgain(event) {
-        handleHover(event, this.screenButton);
     }
 
     tryAgain(event) {

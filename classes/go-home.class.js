@@ -16,11 +16,6 @@ class GoHome extends DrawableObject {
         this.y = this.homeButton.y;
 
         this.goHome = this.goHome.bind(this);
-        this.hoverHandlerHome = this.handleHoverHome.bind(this);
-    }
-
-    handleHoverHome(event) {
-        handleHover(event, this.homeButton);
     }
 
     goHome(event) {
