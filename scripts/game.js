@@ -5,9 +5,11 @@ const screenButton = {
     x: 480, y: 400, width: 180, height: 40
 }
 
-let canvas;
 let world;
+let loaded;
+let canvas;
 
+let hoverStartBtn = null;
 let keyboard = new Keyboard();
 
 function loadGame() {
@@ -17,12 +19,13 @@ function loadGame() {
 
 function showStartScreen(ctx, canvas) {
     const img = new Image(), btnImg = new Image();
+    hoverStartBtn = (e) => handleHover(e, startButton);
 
     btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg);
     img.onload = () => btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
     img.src = isMobileDevice() ? getAssetPath('content/6.Botones/Instructions 1.png') : getAssetPath('content/6.Botones/Instructions 2.png');
     canvas.addEventListener("click", handleStart);
-    canvas.addEventListener("mousemove", (e) => handleHover(e, startButton));
+    canvas.addEventListener("mousemove", hoverStartBtn);
     canvas.addEventListener("touchstart", handleStart);
 }
 
@@ -41,7 +44,7 @@ function handleStart(event) {
     let handler = handleClick(event, startButton);
     if (handler) {
         canvas.removeEventListener("click", handleStart);
-        canvas.removeEventListener("mousemove", (e) => handleHover(e, startButton));
+        canvas.removeEventListener("mousemove", hoverStartBtn);
         if (!isMobileDevice()) canvas.addEventListener("mousemove", (e) => handleHover(e, screenButton));
         canvas.removeEventListener("touchstart", handleStart);
         document.removeEventListener("keydown", startEnter);
@@ -92,15 +95,22 @@ function showLoader(ctx) {
 
 function startGame() {
     const ctx = canvas.getContext("2d");
-    showLoader(ctx); initLevel()
+    if (!loaded) showLoader(ctx);
+    initLevel();
 
     setTimeout(() => {
         world = new World(canvas, keyboard);
         world.character.x += 0.01;
         bindControls();
-    }, IS_SERVER ? 1200 : 600);
+    }, delayStart());
 
+    loaded = true;
     if (!isMobileDevice()) canvas.addEventListener("click", startScreenBtn);
+}
+
+function delayStart() {
+    if (loaded) return;
+    return IS_SERVER ? 1200 : 600
 }
 
 function isMobileDevice() {
@@ -199,3 +209,16 @@ document.addEventListener('keyup', function(e) {
             return keyboard.SPACE = false;
     }
 })
+
+function goToHomeScreen() {
+    if (world) {
+        world.stop();
+        world = null;
+    }
+    const ctx = canvas.getContext('2d');
+    canvas.style.cursor = 'default';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    showStartScreen(ctx, canvas);
+    document.addEventListener("keydown", startEnter);
+    canvas.addEventListener("click", handleStart);
+}

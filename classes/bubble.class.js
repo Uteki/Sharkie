@@ -5,7 +5,6 @@ class Bubble extends MoveableObject {
     constructor() {
         super().loadImage(getAssetPath(`content/4. Marcadores/Posión/Dark - Right.png`));
 
-        this.applyGravity();
         this.x = 200 + Math.floor(Math.random() * 2000);
         this.y = 350;
     }

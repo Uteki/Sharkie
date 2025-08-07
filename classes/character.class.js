@@ -119,7 +119,11 @@ class Character extends MoveableObject {
     motionAnimation() {
         this.animation = setInterval(() => {
             const key = this.world.keyboard;
-            if (key.SPACE && !this.spacePressed && !this.lastAttacked()) { this.tetet(); return }
+            if (key.SPACE && !this.spacePressed && !this.lastAttacked()) {
+                if (this.world.isDead()) return;
+                this.atkPattern();
+                return;
+            }
             if (!key.SPACE) this.spacePressed = false;
             if (this.world.isDead()) return this.animateEnd(this.IMAGES_DEAD);
             if (this.world.isHurt()) { sharkieMusic.stop(); return this.animate(this.IMAGES_HURT) }
@@ -128,7 +132,7 @@ class Character extends MoveableObject {
         }, 100);
     }
 
-    tetet() {
+    atkPattern() {
         this.otherWay = false; this.spacePressed = true
         if (this.world.poison !== 0) {
             this.animateMelee(this.IMAGES_MELEE); slapAtkMusic.play();

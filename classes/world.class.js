@@ -5,6 +5,7 @@ class World {
     coinBar = new StatusBar(50, 95, "COIN", 0);
     fullscreen = new Fullscreen();
     tryAgain = new TryAgain();
+    goHome = new GoHome();
     youLose = new GameOver();
     youWin = new YouWin();
     throwableObject = [];
@@ -33,10 +34,10 @@ class World {
         this.fullscreen.btnVisibility();
 
         this.restart = this.restart.bind(this);
-        this.ost(); checkDevice(); this.teste();
+        this.ost(); checkDevice(); this.mobileDev();
     }
 
-    teste() {
+    mobileDev() {
         if (isMobileDevice()) {
             document.querySelector("body").style.backgroundImage = "url('')";
             document.querySelector("body").style.backgroundColor = "#121212";
@@ -59,7 +60,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        this.gump = setInterval(() => {
             // this.test(); //TODO
             this.checkCollisions();
             this.fullscreen.btnVisibility();
@@ -83,7 +84,7 @@ class World {
             gameoverMusic.play();
             this.isGameOver = true;
 
-        } else if (world.level.foes[world.level.foes.length-1].energy === 0 && !this.isGameOn) {
+        } else if (this.level.foes[this.level.foes.length-1].energy === 0 && !this.isGameOn) {
             this.endOptions();
             gameonMusic.play();
             this.isGameOn = true;
@@ -93,7 +94,8 @@ class World {
     endOptions() {
         this.stopMoment();
         document.querySelector('#controls').classList.add('d-none')
-        canvas.addEventListener("mousemove", this.tryAgain.hoverHandler);
+        canvas.addEventListener("mousemove", this.tryAgain.hoverHandlerAgain);
+        canvas.addEventListener("mousemove", this.goHome.hoverHandlerHome);
     }
 
     stopMoment() {
@@ -107,6 +109,7 @@ class World {
 
         document.addEventListener("keydown", this.restart);
         document.addEventListener("click", this.tryAgain.tryAgain);
+        document.addEventListener("click", this.goHome.goHome);
     }
 
     checkCollisions() {
@@ -126,6 +129,7 @@ class World {
     }
 
     collisionObject(foe) {
+        if (this.isDead()) return;
         this.throwableObject.forEach(x => {
             if (foe.energy <= 0) return;
             if (x.isColliding(foe) && x instanceof ThrowableObject) {
@@ -180,8 +184,16 @@ class World {
     setWorld() {
         this.character.world = this;
         this.tryAgain.world = this;
+        this.goHome.world = this;
 
         this.level.foes.forEach(foe => foe.setWorld(this))
+
+        this.level.gatherObjects.forEach(obj => {
+            if (obj instanceof Bubble) {
+                obj.world = this;
+                obj.applyGravity();
+            }
+        });
     }
 
     draw() {
@@ -194,8 +206,33 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
         this.drawUi();
-        let self = this;
-        requestAnimationFrame(() => { self.draw() });
+        this.frameId = requestAnimationFrame(() => this.draw());
+    }
+
+    stop() {
+        this.cleanup();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    cleanup() {
+        this.cleanupRemovers();
+        this.cleanupStoppers();
+        clearInterval(this.gump);
+        cancelAnimationFrame(this.frameId);
+    }
+
+    cleanupRemovers() {
+        document.removeEventListener("click", this.tryAgain.tryAgain);
+        document.removeEventListener("click", this.goHome.goHome);
+        document.removeEventListener("keydown", this.restart);
+        canvas.removeEventListener("mousemove", this.tryAgain.hoverHandlerAgain);
+        canvas.removeEventListener("mousemove", this.goHome.hoverHandlerHome);
+    }
+
+    cleanupStoppers() {
+        backgroundMusic.stop?.();
+        gameoverMusic.stop?.();
+        gameonMusic.stop?.();
     }
 
     drawUi() {
@@ -215,8 +252,7 @@ class World {
         if (event.key === "Enter") {
             gameonMusic.stop();
             gameoverMusic.stop();
-            document.removeEventListener("keydown", this.restart);
-            document.removeEventListener("click", this.tryAgain.tryAgain);
+            this.cleanup();
             startGame();
         }
     }
@@ -240,6 +276,7 @@ class World {
 
     tryMore() {
         this.addToMap(this.tryAgain);
+        this.addToMap(this.goHome);
         this.ctx.fillStyle = "#fff";
         this.ctx.font = "24px Lucky";
         this.ctx.textAlign = "center";
