@@ -61,21 +61,10 @@ class World {
 
     run() {
         this.gump = setInterval(() => {
-            // this.test(); //TODO
             this.checkCollisions();
             this.fullscreen.btnVisibility();
             this.end();
         }, 200)
-    }
-
-    //TODO - make pause if change direction of switch device
-    test() {
-        if (window.matchMedia("(orientation: landscape)").matches) {
-            console.log("Landscape mode");
-        } else {
-            console.log("Portrait mode");
-            if (isMobileDevice()) {console.log("test")}
-        }
     }
 
     end() {
@@ -94,8 +83,15 @@ class World {
     endOptions() {
         this.stopMoment();
         document.querySelector('#controls').classList.add('d-none')
-        canvas.addEventListener("mousemove", this.tryAgain.hoverHandlerAgain);
-        canvas.addEventListener("mousemove", this.goHome.hoverHandlerHome);
+
+        this.hoverHandler = (event) => {
+            let hovering = false;
+            if (handleClick(event, this.tryAgain.screenButton)) { hovering = true }
+            else if (handleClick(event, this.goHome.homeButton)) { hovering = true }
+            canvas.style.cursor = hovering ? 'pointer' : 'default';
+        };
+
+        canvas.addEventListener("mousemove", this.hoverHandler);
     }
 
     stopMoment() {
@@ -190,8 +186,7 @@ class World {
 
         this.level.gatherObjects.forEach(obj => {
             if (obj instanceof Bubble) {
-                obj.world = this;
-                obj.applyGravity();
+                obj.world = this; obj.applyGravity()
             }
         });
     }
@@ -225,8 +220,11 @@ class World {
         document.removeEventListener("click", this.tryAgain.tryAgain);
         document.removeEventListener("click", this.goHome.goHome);
         document.removeEventListener("keydown", this.restart);
-        canvas.removeEventListener("mousemove", this.tryAgain.hoverHandlerAgain);
-        canvas.removeEventListener("mousemove", this.goHome.hoverHandlerHome);
+
+        if (this.hoverHandler) {
+            canvas.removeEventListener("mousemove", this.hoverHandler);
+            this.hoverHandler = null;
+        }
     }
 
     cleanupStoppers() {
@@ -250,8 +248,7 @@ class World {
 
     restart(event) {
         if (event.key === "Enter") {
-            gameonMusic.stop();
-            gameoverMusic.stop();
+            canvas.removeEventListener("mousemove", this.hoverHandler);
             this.cleanup();
             startGame();
         }

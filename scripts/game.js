@@ -178,6 +178,19 @@ function onMouse(btn, key) {
     });
 }
 
+function goToHomeScreen() {
+    if (world) {
+        world.stop();
+        world = null;
+    }
+    const ctx = canvas.getContext('2d');
+    canvas.style.cursor = 'default';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    showStartScreen(ctx, canvas);
+    document.addEventListener("keydown", startEnter);
+    canvas.addEventListener("click", handleStart);
+}
+
 document.addEventListener("keydown", startEnter);
 
 document.addEventListener('keydown', function(e) {
@@ -209,16 +222,3 @@ document.addEventListener('keyup', function(e) {
             return keyboard.SPACE = false;
     }
 })
-
-function goToHomeScreen() {
-    if (world) {
-        world.stop();
-        world = null;
-    }
-    const ctx = canvas.getContext('2d');
-    canvas.style.cursor = 'default';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    showStartScreen(ctx, canvas);
-    document.addEventListener("keydown", startEnter);
-    canvas.addEventListener("click", handleStart);
-}
