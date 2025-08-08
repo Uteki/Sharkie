@@ -2,7 +2,7 @@ class TryAgain extends DrawableObject {
     TRY_AGAIN = getAssetPath('content/6.Botones/Try again/Recurso 17.png');
 
     againButton = {
-        x: 260, y: 240, width: 180, height: 40
+        x: 260, y: 205, width: 180, height: 40
     }
 
     world;

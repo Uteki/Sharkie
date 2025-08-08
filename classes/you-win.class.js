@@ -7,6 +7,6 @@ class YouWin extends DrawableObject {
         this.width = canvas.width;
         this.height = canvas.height;
         this.x = 0;
-        this.y = -100;
+        this.y = -135;
     }
 }

@@ -292,7 +292,7 @@ class World {
         this.ctx.textAlign = "center";
         this.ctx.fillText(isMobileDevice() ? "TOUCH to try again" : "Press ENTER to try again",
             this.canvas.width / 2 - 4,
-            this.canvas.height / 2 + 100
+            this.canvas.height / 2 + 65
         );
     }
 

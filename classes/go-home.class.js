@@ -2,7 +2,7 @@ class GoHome extends DrawableObject {
     GO_HOME = getAssetPath('global/png/home.png');
 
     homeButton = {
-        x: 265, y: 340, width: 180, height: 105
+        x: 265, y: 305, width: 180, height: 105
     }
 
     world;

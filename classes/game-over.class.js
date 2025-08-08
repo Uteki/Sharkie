@@ -14,7 +14,7 @@ class GameOver extends DrawableObject {
         this.width = 330;
         this.height = 60;
         this.x = 195;
-        this.y = 140;
+        this.y = 105;
 
         this.motion(this.GAME_OVER);
     }
