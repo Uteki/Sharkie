@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    soundSetter = new SoundSetter();
     poisonBar = new StatusBar(50, 55, "POISON", 0);
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
     coinBar = new StatusBar(50, 95, "COIN", 0);
@@ -31,10 +32,15 @@ class World {
         this.draw();
         this.setWorld();
         this.run(); this.max()
-        this.fullscreen.btnVisibility();
+        this.gameplayBtn();
 
         this.restart = this.restart.bind(this);
         this.ost(); checkDevice(); this.mobileDev();
+    }
+
+    gameplayBtn() {
+        this.fullscreen.btnVisibility();
+        document.addEventListener("click", this.soundSetter.soundSetter);
     }
 
     mobileDev() {
@@ -82,16 +88,23 @@ class World {
 
     endOptions() {
         this.stopMoment();
-        document.querySelector('#controls').classList.add('d-none')
+        document.querySelector('#controls').classList.add('d-none');
 
         this.hoverHandler = (event) => {
-            let hovering = false;
-            if (handleClick(event, this.tryAgain.screenButton)) { hovering = true }
-            else if (handleClick(event, this.goHome.homeButton)) { hovering = true }
+            const hovering = this.hoverClause(event);
             canvas.style.cursor = hovering ? 'pointer' : 'default';
         };
 
         canvas.addEventListener("mousemove", this.hoverHandler);
+    }
+
+    hoverClause(event) {
+        return (
+            handleClick(event, this.soundSetter.volumeButton) ||
+            handleClick(event, this.tryAgain.againButton) ||
+            handleClick(event, this.goHome.homeButton) ||
+            handleClick(event, screenButton)
+        );
     }
 
     stopMoment() {
@@ -217,6 +230,7 @@ class World {
     }
 
     cleanupRemovers() {
+        document.removeEventListener("click", this.soundSetter.soundSetter);
         document.removeEventListener("click", this.tryAgain.tryAgain);
         document.removeEventListener("click", this.goHome.goHome);
         document.removeEventListener("keydown", this.restart);
@@ -237,13 +251,12 @@ class World {
         this.addToMap(this.energyBar);
         this.addToMap(this.poisonBar);
         this.addToMap(this.coinBar);
-        if (!isMobileDevice()) this.addToMap(this.fullscreen);
 
-        if (this.isGameOver) {
-            this.gameOverScreen();
-        } else if (this.isGameOn) {
-            this.gameOnScreen();
-        }
+        if (this.isGameOver) { this.gameOverScreen() }
+        else if (this.isGameOn) { this.gameOnScreen() }
+
+        this.addToMap(this.soundSetter);
+        if (!isMobileDevice()) this.addToMap(this.fullscreen);
     }
 
     restart(event) {

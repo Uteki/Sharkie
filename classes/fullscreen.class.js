@@ -2,10 +2,10 @@ class Fullscreen extends DrawableObject {
     constructor() {
         super().loadImage(getAssetPath('content/6.Botones/Full Screen/Mesa de trabajo 7.png'));
 
-        this.width = 180;
-        this.height = 40;
-        this.x = 480;
-        this.y = 400;
+        this.width = screenButton.width;
+        this.height = screenButton.height;
+        this.x = screenButton.x;
+        this.y = screenButton.y;
     }
 
     btnVisibility() {
