@@ -9,8 +9,13 @@ let world;
 let loaded;
 let canvas;
 
+let img;
+let btnImg;
+let muteImg;
+
 let hoverStartBtn = null;
 let keyboard = new Keyboard();
+let soundSet = new SoundSetter();
 
 function loadGame() {
     canvas = document.querySelector('canvas');
@@ -18,12 +23,24 @@ function loadGame() {
 }
 
 function showStartScreen(ctx, canvas) {
-    const img = new Image(), btnImg = new Image();
-    hoverStartBtn = (e) => handleHover(e, startButton);
+    document.addEventListener('click', handleVolumeClick);
 
-    btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg);
-    img.onload = () => btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
+    createImg();
+    hoverStartBtn = (e) => handleHover(e, startButton);
+    muteImg.src = soundSet.sendState();
     img.src = isMobileDevice() ? getAssetPath('content/6.Botones/Instructions 1.png') : getAssetPath('content/6.Botones/Instructions 2.png');
+    img.onload = () => btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
+    btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg, muteImg);
+    startEvents();
+}
+
+function createImg() {
+    img = new Image();
+    btnImg = new Image();
+    muteImg = new Image();
+}
+
+function startEvents() {
     canvas.addEventListener("click", handleStart);
     canvas.addEventListener("mousemove", hoverStartBtn);
     canvas.addEventListener("touchstart", handleStart);
@@ -72,7 +89,7 @@ function onTop({ x, y }, button) {
     );
 }
 
-function drawStartScreen(ctx, canvas, img, btnImg) {
+function drawStartScreen(ctx, canvas, img, btnImg, muteImg) {
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, (canvas.width - 500) / 2, 40, 500, 300);
@@ -81,6 +98,7 @@ function drawStartScreen(ctx, canvas, img, btnImg) {
     ctx.font = "24px Lucky";
     ctx.fillText(isMobileDevice() ? "Touch to start game" : "Press ENTER to Start OR", canvas.width / 2.5, canvas.height - 80);
     ctx.drawImage(btnImg, startButton.x, startButton.y, startButton.width, startButton.height);
+    ctx.drawImage(muteImg, soundSet.volumeButton.x, soundSet.volumeButton.y, soundSet.volumeButton.width, soundSet.volumeButton.height);
 }
 
 function showLoader(ctx) {
@@ -94,10 +112,11 @@ function showLoader(ctx) {
 }
 
 function startGame() {
+    document.removeEventListener('click', handleVolumeClick);
     const ctx = canvas.getContext("2d");
     if (!loaded) showLoader(ctx);
-    initLevel();
 
+    initLevel();
     setTimeout(() => {
         world = new World(canvas, keyboard);
         world.character.x += 0.01;
@@ -189,6 +208,14 @@ function goToHomeScreen() {
     showStartScreen(ctx, canvas);
     document.addEventListener("keydown", startEnter);
     canvas.addEventListener("click", handleStart);
+}
+
+function handleVolumeClick(event) {
+    if (handleClick(event, soundSet.volumeButton)) {
+        soundSet.toggle();
+        muteImg.onload = () => drawStartScreen(canvas.getContext("2d"), canvas, img, btnImg, muteImg);
+        muteImg.src = soundSet.sendState();
+    }
 }
 
 document.addEventListener("keydown", startEnter);

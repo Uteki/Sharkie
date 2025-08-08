@@ -18,6 +18,10 @@ class SoundSetter extends DrawableObject {
         this.soundSetter = this.soundSetter.bind(this);
     }
 
+    sendState() {
+        return MusicController.isMuted ? this.MUTE : this.NON_MUTE;;
+    }
+
     updateState() {
         const path = MusicController.isMuted ? this.MUTE : this.NON_MUTE;
         this.loadImage(path);
