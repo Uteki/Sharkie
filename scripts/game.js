@@ -13,7 +13,6 @@ let img;
 let btnImg;
 let muteImg;
 
-let hoverStartBtn = null;
 let keyboard = new Keyboard();
 let soundSet = new SoundSetter();
 
@@ -26,7 +25,6 @@ function showStartScreen(ctx, canvas) {
     document.addEventListener('click', handleVolumeClick);
 
     createImg();
-    hoverStartBtn = (e) => handleHover(e, startButton);
     muteImg.src = soundSet.sendState();
     img.src = isMobileDevice() ? getAssetPath('content/6.Botones/Instructions 1.png') : getAssetPath('content/6.Botones/Instructions 2.png');
     img.onload = () => btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
@@ -42,7 +40,7 @@ function createImg() {
 
 function startEvents() {
     canvas.addEventListener("click", handleStart);
-    canvas.addEventListener("mousemove", hoverStartBtn);
+    canvas.addEventListener("mousemove", handleHoverStart);
     canvas.addEventListener("touchstart", handleStart);
 }
 
@@ -61,7 +59,7 @@ function handleStart(event) {
     let handler = handleClick(event, startButton);
     if (handler) {
         canvas.removeEventListener("click", handleStart);
-        canvas.removeEventListener("mousemove", hoverStartBtn);
+        canvas.removeEventListener("mousemove", handleHoverStart);
         if (!isMobileDevice()) canvas.addEventListener("mousemove", (e) => handleHover(e, screenButton));
         canvas.removeEventListener("touchstart", handleStart);
         document.removeEventListener("keydown", startEnter);
@@ -80,6 +78,13 @@ function handleClick(event, button) {
 function handleHover(event, button) {
     const { x, y } = getScaledPos(event);
     canvas.style.cursor = onTop({ x, y }, button) ? 'pointer' : 'default';
+}
+
+function handleHoverStart(event) {
+    const { x, y } = getScaledPos(event);
+    const overStart = onTop({ x, y }, startButton);
+    const overVolume = onTop({ x, y }, soundSet.volumeButton);
+    canvas.style.cursor = (overStart || overVolume) ? 'pointer' : 'default';
 }
 
 function onTop({ x, y }, button) {
