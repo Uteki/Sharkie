@@ -1,16 +1,36 @@
 class MoveableObject extends DrawableObject {
+    /** @type {number} Horizontal movement speed */
     speed = 0.15;
+
+    /** @type {number} Vertical speed (used for jumping/falling) */
     speedY = -1;
+
+    /** @type {number} Acceleration applied to vertical speed */
     acceleration = -0.05;
+
+    /** @type {boolean} If true, object is facing the opposite direction */
     otherWay = false;
+
+    /** @type {boolean} Indicates if foe is dead */
     foeDead = false;
+
+    /** @type {number} Current energy or health */
     energy = 100;
 
+    /**
+     * Checks if this object is colliding with another movable object.
+     * @param {MoveableObject} mo - The other movable object to check collision against.
+     * @returns {boolean} True if colliding, false otherwise.
+     */
     isColliding(mo) {
         return this.x + this.width > mo.x && this.y + this.height
-        > mo.y && this.x < mo.x && this.y < mo.y + mo.height
+            > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
     }
 
+    /**
+     * Animates the object by cycling through images in the bundle.
+     * @param {string[]} bundle - Array of image paths.
+     */
     animate(bundle) {
         let i = this.currentImage % bundle.length;
         let path = bundle[i];
@@ -18,22 +38,30 @@ class MoveableObject extends DrawableObject {
         this.currentImage++;
     }
 
+    /** Moves the object up by its speed */
     moveUp() {
         this.y -= this.speed;
     }
 
+    /** Moves the object down by its speed */
     moveDown() {
         this.y += this.speed;
     }
 
+    /** Moves the object right by its speed */
     moveRight() {
         this.x += this.speed;
     }
 
+    /** Moves the object left by its speed */
     moveLeft() {
         this.x -= this.speed;
     }
 
+    /**
+     * Starts fading the object by decreasing opacity until it disappears.
+     * Removes from foe list if instance of Foe or Foe2.
+     */
     startFading() {
         this.fadeInterval = setInterval(() => {
             if (this.opacity > 0) {
@@ -41,11 +69,15 @@ class MoveableObject extends DrawableObject {
             } else {
                 this.opacity = 0;
                 clearInterval(this.fadeInterval);
-                if (this instanceof Foe || this instanceof Foe2 ) this.world.level.foes = this.world.level.foes.filter(f => f !== this);
+                if (this instanceof Foe || this instanceof Foe2)
+                    this.world.level.foes = this.world.level.foes.filter(f => f !== this);
             }
         }, 50);
     }
 
+    /**
+     * Applies gravity effect on the object, making it float upwards with acceleration.
+     */
     applyGravity() {
         this.clearInters();
 
@@ -61,11 +93,15 @@ class MoveableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
-
+    /**
+     * Determines if the object should float up.
+     * @returns {number} The current y position.
+     */
     floatsUp() {
         return this.y;
     }
 
+    /** Clears active intervals for animation and movement */
     clearInters() {
         clearInterval(this.animation);
         clearInterval(this.movement);
@@ -73,12 +109,16 @@ class MoveableObject extends DrawableObject {
         this.movement = null;
     }
 
+    /**
+     * Pauses movement and animation intervals.
+     * Clears fadeBall interval if active.
+     */
     pauseMove() {
         if (this.fadeBall) {
             clearInterval(this.fadeBall);
         }
 
         clearInterval(this.movement);
-        setTimeout(() => clearInterval(this.animation), 700)
+        setTimeout(() => clearInterval(this.animation), 700);
     }
 }

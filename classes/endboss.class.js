@@ -1,12 +1,27 @@
+/**
+ * Represents the final boss enemy with multiple animations and attack phases.
+ * Extends MoveableObject for movement and animation capabilities.
+ */
 class Endboss extends MoveableObject {
+    /** @type {number} */
     width = 505;
+
+    /** @type {number} */
     height = 500;
+
+    /** @type {number} */
     energy = 150;
 
+    /** @type {number|undefined} - Timestamp of last attack */
     lastAttack;
+
+    /** @type {number} - Speed increment during retreat */
     speedIncrease = 0;
+
+    /** @type {boolean} - Flag for retreating step state */
     retreatingStep = true;
 
+    /** @type {string[]} - Paths to intro animation images */
     IMAGES_INTRO = [
         getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/1.png'),
         getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/2.png'),
@@ -20,6 +35,7 @@ class Endboss extends MoveableObject {
         getAssetPath('content/2.Enemy/3 Final Enemy/1.Introduce/10.png')
     ];
 
+    /** @type {string[]} - Paths to floating animation images */
     IMAGES_FLOATING = [
         getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/1.png'),
         getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/2.png'),
@@ -36,6 +52,7 @@ class Endboss extends MoveableObject {
         getAssetPath('content/2.Enemy/3 Final Enemy/2.floating/13.png')
     ];
 
+    /** @type {string[]} - Paths to attack animation images */
     IMAGES_ATTACK = [
         getAssetPath('content/2.Enemy/3 Final Enemy/Attack/1.png'),
         getAssetPath('content/2.Enemy/3 Final Enemy/Attack/2.png'),
@@ -45,6 +62,7 @@ class Endboss extends MoveableObject {
         getAssetPath('content/2.Enemy/3 Final Enemy/Attack/6.png')
     ];
 
+    /** @type {string[]} - Paths to hurt animation images */
     IMAGES_HURT = [
         getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/1.png'),
         getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/2.png'),
@@ -52,6 +70,7 @@ class Endboss extends MoveableObject {
         getAssetPath('content/2.Enemy/3 Final Enemy/Hurt/4.png')
     ];
 
+    /** @type {string[]} - Paths to death animation images */
     IMAGES_DEAD = [
         getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png'),
         getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 6.png'),
@@ -61,6 +80,9 @@ class Endboss extends MoveableObject {
         getAssetPath('content/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png')
     ];
 
+    /**
+     * Creates an Endboss instance and initializes images and position.
+     */
     constructor() {
         super().loadImage(this.IMAGES_INTRO[0]);
         this.loadImages(this.IMAGES_FLOATING);
@@ -74,14 +96,26 @@ class Endboss extends MoveableObject {
         this.motion(this.IMAGES_FLOATING);
     }
 
+    /**
+     * Sets the world instance for this endboss.
+     * @param {object} world - The game world.
+     */
     setWorld(world) {
         this.world = world;
     }
 
+    /**
+     * Checks if the last attack happened less than 1.7 seconds ago.
+     * @returns {boolean} True if last attack was within 1.7 seconds.
+     */
     lastAttacked() {
         return (new Date().getTime() - this.lastAttack) / 1000 < 1.7;
     }
 
+    /**
+     * Starts animation and movement intervals for the boss.
+     * @param {string[]} images - Array of image paths for animation.
+     */
     motion(images) {
         this.animation = setInterval(() => {
             if (this.inZone) this.animate(images);
@@ -94,6 +128,9 @@ class Endboss extends MoveableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * Checks if the boss should enter the battle phase.
+     */
     checkPhase() {
         if (this.world && this.world.character && !this.introduced) {
             let incoming = this.x - this.world.character.x;
@@ -106,6 +143,9 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Handles hurt animation and death triggering.
+     */
     animateHurt() {
         if (this.energy <= 0) {
             this.foeDead = true;
@@ -116,6 +156,9 @@ class Endboss extends MoveableObject {
         this.animatePain();
     }
 
+    /**
+     * Animates the pain sequence.
+     */
     animatePain() {
         this.currentImage = 0;
         const maxPain = 6; let painCount = 0
@@ -127,6 +170,9 @@ class Endboss extends MoveableObject {
         }, 100);
     }
 
+    /**
+     * Animates the death sequence.
+     */
     animateDeath() {
         this.currentImage = 0;
         this.deathAnimation = setInterval(() => {
@@ -137,6 +183,9 @@ class Endboss extends MoveableObject {
         }, 100);
     }
 
+    /**
+     * Plays the intro animation sequence.
+     */
     animateIntro() {
         this.currentImage = 0;
         this.introAnimation = setInterval(() => {
@@ -151,6 +200,9 @@ class Endboss extends MoveableObject {
         }, 75);
     }
 
+    /**
+     * Controls attack animations based on character distance.
+     */
     animateAttack() {
         if (!this.world || !this.world.character) return;
         let distance = this.x - this.world.character.x;
@@ -159,6 +211,10 @@ class Endboss extends MoveableObject {
         this.nearShark(distance);
     }
 
+    /**
+     * Adjusts speed when far from the character.
+     * @param {number} distance - Distance to the character.
+     */
     farFromShark(distance) {
         if (distance > 300) {
             if (!this.retreatingStep) {
@@ -172,8 +228,12 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Handles attack logic when near the character.
+     * @param {number} distance - Distance to the character.
+     */
     nearShark(distance) {
-        if (distance <= 200  && !this.lastAttacked()) {
+        if (distance <= 200 && !this.lastAttacked()) {
             this.currentImage = 0;
             this.speed = 2.5 + this.speedIncrease;
             this.lastAttack = new Date().getTime();

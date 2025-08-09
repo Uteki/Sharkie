@@ -1,22 +1,53 @@
 class World {
+    /** @type {Character} The main character of the game */
     character = new Character();
+
+    /** @type {SoundSetter} Handles sound controls */
     soundSetter = new SoundSetter();
+
+    /** @type {StatusBar} Displays poison level */
     poisonBar = new StatusBar(50, 55, "POISON", 0);
+
+    /** @type {StatusBar} Displays player health */
     energyBar = new StatusBar(50, 15, "HEALTH", 100);
+
+    /** @type {StatusBar} Displays coin count */
     coinBar = new StatusBar(50, 95, "COIN", 0);
+
+    /** @type {Fullscreen} Fullscreen control UI */
     fullscreen = new Fullscreen();
+
+    /** @type {TryAgain} UI element for retrying the game */
     tryAgain = new TryAgain();
+
+    /** @type {GoHome} UI element for going back home */
     goHome = new GoHome();
+
+    /** @type {GameOver} UI element shown when player loses */
     youLose = new GameOver();
+
+    /** @type {YouWin} UI element shown when player wins */
     youWin = new YouWin();
+
+    /** @type {Array<ThrowableObject>} List of throwable objects */
     throwableObject = [];
+
+    /** @type {Level} Current game level */
     level = level1;
+
+    /** @type {number} Timestamp of last hit received */
     lastHit = 0;
 
+    /** @type {number} Maximum number of coins in the level */
     maxCoin = 0;
+
+    /** @type {number} Current number of coins collected */
     coin = 0;
 
+    /** @type {number} Maximum poison bubbles in the level */
     maxPoison = 0;
+
+    /** @type {number} Current poison collected */
     poison = 0;
 
     keyboard;
@@ -24,27 +55,51 @@ class World {
     canvas;
     ctx;
 
+    /**
+     * Initializes the game world with canvas and keyboard input.
+     * @param {HTMLCanvasElement} canvas - The canvas element to render on.
+     * @param {Object} keyboard - Keyboard input handler.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.grewLevel();
-        this.draw();
-        this.setWorld();
 
         this.collisionManager = new CollisionManager(this);
-        this.run(); this.max()
-        this.gameplayBtn();
+        this.renderManager = new RenderManager(this, this.ctx, this.canvas);
+        this.renderManager.draw();
 
+        this.setWorld();
+        this.run();
+
+        this.buildLevel();
         this.restart = this.restart.bind(this);
-        this.ost(); checkDevice(); this.mobileDev();
     }
 
-    gameplayBtn() {
+    /** Checks device and applies mobile styles if needed */
+    deviceViewer() {
+        checkDevice();
+        this.mobileDev();
+    }
+
+    /** Builds the level and initializes settings */
+    buildLevel() {
+        this.grewLevel();
+        this.max();
+
+        this.ost();
+
+        this.volumeButton();
+        this.deviceViewer();
+    }
+
+    /** Sets up volume button visibility and event */
+    volumeButton() {
         this.fullscreen.btnVisibility();
         document.addEventListener("click", this.soundSetter.soundSetter);
     }
 
+    /** Applies mobile device specific UI changes */
     mobileDev() {
         if (isMobileDevice()) {
             document.querySelector("body").style.backgroundImage = "url('')";
@@ -53,6 +108,7 @@ class World {
         }
     }
 
+    /** Counts max coins and poison bubbles in the level */
     max() {
         this.level.gatherObjects.forEach((g) => {
             if (g instanceof Coin) {
@@ -63,10 +119,12 @@ class World {
         })
     }
 
+    /** Starts background music */
     ost() {
         backgroundMusic.play()
     }
 
+    /** Starts the main game loop */
     run() {
         this.gump = setInterval(() => {
             this.collisionManager.checkCollisions();
@@ -75,6 +133,7 @@ class World {
         }, 200)
     }
 
+    /** Checks end game conditions */
     end() {
         if (this.character.energy === 0 && !this.isGameOver) {
             this.endOptions();
@@ -88,6 +147,7 @@ class World {
         }
     }
 
+    /** Sets up end game UI and event handlers */
     endOptions() {
         this.stopMoment();
         document.querySelector('#controls').classList.add('d-none');
@@ -101,6 +161,11 @@ class World {
         canvas.addEventListener("mousemove", this.hoverHandler);
     }
 
+    /**
+     * Checks if the mouse is over interactive buttons.
+     * @param {MouseEvent} event - Mouse event.
+     * @returns {boolean} True if hovering over a clickable element.
+     */
     hoverClause(event) {
         return (
             handleClick(event, this.soundSetter.volumeButton) ||
@@ -110,6 +175,7 @@ class World {
         );
     }
 
+    /** Pauses game movements and sets up restart listeners */
     stopMoment() {
         backgroundMusic.pause(); whaleMusic.pause(); sharkieMusic.stop()
 
@@ -124,6 +190,10 @@ class World {
         document.addEventListener("click", this.goHome.goHome);
     }
 
+    /**
+     * Applies damage to character when hit by foe.
+     * @param {Foe|Foe2|Endboss} foe - The foe hitting the character.
+     */
     hit(foe) {
         this.character.energy -=
             foe instanceof Foe2 ? (foe.chosen.type === "strong" ? 40 : 20) :
@@ -137,15 +207,18 @@ class World {
         }
     }
 
+    /** Checks if the character is dead */
     isDead() {
         return this.character.energy === 0;
     }
 
+    /** Checks if the character was hurt recently (within 1 second) */
     isHurt() {
         let timestamped = new Date().getTime() - this.lastHit;
         return timestamped / 1000 < 1;
     }
 
+    /** Sets references of world for game objects */
     setWorld() {
         this.character.world = this;
         this.tryAgain.world = this;
@@ -160,31 +233,21 @@ class World {
         });
     }
 
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects); this.addObjectsToMap(this.level.gatherObjects);
-        this.addObjectsToMap(this.level.foes); this.addObjectsToMap(this.throwableObject);
-        this.addToMap(this.character);
-        this.ctx.translate(-this.camera_x, 0);
-
-        this.drawUi();
-        this.frameId = requestAnimationFrame(() => this.draw());
-    }
-
+    /** Stops the game and clears the canvas */
     stop() {
         this.cleanup();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    /** Removes event listeners and stops game loops */
     cleanup() {
         this.cleanupRemovers();
         this.cleanupStoppers();
         clearInterval(this.gump);
-        cancelAnimationFrame(this.frameId);
+        this.renderManager.cancelFrame();
     }
 
+    /** Removes UI and input event listeners */
     cleanupRemovers() {
         document.removeEventListener("click", this.soundSetter.soundSetter);
         document.removeEventListener("click", this.tryAgain.tryAgain);
@@ -197,24 +260,17 @@ class World {
         }
     }
 
+    /** Stops background and game sounds */
     cleanupStoppers() {
         backgroundMusic.stop?.();
         gameoverMusic.stop?.();
         gameonMusic.stop?.();
     }
 
-    drawUi() {
-        this.addToMap(this.energyBar);
-        this.addToMap(this.poisonBar);
-        this.addToMap(this.coinBar);
-
-        if (this.isGameOver) { this.gameOverScreen() }
-        else if (this.isGameOn) { this.gameOnScreen() }
-
-        this.addToMap(this.soundSetter);
-        if (!isMobileDevice()) this.addToMap(this.fullscreen);
-    }
-
+    /**
+     * Restarts the game when Enter is pressed.
+     * @param {KeyboardEvent} event - Keydown event.
+     */
     restart(event) {
         if (event.key === "Enter") {
             canvas.removeEventListener("mousemove", this.hoverHandler);
@@ -224,35 +280,7 @@ class World {
         }
     }
 
-    gameOnScreen() {
-        this.screenFill();
-        this.addToMap(this.youWin);
-        this.tryMore();
-    }
-
-    gameOverScreen() {
-        this.screenFill();
-        this.addToMap(this.youLose);
-        this.tryMore();
-    }
-
-    screenFill() {
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    tryMore() {
-        this.addToMap(this.tryAgain);
-        this.addToMap(this.goHome);
-        this.ctx.fillStyle = "#fff";
-        this.ctx.font = "24px Lucky";
-        this.ctx.textAlign = "center";
-        this.ctx.fillText(isMobileDevice() ? "TOUCH to try again" : "Press ENTER to try again",
-            this.canvas.width / 2 - 4,
-            this.canvas.height / 2 + 65
-        );
-    }
-
+    /** Adds additional background objects to extend the level */
     grewLevel() {
         let numba = 720;
         for (let i = 0; i < 2; i++) {
@@ -267,35 +295,5 @@ class World {
                 new BackgroundObject(getAssetPath('content/3. Background/Layers/2. Floor/D2.png'), numba+720)
             ); numba += 720;
         }
-    }
-
-    addObjectsToMap(objects) {
-        objects.forEach((o) => {
-            this.addToMap(o)
-        })
-    }
-
-    addToMap(mo) {
-        if (mo.otherWay) {
-            this.switchDirection(mo)
-        }
-
-        mo.draw(this.ctx);
-
-        if (mo.otherWay) {
-            this.restoreDirection(mo)
-        }
-    }
-
-    switchDirection(mo) {
-        this.ctx.save();
-        this.ctx.translate(mo.width, 0)
-        this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1;
-    }
-
-    restoreDirection(mo) {
-        mo.x = mo.x * -1;
-        this.ctx.restore();
     }
 }

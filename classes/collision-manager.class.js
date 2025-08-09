@@ -1,13 +1,19 @@
 class CollisionManager {
+    /**
+     * Manages all collision detection within the world.
+     * @param {World} world - The game world instance.
+     */
     constructor(world) {
         this.world = world;
     }
 
+    /** Runs all collision checks for foes and gatherable objects */
     checkCollisions() {
         this.collisionFoes();
         this.collisionGatherObjects();
     }
 
+    /** Checks collisions between the character and foes, and handles damage */
     collisionFoes() {
         this.world.level.foes.forEach((foe) => {
             if (this.world.character.isColliding(foe) && !foe.foeDead) {
@@ -18,6 +24,10 @@ class CollisionManager {
         });
     }
 
+    /**
+     * Checks collisions between throwable objects and a foe.
+     * @param {Foe} foe - The foe to check collisions against.
+     */
     collisionObject(foe) {
         if (this.world.isDead()) return;
         this.world.throwableObject.forEach(x => {
@@ -30,6 +40,7 @@ class CollisionManager {
         });
     }
 
+    /** Checks collisions between the character and gatherable objects (coins, bubbles) */
     collisionGatherObjects() {
         this.world.level.gatherObjects.forEach((gather) => {
             if (this.world.character.isColliding(gather)) {

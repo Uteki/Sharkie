@@ -1,13 +1,24 @@
+/**
+ * Represents the main character in the game, extending MoveableObject.
+ * Handles movement, animations, and attack mechanics.
+ */
 class Character extends MoveableObject {
+    /** @type {number} Character height in pixels */
     height = 125;
+    /** @type {number} Character width in pixels */
     width = 175;
+    /** @type {number} Movement speed */
     speed = 5;
 
+    /** @type {number} Timestamp of the last attack */
     lastAttack = 0;
+    /** @type {number} Index to track the current end animation frame */
     currentImgEnd = 0;
 
+    /** @type {boolean} Flag indicating if spacebar attack is pressed */
     spacePressed = false;
 
+    /** @type {string[]} Idle animation image paths */
     IMAGES_IDLE = [
         getAssetPath('content/1.Sharkie/1.IDLE/1.png'),
         getAssetPath('content/1.Sharkie/1.IDLE/2.png'),
@@ -29,6 +40,7 @@ class Character extends MoveableObject {
         getAssetPath('content/1.Sharkie/1.IDLE/18.png')
     ];
 
+    /** @type {string[]} Swim animation image paths */
     IMAGES_SWIM = [
         getAssetPath('content/1.Sharkie/3.Swim/1.png'),
         getAssetPath('content/1.Sharkie/3.Swim/2.png'),
@@ -38,6 +50,7 @@ class Character extends MoveableObject {
         getAssetPath('content/1.Sharkie/3.Swim/6.png')
     ];
 
+    /** @type {string[]} Range attack animation image paths */
     IMAGES_RANGE = [
         getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png'),
         getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png'),
@@ -49,6 +62,7 @@ class Character extends MoveableObject {
         getAssetPath('content/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png')
     ];
 
+    /** @type {string[]} Melee attack animation image paths */
     IMAGES_MELEE = [
         getAssetPath('content/1.Sharkie/4.Attack/Fin slap/1.png'),
         getAssetPath('content/1.Sharkie/4.Attack/Fin slap/2.png'),
@@ -60,6 +74,7 @@ class Character extends MoveableObject {
         getAssetPath('content/1.Sharkie/4.Attack/Fin slap/8.png')
     ];
 
+    /** @type {string[]} Hurt animation image paths */
     IMAGES_HURT = [
         getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/2.png'),
         getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/3.png'),
@@ -67,6 +82,7 @@ class Character extends MoveableObject {
         getAssetPath('content/1.Sharkie/5.Hurt/1.Poisoned/5.png')
     ];
 
+    /** @type {string[]} Dead animation image paths */
     IMAGES_DEAD = [
         getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/1.png'),
         getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/2.png'),
@@ -78,8 +94,12 @@ class Character extends MoveableObject {
         getAssetPath('content/1.Sharkie/6.dead/1.Poisoned/8.png')
     ];
 
+    /** @type {Object} Reference to the game world */
     world;
 
+    /**
+     * Creates a new Character instance and initializes it.
+     */
     constructor() {
         super().loadImage('./assets/content/1.Sharkie/1.IDLE/1.png');
         this.currentFrame = "idle";
@@ -93,6 +113,9 @@ class Character extends MoveableObject {
         this.motion();
     }
 
+    /**
+     * Initializes frame data for animation cropping.
+     */
     frameLoader() {
         this.frameData = {
             'melee': { sx: 90, sy: 420, sw: 655, sh: 420 },
@@ -101,11 +124,18 @@ class Character extends MoveableObject {
         };
     }
 
+    /**
+     * Starts movement and animation loops.
+     */
     motion() {
-        this.motionMovement()
-        this.motionAnimation()
+        this.motionMovement();
+        this.motionAnimation();
     }
 
+    /**
+     * Handles character movement based on keyboard input.
+     * Moves the character and adjusts the camera position.
+     */
     motionMovement() {
         this.movement = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level1_end) { this.moveRight(); this.otherWay = false; sharkieMusic.play() }
@@ -116,6 +146,9 @@ class Character extends MoveableObject {
         }, 1000 / 60 )
     }
 
+    /**
+     * Runs the animation loop that switches between idle, swim, attack, hurt, and dead states.
+     */
     motionAnimation() {
         this.animation = setInterval(() => {
             const key = this.world.keyboard;
@@ -132,6 +165,10 @@ class Character extends MoveableObject {
         }, 100);
     }
 
+    /**
+     * Chooses the attack pattern based on poison status.
+     * Plays the corresponding attack animation and sound.
+     */
     atkPattern() {
         this.otherWay = false; this.spacePressed = true
         if (this.world.poison !== 0) {
@@ -141,37 +178,55 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Checks if the character has attacked recently to prevent attack spamming.
+     * @returns {boolean} True if the last attack was within 0.85 seconds.
+     */
     lastAttacked() {
         return (new Date().getTime() - this.lastAttack) / 1000 < 0.85;
     }
 
+    /**
+     * Creates a bubble throwable object and adds it to the world.
+     */
     throwBubble() {
         let bubble = new ThrowableObject(this.world.character.x, this.world.character.y);
         bubble.world = this.world;
         this.world.throwableObject.push(bubble);
     }
 
+    /**
+     * Applies poison buff effect, decreases poison count, updates poison bar,
+     * and creates a melee zone after a short delay.
+     */
     poisonBuff() {
         this.world.poison--;
-        this.world.poisonBar.setPercentage((this.world.poison/this.world.maxPoison) * 100, "POISON");
+        this.world.poisonBar.setPercentage((this.world.poison / this.world.maxPoison) * 100, "POISON");
 
         setTimeout(() => {
-        this.world.throwableObject.push(new MeleeZone(this.world.character.x, this.world.character.y));
-
-        }, 150)
+            this.world.throwableObject.push(new MeleeZone(this.world.character.x, this.world.character.y));
+        }, 150);
     }
 
+    /**
+     * Resets attack state after finishing an attack animation.
+     */
     resetAttack() {
         this.currentImage = 0;
         this.world.keyboard.SPACE = false;
         this.lastAttack = new Date().getTime();
     }
 
+    /**
+     * Plays the range attack animation, adjusts the character frame,
+     * and throws a bubble projectile.
+     * @param {string[]} bundle - Array of image paths for range attack animation.
+     */
     animateRange(bundle) {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
         this.resetAttack();
-        this.adjustFrame("range",true);
+        this.adjustFrame("range", true);
         this.throwBubble();
 
         this.currentFrame = "range"
@@ -179,11 +234,16 @@ class Character extends MoveableObject {
         setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("range", false); this.currentFrame = "idle" }, 450)
     }
 
+    /**
+     * Plays the melee attack animation, adjusts the character frame,
+     * and applies poison buff.
+     * @param {string[]} bundle - Array of image paths for melee attack animation.
+     */
     animateMelee(bundle) {
         if (this.lastAttacked()) return this.world.keyboard.SPACE = false;
 
         this.resetAttack();
-        this.adjustFrame("melee",true);
+        this.adjustFrame("melee", true);
         this.poisonBuff();
 
         this.currentFrame = "melee"
@@ -191,6 +251,11 @@ class Character extends MoveableObject {
         setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("melee",false); this.currentFrame = "idle" }, 450)
     }
 
+    /**
+     * Adjusts character size and position during attack animations to create visual impact.
+     * @param {'range'|'melee'} type - The type of attack frame to adjust.
+     * @param {boolean} enlarge - Whether to enlarge (true) or reset (false) the frame.
+     */
     adjustFrame(type = 'range', enlarge = true) {
         const amount = 20;
 
@@ -203,6 +268,10 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Plays the dead animation sequence looping through the provided image bundle.
+     * @param {string[]} bundle - Array of image paths for dead animation.
+     */
     animateEnd(bundle) {
         let i = this.currentImgEnd % bundle.length;
         let path = bundle[i];
