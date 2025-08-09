@@ -14,7 +14,9 @@ function contextButtons() {
         const btn = document.getElementById(id);
         if (btn) {
             btn.addEventListener('contextmenu', e => e.preventDefault());
-            btn.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+            btn.addEventListener('touchstart', e => {
+                if (e.cancelable) e.preventDefault();
+            }, { passive: false });
         }
     });
 }

@@ -5,6 +5,9 @@ const screenButton = {
     x: 480, y: 400, width: 180, height: 40
 }
 
+const startHoverHandler = (e) => handleHoverMultiple(e, startButton, soundSet.volumeButton);
+const gameHoverHandler = (e) => handleHoverMultiple(e, screenButton, soundSet.volumeButton);
+
 let world;
 let loaded;
 let canvas;
@@ -40,7 +43,7 @@ function createImg() {
 
 function startEvents() {
     canvas.addEventListener("click", handleStart);
-    canvas.addEventListener("mousemove", handleHoverStart);
+    canvas.addEventListener("mousemove", startHoverHandler);
     canvas.addEventListener("touchstart", handleStart);
 }
 
@@ -56,11 +59,12 @@ function getScaledPos(event) {
 }
 
 function handleStart(event) {
-    let handler = handleClick(event, startButton);
-    if (handler) {
+    if (handleClick(event, startButton)) {
         canvas.removeEventListener("click", handleStart);
-        canvas.removeEventListener("mousemove", handleHoverStart);
-        if (!isMobileDevice()) canvas.addEventListener("mousemove", (e) => handleHover(e, screenButton));
+        canvas.removeEventListener("mousemove", startHoverHandler);
+
+        canvas.addEventListener("mousemove", isMobileDevice() ? e => handleHover(e, soundSet.volumeButton) : gameHoverHandler);
+
         canvas.removeEventListener("touchstart", handleStart);
         document.removeEventListener("keydown", startEnter);
         startGame();
@@ -80,11 +84,10 @@ function handleHover(event, button) {
     canvas.style.cursor = onTop({ x, y }, button) ? 'pointer' : 'default';
 }
 
-function handleHoverStart(event) {
+function handleHoverMultiple(event, ...buttons) {
     const { x, y } = getScaledPos(event);
-    const overStart = onTop({ x, y }, startButton);
-    const overVolume = onTop({ x, y }, soundSet.volumeButton);
-    canvas.style.cursor = (overStart || overVolume) ? 'pointer' : 'default';
+    canvas.style.cursor = buttons.some(btn => onTop({ x, y }, btn))
+        ? 'pointer' : 'default';
 }
 
 function onTop({ x, y }, button) {
@@ -160,7 +163,7 @@ function startScreenBtn(event) {
 function startEnter(e) {
     if (e.key === "Enter") {
         canvas.removeEventListener("click", handleStart);
-        canvas.removeEventListener("mousemove", handleHoverStart);
+        canvas.removeEventListener("mousemove", startHoverHandler);
         document.removeEventListener("keydown", startEnter);
         startGame();
     }

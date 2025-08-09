@@ -89,6 +89,7 @@ class World {
     endOptions() {
         this.stopMoment();
         document.querySelector('#controls').classList.add('d-none');
+        document.removeEventListener('mousemove', gameHoverHandler);
 
         this.hoverHandler = (event) => {
             const hovering = this.hoverClause(event);
@@ -262,6 +263,7 @@ class World {
     restart(event) {
         if (event.key === "Enter") {
             canvas.removeEventListener("mousemove", this.hoverHandler);
+            document.removeEventListener('mousemove', gameHoverHandler);
             this.cleanup();
             startGame();
         }
