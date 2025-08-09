@@ -160,6 +160,7 @@ function startScreenBtn(event) {
 function startEnter(e) {
     if (e.key === "Enter") {
         canvas.removeEventListener("click", handleStart);
+        canvas.removeEventListener("mousemove", handleHoverStart);
         document.removeEventListener("keydown", startEnter);
         startGame();
     }
