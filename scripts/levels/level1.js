@@ -1,5 +1,16 @@
 let level1;
 
+/**
+ * Initializes the first game level (`level1`) with predefined enemies,
+ * background layers, and collectible objects.
+ *
+ * This function sets `level1` to a new instance of `Level` containing:
+ * - Foe, Foe2, and Endboss enemies at specific or random positions.
+ * - Multiple background image layers for parallax scrolling.
+ * - Coins and Bubbles as collectible items.
+ *
+ * @global
+ */
 function initLevel() {
     level1 = new Level(
         [

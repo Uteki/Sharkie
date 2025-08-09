@@ -8,8 +8,8 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
     background-size: cover;
+    justify-content: center;
     background-position: right;
     background-image: url("../assets/content/3. Background/Mesa de trabajo 1.png");
 }
