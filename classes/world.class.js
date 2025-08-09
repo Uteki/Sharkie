@@ -31,6 +31,8 @@ class World {
         this.grewLevel();
         this.draw();
         this.setWorld();
+
+        this.collisionManager = new CollisionManager(this);
         this.run(); this.max()
         this.gameplayBtn();
 
@@ -67,7 +69,7 @@ class World {
 
     run() {
         this.gump = setInterval(() => {
-            this.checkCollisions();
+            this.collisionManager.checkCollisions();
             this.fullscreen.btnVisibility();
             this.end();
         }, 200)
@@ -120,53 +122,6 @@ class World {
         document.addEventListener("keydown", this.restart);
         document.addEventListener("click", this.tryAgain.tryAgain);
         document.addEventListener("click", this.goHome.goHome);
-    }
-
-    checkCollisions() {
-        this.collisionFoes();
-        this.collisionGatherObjects();
-    }
-
-    collisionFoes() {
-        this.level.foes.forEach((foe) => {
-            if (this.character.isColliding(foe) && foe.foeDead !== true) {
-                this.hit(foe);
-                this.energyBar.setPercentage(this.character.energy, "HEALTH");
-            }
-
-            this.collisionObject(foe);
-        });
-    }
-
-    collisionObject(foe) {
-        if (this.isDead()) return;
-        this.throwableObject.forEach(x => {
-            if (foe.energy <= 0) return;
-            if (x.isColliding(foe) && x instanceof ThrowableObject) {
-                foe.energy -= 25;
-                if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
-                this.throwableObject = this.throwableObject.filter(obj => obj !== x);
-            } else if (x.isColliding(foe) && x instanceof MeleeZone) {
-                foe.energy -= 50;
-                if (typeof foe.animateHurt === 'function') { foe.animateHurt() }
-                this.throwableObject = this.throwableObject.filter(obj => obj !== x);
-            }
-        })
-    }
-
-    collisionGatherObjects() {
-        this.level.gatherObjects.forEach((gather) => {
-            if (this.character.isColliding(gather)) {
-                if (gather instanceof Coin) {
-                    this.coin++;
-                    this.coinBar.setPercentage((this.coin/this.maxCoin) * 100, "COIN");
-                } else if (gather instanceof Bubble) {
-                    this.poison++;
-                    this.poisonBar.setPercentage((this.poison/this.maxPoison) * 100, "POISON");
-                }
-                this.level.gatherObjects = this.level.gatherObjects.filter(obj => obj !== gather);
-            }
-        })
     }
 
     hit(foe) {

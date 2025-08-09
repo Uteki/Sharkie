@@ -20,7 +20,6 @@ const startHoverHandler = (e) => handleHoverMultiple(e, startButton, soundSet.vo
 /**
  * Hover handler for the game screen — checks fullscreen button and volume button.
  * @param {MouseEvent|TouchEvent} e - The hover event.
- * @private
  */
 const gameHoverHandler = (e) => handleHoverMultiple(e, screenButton, soundSet.volumeButton);
 
@@ -125,7 +124,6 @@ function handleStart(event) {
  * @param {MouseEvent|TouchEvent} event - The click or touch event.
  * @param {{x:number, y:number, width:number, height:number}} button - The button rectangle.
  * @returns {boolean} True if click is inside button bounds.
- * @private
  */
 function handleClick(event, button) {
     const { x, y } = getScaledPos(event);
