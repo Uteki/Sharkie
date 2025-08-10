@@ -21,6 +21,8 @@ class Character extends MoveableObject {
     /** @type {boolean} True when we've already entered idle state (so doze isn't repeatedly reset) */
     wasIdle = false;
 
+    /** @type {boolean} True if sleep frame is enlarged */
+    sleepFrameEnlarged = false;
     /** @type {boolean} True if sleep animation has started */
     sleepStarted = false;
     /** @type {boolean} True if sleep loop animation is active */
@@ -159,6 +161,7 @@ class Character extends MoveableObject {
             'melee': { sx: 90, sy: 420, sw: 655, sh: 420 },
             'range': { sx: 90, sy: 355, sw: 655, sh: 500 },
             'idle': { sx: 90, sy: 420, sw: 590, sh: 420 },
+            'doze': { sx: 90, sy: 420, sw: 590, sh: 500 },
         };
     }
 
@@ -211,6 +214,10 @@ class Character extends MoveableObject {
         if ((Date.now() - this.doze) / 1000 >= 5) {
             if (!this.sleepStarted) {
                 this.sleepStarted = true; this.wasIdle = false;
+
+                this.adjustFrame('sleep', true);
+                this.currentFrame = "doze";
+
                 this.animateDoze(this.IMAGES_SLEEP, () => {
                     this.sleepLooping = true;
                     this.sleepInterval = setInterval(() => this.sleepLoop(this.IMAGES_SLEEP_Z), 150);
@@ -230,6 +237,8 @@ class Character extends MoveableObject {
         this.sleepStarted = false; this.sleepLooping = false;
         if (this.sleepInterval) clearInterval(this.sleepInterval); this.sleepInterval = null;
         if (this.sleepStartTimeout) clearTimeout(this.sleepStartTimeout); this.sleepStartTimeout = null;
+        this.adjustFrame('sleep', false);
+        this.currentFrame = "idle";
     }
 
     /**
@@ -365,6 +374,9 @@ class Character extends MoveableObject {
             this.y      += enlarge ? -amount : amount;
         } else if (type === 'melee') {
             this.width += enlarge ? amount : -amount;
+        } else if (type === 'sleep') {
+            this.height += (enlarge && !this.sleepFrameEnlarged) ? amount : (!enlarge && this.sleepFrameEnlarged) ? -amount : 0;
+            this.sleepFrameEnlarged = enlarge ? true : (!enlarge ? false : this.sleepFrameEnlarged);
         }
     }
 

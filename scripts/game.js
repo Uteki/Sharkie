@@ -253,7 +253,7 @@ function startGame() {
  */
 function delayStart() {
     if (loaded) return;
-    return IS_SERVER ? 1800 : 600;
+    return IS_SERVER ? 2000 : 500;
 }
 
 /**
