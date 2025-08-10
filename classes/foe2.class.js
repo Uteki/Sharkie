@@ -163,7 +163,7 @@ class Foe2 extends MoveableObject {
                 clearInterval(this.blink);
                 this.opacity = 1;
             }
-        }, 100);
+        }, 75);
     }
 
     /**

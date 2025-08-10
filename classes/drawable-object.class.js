@@ -55,7 +55,7 @@ class DrawableObject {
      * @param {CanvasRenderingContext2D} ctx - The canvas 2D context.
      */
     showCollision(ctx) {
-        if (this instanceof Endboss || this instanceof Foe) {
+        if (this instanceof Character || this instanceof Endboss || this instanceof Foe || this instanceof Foe2) {
             ctx.beginPath();
             ctx.lineWidth = "5";
             ctx.strokeStyle = "blue";
@@ -70,6 +70,7 @@ class DrawableObject {
      * @param {CanvasRenderingContext2D} ctx - The canvas 2D context.
      */
     draw(ctx) {
+        this.showCollision(ctx);
         if (this instanceof Character) {
             return this.drawShark(ctx);
         } else {

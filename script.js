@@ -17,8 +17,30 @@ function init() {
  * @returns {void}
  */
 function onDom() {
+    mobileCanvas();
     contextButtons();
     checkOrientation();
+}
+
+/**
+ * Change to 100% width if phone
+ */
+function mobileCanvas() {
+    if (isMobilePhone()) {
+        let mobileCanvas = document.querySelector('canvas');
+        mobileCanvas.style.width = '100%';
+    }
+}
+
+/**
+ * Check if phone
+ * @returns {boolean}
+ */
+function isMobilePhone() {
+    const ua = navigator.userAgent;
+    const isAndroidPhone = /Android.*Mobile/i.test(ua);
+    const isIphone = /iPhone/i.test(ua);
+    return isAndroidPhone || isIphone;
 }
 
 /**

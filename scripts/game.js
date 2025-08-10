@@ -28,6 +28,7 @@ let loaded;
 let canvas;
 
 let img;
+let bgImg;
 let btnImg;
 let muteImg;
 
@@ -52,14 +53,27 @@ function showStartScreen(ctx, canvas) {
 
     createImg();
     muteImg.src = soundSet.sendState();
-    img.src = isMobileDevice()
-        ? getAssetPath('content/6.Botones/Instructions 1.png')
-        : getAssetPath('content/6.Botones/Instructions 2.png');
-
-    img.onload = () => btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
-    btnImg.onload = () => drawStartScreen(ctx, canvas, img, btnImg, muteImg);
-
+    img.src = isMobileDevice() ? getAssetPath('content/6.Botones/Instructions 1.png') : getAssetPath('content/6.Botones/Instructions 2.png');
+    bgImg.src = getAssetPath('content/3. Background/Legacy/Dark/2.png');
+    btnImg.src = getAssetPath('content/6.Botones/Start/2.png');
+    loadHelper(ctx, canvas);
     startEvents();
+}
+
+/**
+ * Helps the start screen to load with buttons and background images.
+ * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+ * @param {HTMLCanvasElement} canvas - The game canvas element.
+ */
+function loadHelper(ctx, canvas) {
+    let loadedCount = 0;
+    const onLoad = () => {
+        if (++loadedCount === 3) {
+            drawStartScreen(ctx, canvas, img, bgImg, btnImg, muteImg);
+        }
+    };
+
+    img.onload = onLoad; bgImg.onload = onLoad; btnImg.onload = onLoad
 }
 
 /**
@@ -68,6 +82,7 @@ function showStartScreen(ctx, canvas) {
  */
 function createImg() {
     img = new Image();
+    bgImg = new Image();
     btnImg = new Image();
     muteImg = new Image();
 }
@@ -175,13 +190,15 @@ function onTop({ x, y }, button) {
  * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
  * @param {HTMLCanvasElement} canvas - The game canvas element.
  * @param {HTMLImageElement} img - The instructions image.
+ * @param {HTMLImageElement} bgImg - The start background image.
  * @param {HTMLImageElement} btnImg - The start button image.
  * @param {HTMLImageElement} muteImg - The mute button image.
  * @private
  */
-function drawStartScreen(ctx, canvas, img, btnImg, muteImg) {
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+function drawStartScreen(ctx, canvas, img, bgImg, btnImg, muteImg) {
+    ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = "#000";
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, (canvas.width - 500) / 2, 40, 500, 300);
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
@@ -236,7 +253,7 @@ function startGame() {
  */
 function delayStart() {
     if (loaded) return;
-    return IS_SERVER ? 1200 : 600;
+    return IS_SERVER ? 1800 : 600;
 }
 
 /**
@@ -364,7 +381,7 @@ function goToHomeScreen() {
 function handleVolumeClick(event) {
     if (handleClick(event, soundSet.volumeButton)) {
         soundSet.toggle();
-        muteImg.onload = () => drawStartScreen(canvas.getContext("2d"), canvas, img, btnImg, muteImg);
+        muteImg.onload = () => drawStartScreen(canvas.getContext("2d"), canvas, img, bgImg, btnImg, muteImg);
         muteImg.src = soundSet.sendState();
     }
 }
