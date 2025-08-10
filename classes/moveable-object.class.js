@@ -121,4 +121,35 @@ class MoveableObject extends DrawableObject {
         clearInterval(this.movement);
         setTimeout(() => clearInterval(this.animation), 700);
     }
+
+    /**
+     * Draws the hitbox rectangle around the foe on the given canvas context.
+     * Primarily used for debugging collision detection.
+     *
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
+     */
+    drawHitBox(ctx) {
+        super.draw(ctx);
+
+        ctx.save();
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(
+            this.hitBoxX(), this.hitBoxY(),
+            this.hitboxWidth, this.hitboxHeight
+        );
+        ctx.restore();
+    }
+
+    /**
+     * Gets the absolute X position of this foe's hitBox.
+     * @returns {number} The X coordinate of the hitBox.
+     */
+    hitBoxX() { return this.x + this.hitboxOffsetX; }
+
+    /**
+     * Gets the absolute Y position of this foe's hitBox.
+     * @returns {number} The Y coordinate of the hitBox.
+     */
+    hitBoxY() { return this.y + this.hitboxOffsetY; }
 }

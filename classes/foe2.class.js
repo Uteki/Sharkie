@@ -85,8 +85,7 @@ class Foe2 extends MoveableObject {
      * @param {number} spawn - Initial spawn x-position offset.
      */
     constructor(version, spawn) {
-        super();
-        const v = version.toLowerCase();
+        super(); const v = version.toLowerCase()
 
         this.chosen = this.getVersionImages(v);
         this.loadImage(this.chosen.swim[0]);
@@ -97,7 +96,30 @@ class Foe2 extends MoveableObject {
         this.x = spawn + Math.floor(Math.random() * 500);
         this.y = Math.floor(Math.random() * (0 - 300 + 1)) + 300;
         this.speed += Math.random();
-        this.motion(this.chosen.swim);
+
+        this.setHitBox(); this.motion(this.chosen.swim)
+    }
+
+    /**
+     * Sets the hitbox properties based on the foe's size and offsets.
+     */
+    setHitBox() {
+        this.hitboxOffsetX = 0;
+        this.hitboxOffsetY = 73.3333333;
+        this.hitboxWidth = this.width;
+        this.hitboxHeight = 73.3333333;
+    }
+
+    /**
+     * Checks if this foe's hitbox is colliding with another object's bounding box. (Sharkie in this case)
+     * @param {MoveableObject} other - Another object with x, y, width, and height properties.
+     * @returns {boolean} True if the hitboxes overlap, false otherwise.
+     */
+    isColliding(other) {
+        return this.hitBoxX() < other.x + other.width &&
+            this.hitBoxX() + this.hitboxWidth > other.x &&
+            this.hitBoxY() < other.y + other.height &&
+            this.hitBoxY() + this.hitboxHeight > other.y;
     }
 
     /**
