@@ -28,6 +28,7 @@ class Coin extends MoveableObject {
 
         this.x = x;
         this.y = y;
+        this.setHitBoxObj();
 
         this.motion(this.COINING);
     }

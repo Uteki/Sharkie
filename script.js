@@ -1,4 +1,24 @@
 /**
+ * Interval debugger
+ */
+(function() {
+    const nativeSetInterval = window.setInterval;
+    window._activeIntervals = new Set();
+
+    window.setInterval = function(fn, delay) {
+        const id = nativeSetInterval(fn, delay);
+        window._activeIntervals.add(id);
+        return id;
+    };
+
+    const nativeClearInterval = window.clearInterval;
+    window.clearInterval = function(id) {
+        window._activeIntervals.delete(id);
+        nativeClearInterval(id);
+    };
+})();
+
+/**
  * True if running on a server (non-localhost), used for loading assets from the correct base path.
  * @type {boolean}
  */

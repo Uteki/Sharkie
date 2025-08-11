@@ -16,7 +16,7 @@ class ThrowableObject extends MoveableObject {
         this.height = 50;
         this.x = x + 125;
         this.y = y + 75;
-
+        this.setHitBoxObj();
         this.speedX = 5;
         this.floatSpeed = 2.4;
         this.floatCompo = 0.012;

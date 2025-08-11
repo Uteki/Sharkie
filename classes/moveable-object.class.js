@@ -18,13 +18,15 @@ class MoveableObject extends DrawableObject {
     energy = 100;
 
     /**
-     * Checks if this object is colliding with another movable object.
-     * @param {MoveableObject} mo - The other movable object to check collision against.
-     * @returns {boolean} True if colliding, false otherwise.
+     * Checks if this foe's hitbox is colliding with another object's bounding box. (Sharkie in this case)
+     * @param {MoveableObject} other - Another object with x, y, width, and height properties.
+     * @returns {boolean} True if the hitboxes overlap, false otherwise.
      */
-    isColliding(mo) {
-        return this.x + this.width > mo.x && this.y + this.height
-            > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
+    isColliding(other) {
+        return this.hitBoxX() < other.hitBoxX() + other.hitboxWidth &&
+            this.hitBoxX() + this.hitboxWidth > other.hitBoxX() &&
+            this.hitBoxY() < other.hitBoxY() + other.hitboxHeight &&
+            this.hitBoxY() + this.hitboxHeight > other.hitBoxY();
     }
 
     /**
@@ -152,4 +154,14 @@ class MoveableObject extends DrawableObject {
      * @returns {number} The Y coordinate of the hitBox.
      */
     hitBoxY() { return this.y + this.hitboxOffsetY; }
+
+    /**
+     * Object hitBox helper
+     */
+    setHitBoxObj() {
+        this.hitboxOffsetX = 0;
+        this.hitboxOffsetY = 0;
+        this.hitboxWidth = this.width;
+        this.hitboxHeight = this.height;
+    }
 }

@@ -147,6 +147,13 @@ class World {
         }
     }
 
+    /**
+     * Clears all intervalls
+     */
+    clearAllIntervals() {
+        for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    }
+
     /** Sets up end game UI and event handlers */
     endOptions() {
         this.stopMoment();
@@ -196,9 +203,9 @@ class World {
      */
     hit(foe) {
         this.character.energy -=
-            foe instanceof Foe2 ? (foe.chosen.type === "strong" ? 40 : 20) :
-                foe instanceof Endboss ? 80 :
-                    foe instanceof Foe ? 10 : 0;
+            foe instanceof Foe2 ? (foe.chosen.type === "strong" ? 15 : 10) :
+                foe instanceof Endboss ? 20 :
+                    foe instanceof Foe ? 5 : 0;
 
         if (this.character.energy <= 0) {
             this.character.energy = 0;

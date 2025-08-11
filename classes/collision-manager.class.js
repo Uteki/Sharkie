@@ -16,11 +16,7 @@ class CollisionManager {
     /** Checks collisions between the character and foes, and handles damage */
     collisionFoes() {
         this.world.level.foes.forEach((foe) => {
-            if (foe.isColliding(this.world.character) && !foe.foeDead && !(foe instanceof Endboss)) {
-                this.world.hit(foe);
-                this.world.energyBar.setPercentage(this.world.character.energy, "HEALTH");
-            }
-            else if (this.world.character.isColliding(foe) && !foe.foeDead && (foe instanceof Endboss)) {
+            if (foe.isColliding(this.world.character) && !foe.foeDead) {
                 this.world.hit(foe);
                 this.world.energyBar.setPercentage(this.world.character.energy, "HEALTH");
             }

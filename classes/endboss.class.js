@@ -4,10 +4,10 @@
  */
 class Endboss extends MoveableObject {
     /** @type {number} */
-    width = 505;
+    width = 905;
 
     /** @type {number} */
-    height = 500;
+    height = 900;
 
     /** @type {number} */
     energy = 150;
@@ -91,9 +91,27 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.x = 3050;
-        this.y = -75;
+        this.y = -290;
         this.speed = 0.5;
+        this.setHitBox('idle');
         this.motion(this.IMAGES_FLOATING);
+    }
+
+    /**
+     * Sets the hitbox properties based on the foe's size and offsets. Enboss has 2 pattern.
+     */
+    setHitBox(pattern) {
+        if (pattern === 'idle') {
+            this.hitboxOffsetX = 55;
+            this.hitboxOffsetY = 450;
+            this.hitboxWidth = 500;
+            this.hitboxHeight = 255;
+        } else {
+            this.hitboxOffsetX = 10;
+            this.hitboxOffsetY = 330;
+            this.hitboxWidth = 500;
+            this.hitboxHeight = 390;
+        }
     }
 
     /**
@@ -234,6 +252,7 @@ class Endboss extends MoveableObject {
      */
     nearShark(distance) {
         if (distance <= 200 && !this.lastAttacked()) {
+            this.setHitBox("attack");
             this.currentImage = 0;
             this.speed = 2.5 + this.speedIncrease;
             this.lastAttack = new Date().getTime();
@@ -243,8 +262,8 @@ class Endboss extends MoveableObject {
                 if (this.currentImage <= this.IMAGES_ATTACK.length - 1) {
                     this.img = this.imageCache[this.IMAGES_ATTACK[this.currentImage]];
                     this.currentImage++;
-                } else { clearInterval(this.attackAnimation) }
+                } else { clearInterval(this.attackAnimation); this.setHitBox("idle") }
             }, 100);
-        }
+        } else if (distance <= -275) { world.character.energy = 0; this.world.energyBar.setPercentage(this.world.character.energy, "HEALTH" ) }
     }
 }

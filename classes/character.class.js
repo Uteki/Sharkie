@@ -149,8 +149,32 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_MELEE);this.loadImages(this.IMAGES_RANGE);
         this.loadImages(this.IMAGES_HURT);this.loadImages(this.IMAGES_DEAD);
 
-        this.frameLoader();
-        this.motion();
+        this.setHitBox(); this.frameLoader(); this.motion()
+    }
+
+    /**
+     * Sets the hitbox properties based on Sharkie size and offsets + cases of frame.
+     */
+    setHitBox() {
+        switch (this.currentFrame) {
+            case "idle":
+                this.hitboxOffsetX = 25; this.hitboxOffsetY = 25; this.hitboxWidth = 140; this.hitboxHeight = 70; break;
+            case "doze":
+                this.hitboxOffsetX = 25; this.hitboxOffsetY = 55; this.hitboxWidth = 140; this.hitboxHeight = 70; break;
+            case "range":
+                this.hitboxOffsetX = 15; this.hitboxOffsetY = 15; this.hitboxWidth = 140; this.hitboxHeight = 100; break;
+            case "melee":
+                this.hitboxOffsetX = 25; this.hitboxOffsetY = 25; this.hitboxWidth = 160; this.hitboxHeight = 70; break;
+        }
+    }
+
+    /**
+     * Updates the frame and sets the hitBox
+     * @param frame currentFrame
+     */
+    updateHitBox(frame) {
+        this.currentFrame = frame;
+        this.setHitBox();
     }
 
     /**
@@ -216,7 +240,7 @@ class Character extends MoveableObject {
                 this.sleepStarted = true; this.wasIdle = false;
 
                 this.adjustFrame('sleep', true);
-                this.currentFrame = "doze";
+                this.updateHitBox("doze");
 
                 this.animateDoze(this.IMAGES_SLEEP, () => {
                     this.sleepLooping = true;
@@ -238,7 +262,7 @@ class Character extends MoveableObject {
         if (this.sleepInterval) clearInterval(this.sleepInterval); this.sleepInterval = null;
         if (this.sleepStartTimeout) clearTimeout(this.sleepStartTimeout); this.sleepStartTimeout = null;
         this.adjustFrame('sleep', false);
-        this.currentFrame = "idle";
+        this.updateHitBox("idle");
     }
 
     /**
@@ -338,9 +362,9 @@ class Character extends MoveableObject {
         this.adjustFrame("range", true);
         this.throwBubble();
 
-        this.currentFrame = "range"
+        this.updateHitBox("range");
         this.frameInt = setInterval(() => { this.animate(bundle) },100)
-        setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("range", false); this.currentFrame = "idle" }, 450)
+        setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("range", false); this.updateHitBox("idle") }, 450)
     }
 
     /**
@@ -355,9 +379,9 @@ class Character extends MoveableObject {
         this.adjustFrame("melee", true);
         this.poisonBuff();
 
-        this.currentFrame = "melee"
+        this.updateHitBox("melee");
         this.frameInt = setInterval(() => { this.animate(bundle) },100)
-        setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("melee",false); this.currentFrame = "idle" }, 450)
+        setTimeout(() => { clearInterval(this.frameInt); this.adjustFrame("melee",false); this.updateHitBox("idle") }, 450)
     }
 
     /**

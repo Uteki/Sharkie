@@ -35,6 +35,7 @@ class TryAgain extends DrawableObject {
         if (handler) {
             this.world.cleanup();
             canvas.style.cursor = 'default';
+            this.world.clearAllIntervals()
             startGame();
         }
     }

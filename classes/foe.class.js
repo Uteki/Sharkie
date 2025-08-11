@@ -47,22 +47,10 @@ class Foe extends MoveableObject {
      * Sets the hitbox properties based on the foe's size and offsets.
      */
     setHitBox() {
-        this.hitboxOffsetX = 0;
-        this.hitboxOffsetY = 30;
-        this.hitboxWidth = this.width;
-        this.hitboxHeight = 30;
-    }
-
-    /**
-     * Checks if this foe's hitbox is colliding with another object's bounding box. (Sharkie in this case)
-     * @param {MoveableObject} other - Another object with x, y, width, and height properties.
-     * @returns {boolean} True if the hitboxes overlap, false otherwise.
-     */
-    isColliding(other) {
-        return this.hitBoxX() < other.x + other.width &&
-            this.hitBoxX() + this.hitboxWidth > other.x &&
-            this.hitBoxY() < other.y + other.height &&
-            this.hitBoxY() + this.hitboxHeight > other.y;
+        this.hitboxOffsetX = 10;
+        this.hitboxOffsetY = 5;
+        this.hitboxWidth = 70;
+        this.hitboxHeight = 80;
     }
 
     /**
