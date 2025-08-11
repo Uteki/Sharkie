@@ -70,7 +70,6 @@ class DrawableObject {
      * @param {CanvasRenderingContext2D} ctx - The canvas 2D context.
      */
     draw(ctx) {
-        this.showCollision(ctx);
         if (this instanceof Character) {
             return this.drawShark(ctx);
         } else {
